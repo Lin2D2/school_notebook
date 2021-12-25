@@ -5,6 +5,8 @@ import 'package:page_transition/page_transition.dart';
 import 'blocs/navigator_bloc.dart';
 import 'services/storage_service.dart';
 import 'sites/dashboard.dart';
+import 'sites/notes.dart';
+
 
 
 void main() {
@@ -35,6 +37,12 @@ class App extends StatelessWidget {
               case '/dashboard':
                 return PageTransition(
                   child: Dashboard(),
+                  type: PageTransitionType.fade,
+                  settings: route,
+                );
+              case '/notes':
+                return PageTransition(
+                  child: Notes(),
                   type: PageTransitionType.fade,
                   settings: route,
                 );

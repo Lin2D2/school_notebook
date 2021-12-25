@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:school_notebook/blocs/navigator_bloc.dart';
 import 'package:school_notebook/types/text_icon_pair.dart';
 
 class SideNavigationRail extends StatefulWidget {
@@ -10,7 +12,6 @@ class SideNavigationRail extends StatefulWidget {
     IconTextPair(Icons.check, "TODO"),
     IconTextPair(Icons.settings, "Settings"),
   ];
-  bool expand = true; // TODO with bloc
   final Color backgroundColor = Colors.grey.shade800;
   final double width = 75;
   final double widthExpand = 170;
@@ -28,17 +29,21 @@ class _SideNavigationRailState extends State<SideNavigationRail> {
     return Row(
       children: [
         Container(
-          width: widget.expand ? widget.widthExpand : widget.width,
+          width: context.watch<NavigatorBloc>().sideNavigationRailState
+              ? widget.widthExpand
+              : widget.width,
           color: widget.backgroundColor,
           child: Column(
             children: [
               Container(
                 height: widget.width,
-                width: widget.expand ? widget.widthExpand : widget.width,
+                width: context.watch<NavigatorBloc>().sideNavigationRailState
+                    ? widget.widthExpand
+                    : widget.width,
                 color: Colors.blue,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: widget.expand
+                  child: context.watch<NavigatorBloc>().sideNavigationRailState
                       ? Row(
                           children: [
                             const CircleAvatar(
@@ -81,7 +86,9 @@ class _SideNavigationRailState extends State<SideNavigationRail> {
                             child: Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 10.0),
-                              child: widget.expand
+                              child: context
+                                      .watch<NavigatorBloc>()
+                                      .sideNavigationRailState
                                   ? Row(
                                       children: [
                                         Icon(widget
@@ -111,7 +118,20 @@ class _SideNavigationRailState extends State<SideNavigationRail> {
             ],
           ),
         ),
-        Expanded(child: widget.child)
+        Expanded(
+          child: Scaffold(
+            appBar: AppBar(
+              leading: InkWell(
+                child: const Icon(Icons.menu),
+                onTap: () {
+                  context.read<NavigatorBloc>().sideNavigationRailState =
+                      !context.read<NavigatorBloc>().sideNavigationRailState;
+                },
+              ),
+            ),
+            body: widget.child,
+          ),
+        ),
       ],
     );
   }

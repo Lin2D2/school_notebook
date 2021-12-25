@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:school_notebook/blocs/navigator_bloc.dart';
 import 'package:school_notebook/widgets/side_navigation_rail.dart';
 
 class Dashboard extends StatelessWidget {

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'd4_page_content_layout.dart';
+
+
 Color paperColor = Colors.grey.shade200;
+
 
 class D4PagePortrait extends StatelessWidget {
   final String title;
@@ -87,9 +91,7 @@ class D4PagePortrait extends StatelessWidget {
                   child: Expanded(
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(52, 27, 40, 50),
-                      child: Container(
-                        color: Colors.red,
-                      ),
+                      child: D4PageContentLayout(),
                     ),
                   ),
                 ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../blocs/mouse_cursor_state_bloc.dart';
+import '../blocs/notes_edit_state_bloc.dart';
 
 class CustomActionButtonColumn extends StatefulWidget {
   const CustomActionButtonColumn({Key? key}) : super(key: key);
@@ -49,6 +50,7 @@ class _CustomActionButtonColumnState extends State<CustomActionButtonColumn> {
                 Provider.of<MouseCursorState>(context, listen: false)
                     .cursorState = SystemMouseCursors.cell;
               }
+
             },
             child: const Icon(Icons.add),
           ),
@@ -66,9 +68,11 @@ class _CustomActionButtonColumnState extends State<CustomActionButtonColumn> {
               if (cursorState == SystemMouseCursors.grab) {
                 Provider.of<MouseCursorState>(context, listen: false)
                     .cursorState = SystemMouseCursors.basic;
+                Provider.of<NotesEditState>(context, listen: false).none();
               } else {
                 Provider.of<MouseCursorState>(context, listen: false)
                     .cursorState = SystemMouseCursors.grab;
+                Provider.of<NotesEditState>(context, listen: false).move();
               }
             },
             child: const Icon(Icons.auto_awesome_mosaic),
@@ -82,9 +86,11 @@ class _CustomActionButtonColumnState extends State<CustomActionButtonColumn> {
               if (cursorState == SystemMouseCursors.resizeDownRight) {
                 Provider.of<MouseCursorState>(context, listen: false)
                     .cursorState = SystemMouseCursors.basic;
+                Provider.of<NotesEditState>(context, listen: false).none();
               } else {
                 Provider.of<MouseCursorState>(context, listen: false)
                     .cursorState = SystemMouseCursors.resizeDownRight;
+                Provider.of<NotesEditState>(context, listen: false).resize();
               }
             },
             child: const Icon(Icons.aspect_ratio),

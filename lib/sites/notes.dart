@@ -16,11 +16,11 @@ class Notes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<NotesEditState>(create: (_) => NotesEditState()),
-      ],
-      child: SafeArea(
+    return
+      // MultiProvider(
+      // providers: [],
+      // child:
+      SafeArea(
         child: MouseRegion(
           cursor: Provider.of<MouseCursorState>(context, listen: true).cursorState, // TODO not directly but on Hover of specific Elements
           child: Scaffold(
@@ -77,7 +77,7 @@ class Notes extends StatelessWidget {
             ),
           ),
         ),
-      ),
+      // ),
     );
   }
 }

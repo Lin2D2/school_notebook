@@ -1,0 +1,111 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../blocs/mouse_cursor_state_bloc.dart';
+
+class CustomActionButtonColumn extends StatefulWidget {
+  const CustomActionButtonColumn({Key? key}) : super(key: key);
+
+  @override
+  _CustomActionButtonColumnState createState() =>
+      _CustomActionButtonColumnState();
+}
+
+class _CustomActionButtonColumnState extends State<CustomActionButtonColumn> {
+  bool expanded = false;
+
+  void menuButtonPressed() {
+    setState(() {
+      expanded = !expanded;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!expanded) {
+      return FloatingActionButton(
+        onPressed: () => menuButtonPressed(),
+        child: const Icon(Icons.menu),
+      );
+    } else {
+      // NOTE maybe use Stack instead an Animate it...
+      return Column(
+        verticalDirection: VerticalDirection.up,
+        children: [
+          FloatingActionButton(
+            onPressed: () => menuButtonPressed(),
+            child: const Icon(Icons.menu),
+          ),
+          const SizedBox(height: 10),
+          FloatingActionButton(
+            onPressed: () {
+              MouseCursor cursorState =
+                  Provider.of<MouseCursorState>(context, listen: false)
+                      .cursorState;
+              if (cursorState == SystemMouseCursors.cell) {
+                Provider.of<MouseCursorState>(context, listen: false)
+                    .cursorState = SystemMouseCursors.basic;
+              } else {
+                Provider.of<MouseCursorState>(context, listen: false)
+                    .cursorState = SystemMouseCursors.cell;
+              }
+            },
+            child: const Icon(Icons.add),
+          ),
+          const SizedBox(height: 10),
+          FloatingActionButton(
+            onPressed: () {},
+            child: const Icon(Icons.delete),
+          ),
+          const SizedBox(height: 10),
+          FloatingActionButton(
+            onPressed: () {
+              MouseCursor cursorState =
+                  Provider.of<MouseCursorState>(context, listen: false)
+                      .cursorState;
+              if (cursorState == SystemMouseCursors.grab) {
+                Provider.of<MouseCursorState>(context, listen: false)
+                    .cursorState = SystemMouseCursors.basic;
+              } else {
+                Provider.of<MouseCursorState>(context, listen: false)
+                    .cursorState = SystemMouseCursors.grab;
+              }
+            },
+            child: const Icon(Icons.auto_awesome_mosaic),
+          ),
+          const SizedBox(height: 10),
+          FloatingActionButton(
+            onPressed: () {
+              MouseCursor cursorState =
+                  Provider.of<MouseCursorState>(context, listen: false)
+                      .cursorState;
+              if (cursorState == SystemMouseCursors.resizeDownRight) {
+                Provider.of<MouseCursorState>(context, listen: false)
+                    .cursorState = SystemMouseCursors.basic;
+              } else {
+                Provider.of<MouseCursorState>(context, listen: false)
+                    .cursorState = SystemMouseCursors.resizeDownRight;
+              }
+            },
+            child: const Icon(Icons.aspect_ratio),
+          ),
+          // const SizedBox(height: 10),
+          // FloatingActionButton(
+          //   onPressed: () {},
+          //   child: const Icon(Icons.article),
+          // ),
+          // const SizedBox(height: 10),
+          // FloatingActionButton(
+          //   onPressed: () {},
+          //   child: const Icon(Icons.brush),
+          // ),
+          // const SizedBox(height: 10),
+          // FloatingActionButton(
+          //   onPressed: () {},
+          //   child: const Icon(Icons.add_photo_alternate),
+          // ),
+        ],
+      );
+    }
+  }
+}

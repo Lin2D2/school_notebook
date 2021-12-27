@@ -5,6 +5,7 @@ import 'package:page_transition/page_transition.dart';
 // import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 // import 'package:sqflite/sqflite.dart';
 
+import 'blocs/mouse_cursor_state_bloc.dart';
 import 'blocs/navigator_bloc.dart';
 import 'sites/dashboard.dart';
 import 'sites/notes.dart';
@@ -30,6 +31,7 @@ class App extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => NavigatorBloc()),
+          ChangeNotifierProvider<MouseCursorState>(create: (_) => MouseCursorState()),
         ],
         child: MaterialApp(
           title: _title,

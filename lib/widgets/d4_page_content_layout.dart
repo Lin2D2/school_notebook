@@ -60,6 +60,8 @@ class CustomDraggable extends StatefulWidget {
 
 class _CustomDraggableState extends State<CustomDraggable> {
   void DragStart(details) {
+    leftOffset = details.localPosition.dx - widget.left;
+    topOffset = details.localPosition.dy - widget.top;
     leftTmp = widget.left;
     topTmp = widget.top;
     setState(() {
@@ -69,8 +71,8 @@ class _CustomDraggableState extends State<CustomDraggable> {
 
   void DragUpdate(details) {
     setState(() {
-      leftTmp = details.localPosition.dx;
-      topTmp = details.localPosition.dy;
+      leftTmp = details.localPosition.dx - leftOffset;
+      topTmp = details.localPosition.dy - topOffset;
     });
   }
 
@@ -91,6 +93,8 @@ class _CustomDraggableState extends State<CustomDraggable> {
   bool moving = false;
   double leftTmp = 0;
   double topTmp = 0;
+  double leftOffset = 0;
+  double topOffset = 0;
 
   @override
   Widget build(BuildContext context) {

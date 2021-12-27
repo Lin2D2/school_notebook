@@ -1,42 +1,87 @@
 import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
-
-
-class NotesType {
-  List<FolderType> content = [];
-}
+// import 'package:uuid/uuid.dart';
 
 
 class FolderType {
-  final String id = const Uuid().v1();
+  int id;
   String name;
 
-  List<D4PageType> content = [];
+  List<int> contentIds;
 
-  FolderType({required this.name});
+  FolderType({required this.id, required this.name, required this.contentIds});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'contentIds': contentIds,
+    };
+  }
+
+  static FolderType fromMap(Map<String, dynamic> map) {
+    return FolderType(
+      id: map['id'],
+      name: map['name'],
+      contentIds: map['contentIds'],
+    );
+  }
 }
 
-
 class D4PageType {
-  final String id = const Uuid().v1();
+  // final String id = const Uuid().v1();
+  int id;
 
-  String title = "";
-  final TextEditingController titleController = TextEditingController();
+  String name;
 
-  String date = DateTime.now().day.toString() +
-      "." +
-      DateTime.now().month.toString() +
-      "." +
-      DateTime.now().year.toString().substring(2);
-  final TextEditingController dateController = TextEditingController();
+  // final TextEditingController titleController = TextEditingController();
+  final TextEditingController nameController;
 
-  bool visible = true;
+  // String date = DateTime.now().day.toString() +
+  //     "." +
+  //     DateTime.now().month.toString() +
+  //     "." +
+  //     DateTime.now().year.toString().substring(2);
+  String date;
+  final TextEditingController dateController;
 
-  List<ContentElement> content = [];
+  bool visible;
+
+  List<int> contentIds;
+
+  D4PageType(
+      {required this.id,
+      required this.name,
+      required this.nameController,
+      required this.date,
+      required this.dateController,
+      required this.visible,
+      required this.contentIds});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'date': date,
+      'visible': visible,
+      'contentIds': contentIds,
+    };
+  }
+
+  static D4PageType fromMap(Map<String, dynamic> map) {
+    return D4PageType(
+      id: map['id'],
+      name: map['name'],
+      nameController: TextEditingController(),
+      date: map['date'],
+      dateController: TextEditingController(),
+      visible: map['visible'],
+      contentIds: map['contentIds'],
+    );
+  }
 }
 
 class ContentElement {
-  final String id = const Uuid().v1();
+  int id;
 
   // NOTE x range: 1 - 34
   int left;
@@ -47,19 +92,52 @@ class ContentElement {
   int height;
 
   ContentTypes contentType;
-  var content;
+  int contentId;
 
   ContentElement(
-      {required this.left,
+      {required this.id,
+      required this.left,
       required this.top,
       required this.width,
       required this.height,
       this.contentType = ContentTypes.text,
-      this.content = ""});
+      required this.contentId});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'left': left,
+      'top': top,
+      'width': width,
+      'height': height,
+      'contentType': contentType,
+      'contentId': contentId,
+    };
+  }
+
+  static ContentElement fromMap(Map<String, dynamic> map) {
+    return ContentElement(
+      id: map['id'],
+      left: map['left'],
+      top: map['top'],
+      width: map['width'],
+      height: map['height'],
+      contentType: map['contentType'],
+      contentId: map['contentId'],
+    );
+  }
 }
 
 enum ContentTypes {
   text,
   image,
   canvas,
+}
+
+class ContentTextType {
+  int id;
+
+  String content;
+
+  ContentTextType({required this.id, this. content = ""});
 }

@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+// import 'dart:io' show Platform;
 import 'package:page_transition/page_transition.dart';
+// import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+// import 'package:sqflite/sqflite.dart';
 
 import 'blocs/navigator_bloc.dart';
-import 'services/storage_service.dart';
 import 'sites/dashboard.dart';
 import 'sites/notes.dart';
 
 
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  StorageService storageServiceInstance = StorageService();
-  storageServiceInstance.initStorage();
+  // if (Platform.isWindows || Platform.isLinux) {
+  //   // Initialize FFI
+  //   sqfliteFfiInit();
+  //   // Change the default factory
+  //   databaseFactory = databaseFactoryFfi;
+  // }
+
   runApp(App());
 }
 

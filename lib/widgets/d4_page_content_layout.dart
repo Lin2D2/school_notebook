@@ -13,7 +13,8 @@ class D4PageContentLayout extends StatefulWidget {
 class _D4PageContentLayoutState extends State<D4PageContentLayout> {
   List<ContentElement> content = [
     ContentElement(id: 1, left: 0, top: 0, width: 5, height: 5, contentId: 11),
-    ContentElement(id: 2, left: 0, top: 0, width: 10, height: 10, contentId: 21),
+    ContentElement(
+        id: 2, left: 5, top: 0, width: 10, height: 10, contentId: 21),
   ];
   Widget child = Container(
     color: Colors.red,
@@ -26,7 +27,8 @@ class _D4PageContentLayoutState extends State<D4PageContentLayout> {
       children: List.generate(
         content.length,
         (index) => CustomDraggable(
-          child: child, // TODO Determint by content
+          child: child,
+          // TODO Determint by content
           left: content[index].left * 25,
           top: content[index].top * 25,
           width: content[index].width * 25 - 2,

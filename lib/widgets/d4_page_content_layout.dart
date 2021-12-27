@@ -79,11 +79,11 @@ class _CustomDraggableState extends State<CustomDraggable> {
   void DragEnd(details) {
     setState(() {
       moving = false;
-      // TODO check for overlap
       widget.left = (leftTmp ~/ 25) * 25;
       widget.top = (topTmp ~/ 25) * 25;
     });
   }
+
   double left = 0;
   double top = 0;
   double height = 125;

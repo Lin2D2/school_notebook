@@ -1,6 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
+
+
+class NotesType {
+  List<FolderType> content = [];
+}
+
+
+class FolderType {
+  final String id = const Uuid().v1();
+  String name;
+
+  List<D4PageType> content = [];
+
+  FolderType({required this.name});
+}
+
 
 class D4PageType {
+  final String id = const Uuid().v1();
+
   String title = "";
   final TextEditingController titleController = TextEditingController();
 
@@ -17,9 +36,12 @@ class D4PageType {
 }
 
 class ContentElement {
+  final String id = const Uuid().v1();
+
   // NOTE x range: 1 - 34
   int left;
   int width;
+
   // NOTE y range: 1 - 45
   int top;
   int height;
@@ -27,8 +49,13 @@ class ContentElement {
   ContentTypes contentType;
   var content;
 
-  ContentElement(this.left, this.top, this.width, this.height,
-      {this.contentType = ContentTypes.text, this.content = ""});
+  ContentElement(
+      {required this.left,
+      required this.top,
+      required this.width,
+      required this.height,
+      this.contentType = ContentTypes.text,
+      this.content = ""});
 }
 
 enum ContentTypes {

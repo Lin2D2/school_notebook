@@ -11,7 +11,7 @@ class CustomDrawer extends StatefulWidget {
     IconTextPair(Icons.settings, "Settings"),
   ];
   final Color backgroundColor = Colors.grey.shade800;
-  final double width = 100;
+  final double width = 80;
   final double widthExpand = 200;
   final double heightSpacer = 10;
 

@@ -21,6 +21,46 @@ class _CustomActionButtonColumnState extends State<CustomActionButtonColumn> {
     });
   }
 
+  void addButtonPressed() {
+    MouseCursor cursorState =
+        Provider.of<MouseCursorState>(context, listen: false).cursorState;
+    if (cursorState == SystemMouseCursors.cell) {
+      Provider.of<MouseCursorState>(context, listen: false).cursorState =
+          SystemMouseCursors.basic;
+    } else {
+      Provider.of<MouseCursorState>(context, listen: false).cursorState =
+          SystemMouseCursors.cell;
+    }
+  }
+
+  void moveButtonPressed() {
+    MouseCursor cursorState =
+        Provider.of<MouseCursorState>(context, listen: false).cursorState;
+    if (cursorState == SystemMouseCursors.grab) {
+      Provider.of<MouseCursorState>(context, listen: false).cursorState =
+          SystemMouseCursors.basic;
+      Provider.of<NotesEditState>(context, listen: false).none();
+    } else {
+      Provider.of<MouseCursorState>(context, listen: false).cursorState =
+          SystemMouseCursors.grab;
+      Provider.of<NotesEditState>(context, listen: false).move();
+    }
+  }
+
+  void resizeButtonPressed() {
+    MouseCursor cursorState =
+        Provider.of<MouseCursorState>(context, listen: false).cursorState;
+    if (cursorState == SystemMouseCursors.resizeDownRight) {
+      Provider.of<MouseCursorState>(context, listen: false).cursorState =
+          SystemMouseCursors.basic;
+      Provider.of<NotesEditState>(context, listen: false).none();
+    } else {
+      Provider.of<MouseCursorState>(context, listen: false).cursorState =
+          SystemMouseCursors.resizeDownRight;
+      Provider.of<NotesEditState>(context, listen: false).resize();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (!expanded) {
@@ -39,19 +79,7 @@ class _CustomActionButtonColumnState extends State<CustomActionButtonColumn> {
           ),
           const SizedBox(height: 10),
           FloatingActionButton(
-            onPressed: () {
-              MouseCursor cursorState =
-                  Provider.of<MouseCursorState>(context, listen: false)
-                      .cursorState;
-              if (cursorState == SystemMouseCursors.cell) {
-                Provider.of<MouseCursorState>(context, listen: false)
-                    .cursorState = SystemMouseCursors.basic;
-              } else {
-                Provider.of<MouseCursorState>(context, listen: false)
-                    .cursorState = SystemMouseCursors.cell;
-              }
-
-            },
+            onPressed: () => addButtonPressed(),
             child: const Icon(Icons.add),
           ),
           const SizedBox(height: 10),
@@ -61,38 +89,12 @@ class _CustomActionButtonColumnState extends State<CustomActionButtonColumn> {
           ),
           const SizedBox(height: 10),
           FloatingActionButton(
-            onPressed: () {
-              MouseCursor cursorState =
-                  Provider.of<MouseCursorState>(context, listen: false)
-                      .cursorState;
-              if (cursorState == SystemMouseCursors.grab) {
-                Provider.of<MouseCursorState>(context, listen: false)
-                    .cursorState = SystemMouseCursors.basic;
-                Provider.of<NotesEditState>(context, listen: false).none();
-              } else {
-                Provider.of<MouseCursorState>(context, listen: false)
-                    .cursorState = SystemMouseCursors.grab;
-                Provider.of<NotesEditState>(context, listen: false).move();
-              }
-            },
+            onPressed: () => moveButtonPressed(),
             child: const Icon(Icons.auto_awesome_mosaic),
           ),
           const SizedBox(height: 10),
           FloatingActionButton(
-            onPressed: () {
-              MouseCursor cursorState =
-                  Provider.of<MouseCursorState>(context, listen: false)
-                      .cursorState;
-              if (cursorState == SystemMouseCursors.resizeDownRight) {
-                Provider.of<MouseCursorState>(context, listen: false)
-                    .cursorState = SystemMouseCursors.basic;
-                Provider.of<NotesEditState>(context, listen: false).none();
-              } else {
-                Provider.of<MouseCursorState>(context, listen: false)
-                    .cursorState = SystemMouseCursors.resizeDownRight;
-                Provider.of<NotesEditState>(context, listen: false).resize();
-              }
-            },
+            onPressed: () => resizeButtonPressed(),
             child: const Icon(Icons.aspect_ratio),
           ),
           // const SizedBox(height: 10),

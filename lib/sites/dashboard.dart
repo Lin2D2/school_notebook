@@ -10,11 +10,13 @@ class Dashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: SideNavigationRail(
-          child: const Center(
+        body:
+        // SideNavigationRail(
+        //   child:
+          const Center(
             child: Text("Dashboard"),
           ),
-        ),
+        // ),
       ),
     );
   }

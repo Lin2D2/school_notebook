@@ -7,6 +7,7 @@ import 'package:page_transition/page_transition.dart';
 
 import 'blocs/mouse_cursor_state_bloc.dart';
 import 'blocs/navigator_bloc.dart';
+import 'blocs/notes_edit_state_bloc.dart';
 import 'sites/dashboard.dart';
 import 'sites/notes.dart';
 
@@ -32,6 +33,7 @@ class App extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(create: (_) => NavigatorBloc()),
           ChangeNotifierProvider<MouseCursorState>(create: (_) => MouseCursorState()),
+          ChangeNotifierProvider<NotesEditState>(create: (_) => NotesEditState()),
         ],
         child: MaterialApp(
           title: _title,

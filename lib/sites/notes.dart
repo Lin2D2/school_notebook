@@ -47,7 +47,7 @@ class _NotesState extends State<Notes> with TickerProviderStateMixin {
                 Widget sideRail = CustomDrawer();
                 Widget mainContent = Expanded(
                   child:
-                  RawScrollbar(
+                  Scrollbar(
                     controller: scrollController,
                     isAlwaysShown: false,
                     interactive: false,

@@ -1,15 +1,7 @@
 import 'package:flutter/material.dart';
-
-import '../types/text_icon_pair.dart';
+import 'package:school_notebook/services/navigator_service.dart';
 
 class CustomDrawer extends StatefulWidget {
-  final List<IconTextPair> navigationItems = [
-    IconTextPair(Icons.home, "Dashboard"),
-    IconTextPair(Icons.notes, "Notes"),
-    IconTextPair(Icons.calendar_today, "Calender"),
-    IconTextPair(Icons.check, "TODO"),
-    IconTextPair(Icons.settings, "Settings"),
-  ];
   final Color backgroundColor = Colors.grey.shade800;
   final double width = 80;
   final double widthExpand = 200;
@@ -43,12 +35,12 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       radius: 28,
                       child: Text("N"),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     ElevatedButton(
                       onPressed: () {},
                       child: const Text("Logout"),
                     ),
-                    Spacer(),
+                    const Spacer(),
                   ],
                 )),
           ),
@@ -62,25 +54,32 @@ class _CustomDrawerState extends State<CustomDrawer> {
               height: MediaQuery.of(context).size.height -
                   (widget.width + widget.heightSpacer),
               child: ListView.builder(
-                itemCount: widget.navigationItems.length +
-                    widget.navigationItems.length -
+                itemCount: NavigatorService.routes.length +
+                    NavigatorService.routes.length -
                     1,
                 itemBuilder: (BuildContext ctx, int index) {
                   if (index.isEven) {
                     return SizedBox(
                       height: 60,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          NavigatorService.goTo(
+                              context,
+                              NavigatorService
+                                  .routes[index ~/ 2]
+                                  .route
+                          );
+                        },
                         child: Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 15.0),
                             child: Row(
                               children: [
-                                Icon(widget.navigationItems[index ~/ 2].icon),
+                                Icon(NavigatorService.routes[index ~/ 2].icon),
                                 const SizedBox(
                                   width: 30,
                                 ),
-                                Text(widget.navigationItems[index ~/ 2].text),
+                                Text(NavigatorService.routes[index ~/ 2].name),
                                 const Spacer(),
                               ],
                             )),

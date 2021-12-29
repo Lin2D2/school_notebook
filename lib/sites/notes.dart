@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:school_notebook/blocs/navigator_bloc.dart';
 import 'package:school_notebook/widgets/custom_drawer.dart';
 import 'package:school_notebook/widgets/d4_page.dart';
-import 'package:school_notebook/widgets/side_navigation_rail.dart';
 
 import '../blocs/mouse_cursor_state_bloc.dart';
 import '../blocs/notes_edit_state_bloc.dart';

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:school_notebook/blocs/navigator_bloc.dart';
-import 'package:school_notebook/widgets/side_navigation_rail.dart';
+
+import '../widgets/custom_app_bar.dart';
+import '../widgets/custom_drawer.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -10,6 +11,8 @@ class Dashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: const CustomAppBar(),
+        drawer: CustomDrawer(),
         body:
         // SideNavigationRail(
         //   child:

@@ -5,15 +5,17 @@ import 'package:flutter/material.dart';
 class FolderType {
   int id;
   String name;
+  Color color;
 
   List<int> contentIds;
 
-  FolderType({required this.id, required this.name, required this.contentIds});
+  FolderType({required this.id, required this.name, required this.color, required this.contentIds});
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'name': name,
+      'color': color,
       'contentIds': contentIds,
     };
   }
@@ -22,6 +24,7 @@ class FolderType {
     return FolderType(
       id: map['id'],
       name: map['name'],
+      color: map['color'],
       contentIds: map['contentIds'],
     );
   }

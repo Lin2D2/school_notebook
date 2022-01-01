@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../services/snack_bar_service.dart';
 import '../blocs/mouse_cursor_state_bloc.dart';
 import '../blocs/notes_edit_state_bloc.dart';
 

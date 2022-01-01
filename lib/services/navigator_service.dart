@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:school_notebook/types/navigator_item_type.dart';
+
+import '../types/navigator_item_type.dart';
 
 class NavigatorService {
   static const List<NavigatorItemType> routes = [

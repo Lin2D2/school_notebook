@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:school_notebook/services/navigator_service.dart';
+
+import '../services/navigator_service.dart';
 
 class CustomDrawer extends StatefulWidget {
   final Color backgroundColor = Colors.grey.shade800;

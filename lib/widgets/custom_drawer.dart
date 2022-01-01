@@ -3,12 +3,7 @@ import 'package:flutter/material.dart';
 import '../services/navigator_service.dart';
 
 class CustomDrawer extends StatefulWidget {
-  final Color backgroundColor = Colors.grey.shade800;
-  final double width = 80;
-  final double widthExpand = 200;
-  final double heightSpacer = 10;
-
-  CustomDrawer({
+  const CustomDrawer({
     Key? key,
   }) : super(key: key);
 
@@ -17,16 +12,21 @@ class CustomDrawer extends StatefulWidget {
 }
 
 class _CustomDrawerState extends State<CustomDrawer> {
+  static final Color backgroundColor = Colors.grey.shade800;
+  static const double width = 80;
+  static const double widthExpand = 200;
+  static const double heightSpacer = 10;
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: widget.widthExpand,
-      color: widget.backgroundColor,
+      width: widthExpand,
+      color: backgroundColor,
       child: Column(
         children: [
           Container(
-            height: widget.width,
-            width: widget.widthExpand,
+            height: width,
+            width: widthExpand,
             color: Colors.blue,
             child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -45,15 +45,15 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   ],
                 )),
           ),
-          SizedBox(
-            height: widget.heightSpacer,
+          const SizedBox(
+            height: heightSpacer,
           ),
           Material(
-            color: widget.backgroundColor,
+            color: backgroundColor,
             elevation: 20,
             child: SizedBox(
               height: MediaQuery.of(context).size.height -
-                  (widget.width + widget.heightSpacer),
+                  (width + heightSpacer),
               child: ListView.builder(
                 itemCount: NavigatorService.routes.length +
                     NavigatorService.routes.length -

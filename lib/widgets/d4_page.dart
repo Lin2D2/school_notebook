@@ -88,9 +88,9 @@ class D4PagePortrait extends StatelessWidget {
                 ),
                 Visibility(
                   visible: visible,
-                  child: Expanded(
+                  child: const Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(52, 27, 40, 50),
+                      padding: EdgeInsets.fromLTRB(52, 27, 40, 50),
                       child: D4PageContentLayout(),
                     ),
                   ),

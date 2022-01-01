@@ -4,7 +4,7 @@ import '../types/d4_page.dart';
 import 'custom_draggable.dart';
 
 class D4PageContentLayout extends StatefulWidget {
-  D4PageContentLayout({Key? key}) : super(key: key);
+  const D4PageContentLayout({Key? key}) : super(key: key);
 
   @override
   State<D4PageContentLayout> createState() => _D4PageContentLayoutState();

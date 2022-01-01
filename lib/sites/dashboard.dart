@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_drawer.dart';
@@ -9,17 +8,13 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return const SafeArea(
       child: Scaffold(
-        appBar: const CustomAppBar(),
+        appBar: CustomAppBar(),
         drawer: CustomDrawer(),
-        body:
-        // SideNavigationRail(
-        //   child:
-          const Center(
-            child: Text("Dashboard"),
-          ),
-        // ),
+        body: Center(
+          child: Text("Dashboard"),
+        ),
       ),
     );
   }

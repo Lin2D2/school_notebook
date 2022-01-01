@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:school_notebook/blocs/navigator_bloc.dart';
+import 'package:school_notebook/services/navigator_service.dart';
 
 import '../types/d4_page.dart';
 
@@ -34,67 +37,74 @@ class _FolderElementState extends State<FolderElement>
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return MouseRegion(
-      onEnter: (event) => _controller.forward(),
-      onExit: (event) => _controller.reverse(),
-      child: Stack(
-        children: [
-          SizedBox(
-            width: size.width,
-            height: size.height,
-            child: CustomPaint(
-              painter: PaperPainter(),
-              child: null,
+    return GestureDetector(
+      onTap: () {
+        Provider.of<NavigatorBloc>(context, listen: false).folder =
+            widget.folder.id;
+        NavigatorService.goTo(context, "/notes");
+      },
+      child: MouseRegion(
+        onEnter: (event) => _controller.forward(),
+        onExit: (event) => _controller.reverse(),
+        child: Stack(
+          children: [
+            SizedBox(
+              width: size.width,
+              height: size.height,
+              child: CustomPaint(
+                painter: PaperPainter(),
+                child: null,
+              ),
             ),
-          ),
-          SizedBox(
-            width: size.width,
-            height: size.height,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                RotatedBox(
-                  quarterTurns: 3,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 15, 5),
-                    child: SizedBox(
-                      height:
-                          (size.width * 0.097 / (size.width ~/ 400)).toDouble(),
-                      // width: ((size.height * 0.175)).toDouble(),
-                      child: Center(
-                        child: Text(
-                          widget.folder.name,
-                          style: const TextStyle(
-                              fontSize: 25, color: Colors.black),
+            SizedBox(
+              width: size.width,
+              height: size.height,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  RotatedBox(
+                    quarterTurns: 3,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 15, 5),
+                      child: SizedBox(
+                        height: (size.width * 0.097 / (size.width ~/ 400))
+                            .toDouble(),
+                        // width: ((size.height * 0.175)).toDouble(),
+                        child: Center(
+                          child: Text(
+                            widget.folder.name,
+                            style: const TextStyle(
+                                fontSize: 25, color: Colors.black),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            width: size.width,
-            height: size.height,
-            child: AnimatedBuilder(
-              animation: _controller,
-              child: CustomPaint(
-                painter: FolderPainter(widget.folder.color),
+                ],
               ),
-              builder: (BuildContext context, Widget? child) {
-                return Transform(
-                  transform: Matrix4.rotationX(0)
-                    ..multiply(
-                        Matrix4.rotationY(_controller.value * 0.33333)) // 0.15
-                    ..multiply(Matrix4.rotationZ(0)),
-                  alignment: Alignment.bottomLeft,
-                  child: child,
-                );
-              },
             ),
-          ),
-        ],
+            SizedBox(
+              width: size.width,
+              height: size.height,
+              child: AnimatedBuilder(
+                animation: _controller,
+                child: CustomPaint(
+                  painter: FolderPainter(widget.folder.color),
+                ),
+                builder: (BuildContext context, Widget? child) {
+                  return Transform(
+                    transform: Matrix4.rotationX(0)
+                      ..multiply(Matrix4.rotationY(
+                          _controller.value * 0.33333)) // 0.15
+                      ..multiply(Matrix4.rotationZ(0)),
+                    alignment: Alignment.bottomLeft,
+                    child: child,
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -102,6 +112,7 @@ class _FolderElementState extends State<FolderElement>
 
 class FolderPainter extends CustomPainter {
   final Color color;
+
   FolderPainter(this.color);
 
   @override

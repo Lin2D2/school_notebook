@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:page_transition/page_transition.dart';
 
+import 'blocs/data_base_service_bloc.dart';
 import 'blocs/mouse_cursor_state_bloc.dart';
 import 'blocs/navigator_bloc.dart';
-import 'blocs/notes_edit_state_bloc.dart';
 import 'sites/dashboard.dart';
 import 'sites/notes.dart';
 
@@ -30,9 +30,12 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (_) => NavigatorBloc()),
-          ChangeNotifierProvider<MouseCursorState>(create: (_) => MouseCursorState()),
-          ChangeNotifierProvider<NotesEditState>(create: (_) => NotesEditState()),
+          ChangeNotifierProvider(create:
+              (_) => NavigatorBloc()),
+          ChangeNotifierProvider<MouseCursorState>(create:
+              (_) => MouseCursorState()),
+          ChangeNotifierProvider<DataBaseServiceBloc>(create:
+              (_) => DataBaseServiceBloc()),
         ],
         child: MaterialApp(
           title: _title,

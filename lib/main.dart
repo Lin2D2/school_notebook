@@ -7,6 +7,7 @@ import 'blocs/mouse_cursor_state_bloc.dart';
 import 'blocs/navigator_bloc.dart';
 import 'sites/dashboard.dart';
 import 'sites/notes.dart';
+import 'sites/folder.dart';
 
 
 
@@ -55,6 +56,12 @@ class App extends StatelessWidget {
               case '/notes':
                 return PageTransition(
                   child: const Notes(),
+                  type: PageTransitionType.fade,
+                  settings: route,
+                );
+              case '/folder':
+                return PageTransition(
+                  child: const Folder(),
                   type: PageTransitionType.fade,
                   settings: route,
                 );

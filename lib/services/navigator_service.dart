@@ -12,7 +12,7 @@ class NavigatorService {
     NavigatorItemType(
         icon: Icons.notes,
         name: "Notes",
-        route: "/notes"
+        route: "/folder"
     ),
     NavigatorItemType(
         icon: Icons.calendar_today,

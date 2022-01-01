@@ -45,6 +45,11 @@ class _CustomActionButtonColumnState extends State<CustomActionButtonColumn> {
       Provider.of<MouseCursorState>(context, listen: false).cursorState =
           SystemMouseCursors.grab;
       Provider.of<NotesEditState>(context, listen: false).move();
+      SnackBarService.createSimpleSnackBar(
+          context: context,
+          content: "Edit Mode",
+        color: Colors.orange.shade400
+      );
     }
   }
 

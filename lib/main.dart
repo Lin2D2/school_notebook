@@ -21,12 +21,14 @@ void main() {
   //   databaseFactory = databaseFactoryFfi;
   // }
 
-  runApp(App());
+  runApp(const App());
 }
 
 
 class App extends StatelessWidget {
   static const String _title = "School Notebook";
+
+  const App({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -46,13 +48,13 @@ class App extends StatelessWidget {
             switch (route.name) {
               case '/dashboard':
                 return PageTransition(
-                  child: Dashboard(),
+                  child: const Dashboard(),
                   type: PageTransitionType.fade,
                   settings: route,
                 );
               case '/notes':
                 return PageTransition(
-                  child: Notes(),
+                  child: const Notes(),
                   type: PageTransitionType.fade,
                   settings: route,
                 );

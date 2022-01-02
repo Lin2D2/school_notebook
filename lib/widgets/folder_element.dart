@@ -23,7 +23,7 @@ class _FolderElementState extends State<FolderElement>
   @override
   void initState() {
     super.initState();
-    Duration _duration = const Duration(milliseconds: 300);
+    Duration _duration = const Duration(milliseconds: 200);
     _controller = AnimationController(
         duration: _duration, reverseDuration: _duration, vsync: this);
   }
@@ -125,7 +125,6 @@ class FolderPainter extends CustomPainter {
 
     const double _borderRadius = 35;
     const double _slantOffset = 20;
-    const double _paperOffset = 10;
 
     // NOTE folder
     pathFolder.moveTo(_borderRadius, size.height);

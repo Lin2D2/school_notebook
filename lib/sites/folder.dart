@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../blocs/data_base_service_bloc.dart';
-import '../types/d4_page.dart';
-import '../widgets/custom_action_button_column.dart';
 import '../widgets/folder_page_layout.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_drawer.dart';
@@ -23,7 +20,7 @@ class Folder extends StatelessWidget {
         SafeArea(
       child: DrawerSideRail(
         child: Scaffold(
-          appBar: const CustomAppBar(),
+          appBar: CustomAppBar(title: Future(() => "Folder")),
           drawer: const CustomDrawer(),
           persistentFooterButtons: [],
           floatingActionButton: FloatingActionButton(

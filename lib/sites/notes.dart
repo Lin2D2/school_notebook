@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../blocs/data_base_service_bloc.dart';
+import '../blocs/navigator_bloc.dart';
 import '../blocs/notes_edit_state_bloc.dart';
+import '../types/d4_page.dart';
 import '../widgets/custom_action_button_column.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_drawer.dart';
@@ -13,18 +16,21 @@ class Notes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future<String> folder = Provider.of<DataBaseServiceBloc>(context, listen: true)
+        .folderDao.getNameByID(Provider.of<NavigatorBloc>(context, listen: true)
+        .folder ?? 0);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<NotesEditState>(create: (_) => NotesEditState()),
       ],
-      child: const SafeArea(
+      child: SafeArea(
         child: DrawerSideRail(
           child: Scaffold(
-            appBar: CustomAppBar(),
-            drawer: CustomDrawer(),
+            appBar: CustomAppBar(title: folder),
+            drawer: const CustomDrawer(),
             persistentFooterButtons: [],
-            floatingActionButton: CustomActionButtonColumn(),
-            body: NotesD4PageLayout(),
+            floatingActionButton: const CustomActionButtonColumn(),
+            body: const NotesD4PageLayout(),
           ),
         ),
       ),

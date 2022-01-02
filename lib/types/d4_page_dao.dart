@@ -43,6 +43,23 @@ class FolderDao {
       return folder;
     }).toList();
   }
+
+  Future<String> getNameByID(int id) async {
+    final finder = Finder(
+        filter: Filter.equals("id", id),
+        sortOrders: [SortOrder('name')]
+    );
+
+    final recordSnapshots = await _folderStore.find(
+      await _db,
+      finder: finder,
+    );
+
+    return recordSnapshots.map((snapshot) {
+      final folder = FolderType.fromMap(snapshot.value);
+      return folder;
+    }).toList()[0].name;
+  }
 }
 
 class D4PageDao {

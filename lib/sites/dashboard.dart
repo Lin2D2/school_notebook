@@ -8,11 +8,11 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
+    return SafeArea(
       child: Scaffold(
-        appBar: CustomAppBar(),
-        drawer: CustomDrawer(),
-        body: Center(
+        appBar: CustomAppBar(title: Future(() => "Dashboard"),),
+        drawer: const CustomDrawer(),
+        body: const Center(
           child: Text("Dashboard"),
         ),
       ),

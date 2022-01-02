@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
 // import 'package:uuid/uuid.dart';
 
-
 class FolderType {
   int id;
   String name;
   Color color;
 
-  List<int> contentIds;
+  List contentIds; // TODO List<int> but error type 'ImmutableList<dynamic>' is not a subtype of type 'List<int>'
 
-  FolderType({required this.id, required this.name, required this.color, required this.contentIds});
+  FolderType(
+      {required this.id,
+      required this.name,
+      required this.color,
+      required this.contentIds});
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'name': name,
-      'color': color,
+      'color': {
+        "r": color.red,
+        "g": color.green,
+        "b": color.blue,
+        "o": color.opacity
+      },
       'contentIds': contentIds,
     };
   }
@@ -24,7 +32,8 @@ class FolderType {
     return FolderType(
       id: map['id'],
       name: map['name'],
-      color: map['color'],
+      color: Color.fromRGBO(map['color']["r"], map['color']["g"],
+          map['color']["b"], map['color']["o"]),
       contentIds: map['contentIds'],
     );
   }
@@ -142,5 +151,5 @@ class ContentTextType {
 
   String content;
 
-  ContentTextType({required this.id, this. content = ""});
+  ContentTextType({required this.id, this.content = ""});
 }

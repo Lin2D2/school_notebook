@@ -31,12 +31,12 @@ dependencies:
     sdk: flutter
   path:
   path_provider:
-  uuid: ^3.0.5
 #  get_storage: ^2.0.3
   provider: ^6.0.1
   page_transition: ^2.0.4
   shared_preferences: ^2.0.11
   sembast: ^3.1.1+1
+  flutter_markdown: ^0.6.9
 #  sqflite: ^2.0.1
 #  sqflite_common_ffi: ^2.1.0
 

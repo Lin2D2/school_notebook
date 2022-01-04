@@ -48,12 +48,10 @@ class _FolderElementState extends State<FolderElement>
         onExit: (event) => _controller.reverse(),
         child: Stack(
           children: [
-            SizedBox(
-              width: size.width,
-              height: size.height,
-              child: CustomPaint(
-                painter: PaperPainter(),
-                child: null,
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Container(
+                color: Colors.grey.shade100,
               ),
             ),
             SizedBox(
@@ -155,36 +153,6 @@ class FolderPainter extends CustomPainter {
     pathFolder.close();
 
     canvas.drawPath(pathFolder, paintFolder);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
-  }
-}
-
-class PaperPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    var paintPaper = Paint()
-      ..color = Colors.grey.shade100
-      ..strokeWidth = 2;
-
-    var pathPaper = Path();
-
-    const double _slantOffset = 20;
-    const double _paperOffset = 10;
-
-    // NOTE paper
-    pathPaper.moveTo(_paperOffset, _paperOffset);
-    pathPaper.lineTo(size.width - _paperOffset, _paperOffset);
-
-    pathPaper.lineTo(size.width - _paperOffset, size.height - _slantOffset);
-    pathPaper.lineTo(_slantOffset, size.height - _slantOffset);
-
-    pathPaper.close();
-
-    canvas.drawPath(pathPaper, paintPaper);
   }
 
   @override

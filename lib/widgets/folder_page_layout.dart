@@ -21,9 +21,8 @@ class FolderPageLayout extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<FolderType>? data = snapshot.data;
-            print(data?.length);
             return GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount( // TODO better with dynamic cross Axis count and dynamic size of folder
                 crossAxisCount: width ~/ 400,
                 crossAxisSpacing: 0,
                 mainAxisSpacing: 0,

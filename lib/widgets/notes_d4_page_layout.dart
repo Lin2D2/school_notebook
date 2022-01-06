@@ -7,18 +7,19 @@ import '../widgets/d4_page.dart';
 class NotesD4PageLayout extends StatefulWidget {
   const NotesD4PageLayout({Key? key}) : super(key: key);
   static const TextStyle textStyle =
-  TextStyle(color: Colors.black, fontSize: 50, fontWeight: FontWeight.bold);
+      TextStyle(color: Colors.black, fontSize: 50, fontWeight: FontWeight.bold);
   static final ScrollController scrollController = ScrollController();
 
   @override
   State<NotesD4PageLayout> createState() => _NotesD4PageLayoutState();
 }
 
-class _NotesD4PageLayoutState extends State<NotesD4PageLayout> with TickerProviderStateMixin {
+class _NotesD4PageLayoutState extends State<NotesD4PageLayout>
+    with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    TabController tabController = TabController(
-        length: 4, initialIndex: 1, vsync: this);
+    TabController tabController =
+        TabController(length: 4, initialIndex: 1, vsync: this);
     return MouseRegion(
       cursor: Provider.of<MouseCursorState>(context, listen: true).cursorState,
       // TODO not directly but on Hover of specific Elements
@@ -42,39 +43,43 @@ class _NotesD4PageLayoutState extends State<NotesD4PageLayout> with TickerProvid
                   controller: NotesD4PageLayout.scrollController,
                   children: [
                     D4PagePortrait(
-                        title: "Test Blatt 1",
-                        date: "25.12.21",
-                        visible: false,
-                        child: const Text(
-                          "1",
-                          style: NotesD4PageLayout.textStyle,
-                        )),
+                      title: "Test Blatt 1",
+                      date: "25.12.21",
+                      visible: true,
+                      child: const Text(
+                        "1",
+                        style: NotesD4PageLayout.textStyle,
+                      ),
+                    ),
                     SingleChildScrollView(
                       // physics: NeverScrollableScrollPhysics(),
                       child: D4PagePortrait(
-                          title: "Test Blatt 2",
-                          date: "25.12.21",
-                          child: const Text(
-                            "2",
-                            style: NotesD4PageLayout.textStyle,
-                          )),
+                        title: "Test Blatt 2",
+                        date: "25.12.21",
+                        child: const Text(
+                          "2",
+                          style: NotesD4PageLayout.textStyle,
+                        ),
+                      ),
                     ),
                     D4PagePortrait(
-                        title: "Test Blatt 3",
-                        date: "25.12.21",
-                        visible: false,
-                        child: const Text(
-                          "3",
-                          style: NotesD4PageLayout.textStyle,
-                        )),
+                      title: "Test Blatt 3",
+                      date: "25.12.21",
+                      visible: false,
+                      child: const Text(
+                        "3",
+                        style: NotesD4PageLayout.textStyle,
+                      ),
+                    ),
                     D4PagePortrait(
-                        title: "Test Blatt 4",
-                        date: "25.12.21",
-                        visible: false,
-                        child: const Text(
-                          "4",
-                          style: NotesD4PageLayout.textStyle,
-                        )),
+                      title: "Test Blatt 4",
+                      date: "25.12.21",
+                      visible: false,
+                      child: const Text(
+                        "4",
+                        style: NotesD4PageLayout.textStyle,
+                      ),
+                    ),
                   ],
                 ),
               ),

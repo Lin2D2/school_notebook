@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'd4_page_content_layout.dart';
 
-
 Color paperColor = Colors.grey.shade200;
-
 
 class D4PagePortrait extends StatelessWidget {
   final String title;
@@ -13,7 +11,7 @@ class D4PagePortrait extends StatelessWidget {
 
   final double height;
   final double width = 188;
-  final int scale = 5; // TODO cant change
+  final double scale = 4;
 
   bool visible; // TODO use bloc instead
 
@@ -29,37 +27,38 @@ class D4PagePortrait extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(40),
+      padding: EdgeInsets.all(5 * scale),
       child: Center(
         child: Container(
           color: paperColor,
-          height: visible ? height * scale : 40.0 * scale,
+          height: visible ? height * scale : 40 * scale,
           width: width * scale,
           child: CustomPaint(
             painter: visible
                 ? BackgroundPaint(height, width, scale)
-                : BackgroundPaint(40.0, width, scale),
+                : BackgroundPaint(40, width, scale),
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 25),
+                  padding: EdgeInsets.only(top: 5 * scale),
                   child: SizedBox(
-                    height: 75,
+                    height: 15 * scale,
                     width: width * scale,
                     child: Row(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(202, 2, 0, 0),
+                          padding: EdgeInsets.fromLTRB(
+                              40 * scale, 2 * scale, 0 * scale, 0 * scale),
                           child: SizedBox(
-                            height: 73,
-                            width: 523,
+                            height: 15 * scale,
+                            width: 105 * scale,
                             child: Center(
                               child: Text(
                                 title,
-                                style: const TextStyle(
+                                style: TextStyle(
                                     // TODO other font
                                     color: Colors.black,
-                                    fontSize: 50,
+                                    fontSize: 10 * scale,
                                     fontWeight: FontWeight.bold,
                                     decoration: TextDecoration.underline),
                               ),
@@ -67,17 +66,18 @@ class D4PagePortrait extends StatelessWidget {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(52, 2, 0, 50),
+                          padding: EdgeInsets.fromLTRB(
+                              10 * scale, 0 * scale, 0 * scale, 10 * scale),
                           child: SizedBox(
-                            height: 23,
-                            width: 148,
+                            height: 5 * scale,
+                            width: 30 * scale,
                             child: Center(
                               child: Text(
                                 date,
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: 20,
-                                    letterSpacing: 8.25),
+                                    fontSize: 4 * scale,
+                                    letterSpacing: 1.5 * scale),
                               ),
                             ),
                           ),
@@ -88,10 +88,13 @@ class D4PagePortrait extends StatelessWidget {
                 ),
                 Visibility(
                   visible: visible,
-                  child: const Expanded(
+                  child: Expanded(
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(52, 27, 40, 50),
-                      child: D4PageContentLayout(),
+                      padding: EdgeInsets.fromLTRB(
+                          5 * scale, 0 * scale, 1.5 * scale, 2 * scale),
+                      child: D4PageContentLayout(
+                        scale: scale,
+                      ),
                     ),
                   ),
                 ),
@@ -102,11 +105,11 @@ class D4PagePortrait extends StatelessWidget {
                       onPressed: () {
                         visible = !visible;
                       },
-                      child: const Text(
+                      child: Text(
                         "...",
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: 50,
+                            fontSize: 8 * scale,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -124,34 +127,28 @@ class D4PagePortrait extends StatelessWidget {
 class BackgroundPaint extends CustomPainter {
   final double height;
   final double width;
-  final int scale;
+  final double scale;
 
   BackgroundPaint(this.height, this.width, this.scale);
 
   @override
   void paint(Canvas canvas, Size size) {
-    // TODO only works with scale 5
-    final heightScaled = height * scale;
-    final widthScaled = width * scale;
-    final heightLine = heightScaled ~/ (height / scale / ((1 / scale) * scale));
-    final widthLine = widthScaled ~/ (width / scale / ((1 / scale) * scale));
-
     final paint = Paint();
     paint.color = Colors.grey.shade400;
 
-    for (int i = 1; i < heightScaled; i++) {
-      if (i % heightLine == 0) {
+    for (int i = 1; i < height * scale; i++) {
+      if (i % (5 * scale) == 0) {
         Path linePath = Path();
-        linePath.addRect(
-            Rect.fromLTRB(0, i.toDouble(), widthScaled, (i + 2).toDouble()));
+        linePath.addRect(Rect.fromLTRB(0, i.toDouble() - 0.3 * scale,
+            width * scale, i.toDouble() + 0.3 * scale));
         canvas.drawPath(linePath, paint);
       }
     }
-    for (int i = 1; i < widthScaled; i++) {
-      if (i % widthLine == 0) {
+    for (int i = 1; i < width * scale; i++) {
+      if (i % (5 * scale) == 0) {
         Path linePath = Path();
-        linePath.addRect(
-            Rect.fromLTRB(i.toDouble(), 0, (i + 2).toDouble(), heightScaled));
+        linePath.addRect(Rect.fromLTRB(i.toDouble() - 0.3 * scale, 0,
+            i.toDouble() + 0.3 * scale, height * scale));
         canvas.drawPath(linePath, paint);
       }
     }
@@ -160,12 +157,14 @@ class BackgroundPaint extends CustomPainter {
 
     // Heading space
     Path linePath = Path();
-    linePath.addRect(const Rect.fromLTRB(202, 27, 725, 100));
+    linePath
+        .addRect(Rect.fromLTRB(40 * scale, 5 * scale, 145 * scale, 20 * scale));
     canvas.drawPath(linePath, paint);
 
     // Date space
     linePath = Path();
-    linePath.addRect(const Rect.fromLTRB(777, 27, 925, 50));
+    linePath.addRect(
+        Rect.fromLTRB(155 * scale, 5 * scale, 185 * scale, 10 * scale));
     canvas.drawPath(linePath, paint);
   }
 

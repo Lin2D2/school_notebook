@@ -5,7 +5,8 @@ import '../types/d4_page.dart';
 import 'custom_draggable.dart';
 
 class D4PageContentLayout extends StatefulWidget {
-  const D4PageContentLayout({Key? key}) : super(key: key);
+  final double scale;
+  const D4PageContentLayout({Key? key, required this.scale}) : super(key: key);
 
   @override
   State<D4PageContentLayout> createState() => _D4PageContentLayoutState();
@@ -25,7 +26,7 @@ class _D4PageContentLayoutState extends State<D4PageContentLayout> {
           ThemeData(
             textTheme: Theme.of(context)
                 .textTheme
-                .apply(bodyColor: Colors.black, displayColor: Colors.black),
+                .apply(bodyColor: Colors.black, displayColor: Colors.black, fontSizeFactor: 0.2*widget.scale),
           ),
         ),
         data: "# Test Data \n # H1 \n ## H2 \n ### H3 \n test, test",
@@ -42,10 +43,10 @@ class _D4PageContentLayoutState extends State<D4PageContentLayout> {
         (index) => CustomDraggable(
           child: getChild(context),
           // TODO Determint by content
-          left: content[index].left * 25,
-          top: content[index].top * 25,
-          width: content[index].width * 25 - 2,
-          height: content[index].height * 25 - 2,
+          left: content[index].left * (5*widget.scale) + 0.25*widget.scale,
+          top: content[index].top * (5*widget.scale) + 0.25*widget.scale,
+          width: content[index].width * (5*widget.scale) - 0.5*widget.scale,
+          height: content[index].height * (5*widget.scale) - 0.5*widget.scale,
         ),
       ),
     );

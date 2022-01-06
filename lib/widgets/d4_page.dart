@@ -4,15 +4,12 @@ import 'd4_page_content_layout.dart';
 
 Color paperColor = Colors.grey.shade200;
 
-class D4PagePortrait extends StatelessWidget {
+class D4PagePortrait extends StatefulWidget {
   final String title;
   final String date;
   final Widget child;
 
   final double height;
-  final double width = 188;
-  final double scale = 4;
-
   bool visible; // TODO use bloc instead
 
   D4PagePortrait(
@@ -25,17 +22,26 @@ class D4PagePortrait extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<D4PagePortrait> createState() => _D4PagePortraitState();
+}
+
+class _D4PagePortraitState extends State<D4PagePortrait> {
+  final double width = 188;
+
+  final double scale = 4;
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(5 * scale),
       child: Center(
         child: Container(
           color: paperColor,
-          height: visible ? height * scale : 40 * scale,
+          height: widget.visible ? widget.height * scale : 40 * scale,
           width: width * scale,
           child: CustomPaint(
-            painter: visible
-                ? BackgroundPaint(height, width, scale)
+            painter: widget.visible
+                ? BackgroundPaint(widget.height, width, scale)
                 : BackgroundPaint(40, width, scale),
             child: Column(
               children: [
@@ -54,7 +60,7 @@ class D4PagePortrait extends StatelessWidget {
                             width: 105 * scale,
                             child: Center(
                               child: Text(
-                                title,
+                                widget.title,
                                 style: TextStyle(
                                     // TODO other font
                                     color: Colors.black,
@@ -73,7 +79,7 @@ class D4PagePortrait extends StatelessWidget {
                             width: 30 * scale,
                             child: Center(
                               child: Text(
-                                date,
+                                widget.date,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 4 * scale,
@@ -87,7 +93,7 @@ class D4PagePortrait extends StatelessWidget {
                   ),
                 ),
                 Visibility(
-                  visible: visible,
+                  visible: widget.visible,
                   child: Expanded(
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(
@@ -99,11 +105,13 @@ class D4PagePortrait extends StatelessWidget {
                   ),
                 ),
                 Visibility(
-                  visible: !visible,
+                  visible: !widget.visible,
                   child: Center(
                     child: TextButton(
                       onPressed: () {
-                        visible = !visible;
+                        setState(() {
+                          widget.visible = !widget.visible;
+                        });
                       },
                       child: Text(
                         "...",

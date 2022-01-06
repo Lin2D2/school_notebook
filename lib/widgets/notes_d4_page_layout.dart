@@ -51,17 +51,15 @@ class _NotesD4PageLayoutState extends State<NotesD4PageLayout>
                         style: NotesD4PageLayout.textStyle,
                       ),
                     ),
-                    SingleChildScrollView(
-                      // physics: NeverScrollableScrollPhysics(),
-                      child: D4PagePortrait(
+                    D4PagePortrait(
                         title: "Test Blatt 2",
                         date: "25.12.21",
+                        visible: false,
                         child: const Text(
                           "2",
                           style: NotesD4PageLayout.textStyle,
                         ),
                       ),
-                    ),
                     D4PagePortrait(
                       title: "Test Blatt 3",
                       date: "25.12.21",

@@ -13,6 +13,7 @@ class CustomDraggable extends StatefulWidget {
   double top;
   final double height;
   final double width;
+  final double scale;
 
   CustomDraggable({
     Key? key,
@@ -22,6 +23,7 @@ class CustomDraggable extends StatefulWidget {
     required this.width,
     required this.left,
     required this.top,
+    required this.scale,
     // required this.contentID,
   }) : super(key: key);
 
@@ -58,8 +60,8 @@ class _CustomDraggableState extends State<CustomDraggable> {
         moveResize = false;
         // TODO check bounds of other children
         if (true) {
-          widget.left = (leftTmp ~/ 25) * 25;
-          widget.top = (topTmp ~/ 25) * 25;
+          widget.left = (leftTmp ~/ (5 * widget.scale)) * (5 * widget.scale) + 0.25*widget.scale;
+          widget.top = (topTmp ~/ (5 * widget.scale)) * (5 * widget.scale) + 0.25*widget.scale;
         }
       });
     }

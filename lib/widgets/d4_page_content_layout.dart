@@ -47,6 +47,7 @@ class _D4PageContentLayoutState extends State<D4PageContentLayout> {
           top: content[index].top * (5*widget.scale) + 0.25*widget.scale,
           width: content[index].width * (5*widget.scale) - 0.5*widget.scale,
           height: content[index].height * (5*widget.scale) - 0.5*widget.scale,
+          scale: widget.scale,
         ),
       ),
     );

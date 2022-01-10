@@ -45,7 +45,6 @@ class _NotesD4PageLayoutState extends State<NotesD4PageLayout>
                     D4PagePortrait(
                       title: "Test Blatt 1",
                       date: "25.12.21",
-                      visible: true,
                       child: const Text(
                         "1",
                         style: NotesD4PageLayout.textStyle,
@@ -54,7 +53,6 @@ class _NotesD4PageLayoutState extends State<NotesD4PageLayout>
                     D4PagePortrait(
                         title: "Test Blatt 2",
                         date: "25.12.21",
-                        visible: false,
                         child: const Text(
                           "2",
                           style: NotesD4PageLayout.textStyle,
@@ -63,7 +61,6 @@ class _NotesD4PageLayoutState extends State<NotesD4PageLayout>
                     D4PagePortrait(
                       title: "Test Blatt 3",
                       date: "25.12.21",
-                      visible: false,
                       child: const Text(
                         "3",
                         style: NotesD4PageLayout.textStyle,
@@ -72,7 +69,6 @@ class _NotesD4PageLayoutState extends State<NotesD4PageLayout>
                     D4PagePortrait(
                       title: "Test Blatt 4",
                       date: "25.12.21",
-                      visible: false,
                       child: const Text(
                         "4",
                         style: NotesD4PageLayout.textStyle,

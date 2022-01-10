@@ -10,15 +10,13 @@ class D4PagePortrait extends StatefulWidget {
   final Widget child;
 
   final double height;
-  bool visible; // TODO use bloc instead
 
   D4PagePortrait(
       {Key? key,
       required this.child,
       required this.title,
       required this.date,
-      this.height = 260,
-      this.visible = true}) // Note min Value 40
+      this.height = 260}) // Note min Value 40
       : super(key: key);
 
   @override
@@ -37,12 +35,10 @@ class _D4PagePortraitState extends State<D4PagePortrait> {
       child: Center(
         child: Container(
           color: paperColor,
-          height: widget.visible ? widget.height * scale : 40 * scale,
+          height: widget.height * scale,
           width: width * scale,
           child: CustomPaint(
-            painter: widget.visible
-                ? BackgroundPaint(widget.height, width, scale)
-                : BackgroundPaint(40, width, scale),
+            painter: BackgroundPaint(widget.height, width, scale),
             child: Column(
               children: [
                 Padding(
@@ -92,34 +88,12 @@ class _D4PagePortraitState extends State<D4PagePortrait> {
                     ),
                   ),
                 ),
-                Visibility(
-                  visible: widget.visible,
-                  child: Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(
-                          5 * scale, 0 * scale, 1.5 * scale, 2 * scale),
-                      child: D4PageContentLayout(
-                        scale: scale,
-                      ),
-                    ),
-                  ),
-                ),
-                Visibility(
-                  visible: !widget.visible,
-                  child: Center(
-                    child: TextButton(
-                      onPressed: () {
-                        setState(() {
-                          widget.visible = !widget.visible;
-                        });
-                      },
-                      child: Text(
-                        "...",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 8 * scale,
-                            fontWeight: FontWeight.bold),
-                      ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(
+                        5 * scale, 0 * scale, 1.5 * scale, 2 * scale),
+                    child: D4PageContentLayout(
+                      scale: scale,
                     ),
                   ),
                 ),

@@ -21,29 +21,58 @@ class FolderPageLayout extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<FolderType>? data = snapshot.data;
+            int length = 0;
+            if (data?.length != null) {
+              length = data!.length + 1;
+            }
             return GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount( // TODO better with dynamic cross Axis count and dynamic size of folder
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                // TODO better with dynamic cross Axis count and dynamic size of folder
                 crossAxisCount: width ~/ 400,
                 crossAxisSpacing: 0,
                 mainAxisSpacing: 0,
                 childAspectRatio: 188 / 260,
               ),
-              itemCount: data?.length,
+              itemCount: length,
               itemBuilder: (context, index) {
-                return Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      15, 15, (index + 1) % (width ~/ 400) == 0 ? 15 : 0, 0),
-                  child: FolderElement(
-                    index: index,
-                    folder: data![index],
-                  ),
-                );
+                if (index == length - 1) {
+                  return Padding(
+                    padding: EdgeInsets.fromLTRB(
+                        15, 15, (index + 1) % (width ~/ 400) == 0 ? 15 : 0, 0),
+                    child: Container(
+                      color: Colors.white,
+                      child: IconButton(
+                        onPressed: () {
+                          // TODO add item to database
+
+                        },
+                        constraints: const BoxConstraints.expand(),
+                        icon: const Icon(
+                          Icons.add_circle_outline,
+                          color: Colors.black,
+                          size: 60,
+                        ),
+                      ),
+                    ),
+                  );
+                } else {
+                  return Padding(
+                    padding: EdgeInsets.fromLTRB(
+                        15, 15, (index + 1) % (width ~/ 400) == 0 ? 15 : 0, 0),
+                    child: FolderElement(
+                      index: index,
+                      folder: data![index],
+                    ),
+                  );
+                }
               },
             );
           } else {
             if (snapshot.hasError) {
               print(snapshot.error);
-              return const Center(child: Text("Error"),);
+              return const Center(
+                child: Text("Error"),
+              );
             } else {
               return const Center(
                 child: CircularProgressIndicator(),

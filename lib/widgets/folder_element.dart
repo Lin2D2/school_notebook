@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:school_notebook/blocs/navigator_bloc.dart';
 import 'package:school_notebook/services/navigator_service.dart';
 
+import '../blocs/data_base_service_bloc.dart';
 import '../types/d4_page.dart';
 
 class FolderElement extends StatefulWidget {
@@ -19,6 +20,7 @@ class FolderElement extends StatefulWidget {
 class _FolderElementState extends State<FolderElement>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
+  bool menuOpen = false;
 
   @override
   void initState() {
@@ -101,6 +103,55 @@ class _FolderElementState extends State<FolderElement>
                 },
               ),
             ),
+            SizedBox(
+                width: size.width,
+                height: size.height,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8, top: 8),
+                      child: IconButton(
+                        icon: const Icon(Icons.menu),
+                        splashRadius: 25,
+                        onPressed: () {
+                          setState(() {
+                            menuOpen = !menuOpen;
+                          });
+                        },
+                      ),
+                    ),
+                    if (menuOpen)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: TextButton(
+                          style: const ButtonStyle(
+                            alignment: Alignment.centerLeft,
+                          ),
+                          onPressed: () {},
+                          child: const Text(
+                            "edit",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    if (menuOpen)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: TextButton(
+                          onPressed: () {
+                            // TODO confirmation
+                            Provider.of<DataBaseServiceBloc>(context, listen: false)
+                                .folderDao.delete(widget.folder);
+                          },
+                          child: const Text(
+                            "remove",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                  ],
+                )),
           ],
         ),
       ),

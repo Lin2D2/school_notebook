@@ -97,7 +97,7 @@ class FolderCreateDialog extends StatelessWidget {
                             .folderDao
                             .insert(
                               FolderType(
-                                id: Random().nextInt(100000),
+                                id: Random().nextInt(100000), // TODO do real indexing
                                 name: folder_name,
                                 color: Colors.red, // TODO get from Form
                                 contentIds: [],

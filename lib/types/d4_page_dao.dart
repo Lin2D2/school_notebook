@@ -23,7 +23,7 @@ class FolderDao {
   }
 
   Future delete(FolderType folder) async {
-    final finder = Finder(filter: Filter.byKey(folder.id));
+    final finder = Finder(filter: Filter.equals("name", folder.name));
     await _folderStore.delete(
       await _db,
       finder: finder,

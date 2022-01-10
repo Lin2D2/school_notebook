@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:school_notebook/blocs/data_base_service_bloc.dart';
 
 import '../types/d4_page.dart';
+import 'folder_create_dialog.dart';
 import 'folder_element.dart';
 
 class FolderPageLayout extends StatelessWidget {
@@ -10,7 +11,7 @@ class FolderPageLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    Size size = MediaQuery.of(context).size;
     Future<List<FolderType>> folder =
         Provider.of<DataBaseServiceBloc>(context, listen: true)
             .folderDao
@@ -28,7 +29,7 @@ class FolderPageLayout extends StatelessWidget {
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 // TODO better with dynamic cross Axis count and dynamic size of folder
-                crossAxisCount: width ~/ 400,
+                crossAxisCount: size.width ~/ 400,
                 crossAxisSpacing: 0,
                 mainAxisSpacing: 0,
                 childAspectRatio: 188 / 260,
@@ -37,14 +38,23 @@ class FolderPageLayout extends StatelessWidget {
               itemBuilder: (context, index) {
                 if (index == length - 1) {
                   return Padding(
-                    padding: EdgeInsets.fromLTRB(
-                        15, 15, (index + 1) % (width ~/ 400) == 0 ? 15 : 0, 0),
+                    padding: EdgeInsets.fromLTRB(15, 15,
+                        (index + 1) % (size.width ~/ 400) == 0 ? 15 : 0, 0),
                     child: Container(
-                      color: Colors.white,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(35),
+                        ),
+                      ),
                       child: IconButton(
                         onPressed: () {
-                          // TODO add item to database
-
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return FolderCreateDialog();
+                            },
+                          );
                         },
                         constraints: const BoxConstraints.expand(),
                         icon: const Icon(
@@ -57,8 +67,8 @@ class FolderPageLayout extends StatelessWidget {
                   );
                 } else {
                   return Padding(
-                    padding: EdgeInsets.fromLTRB(
-                        15, 15, (index + 1) % (width ~/ 400) == 0 ? 15 : 0, 0),
+                    padding: EdgeInsets.fromLTRB(15, 15,
+                        (index + 1) % (size.width ~/ 400) == 0 ? 15 : 0, 0),
                     child: FolderElement(
                       index: index,
                       folder: data![index],
@@ -69,7 +79,6 @@ class FolderPageLayout extends StatelessWidget {
             );
           } else {
             if (snapshot.hasError) {
-              print(snapshot.error);
               return const Center(
                 child: Text("Error"),
               );

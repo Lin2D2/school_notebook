@@ -141,8 +141,12 @@ class _FolderElementState extends State<FolderElement>
                         child: TextButton(
                           onPressed: () {
                             // TODO confirmation
-                            Provider.of<DataBaseServiceBloc>(context, listen: false)
-                                .folderDao.delete(widget.folder);
+                            setState(() {
+                              menuOpen = false;
+                            });
+                            Provider.of<DataBaseServiceBloc>(context,
+                                    listen: false)
+                                .folderDelete(widget.folder);
                           },
                           child: const Text(
                             "remove",

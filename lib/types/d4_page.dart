@@ -6,7 +6,7 @@ class FolderType {
   String name;
   Color color;
 
-  List contentIds; // TODO List<int> but error type 'ImmutableList<dynamic>' is not a subtype of type 'List<int>'
+  List<int> contentIds; // TODO List<int> but error type 'ImmutableList<dynamic>' is not a subtype of type 'List<int>'
 
   FolderType(
       {required this.id,
@@ -34,7 +34,7 @@ class FolderType {
       name: map['name'],
       color: Color.fromRGBO(map['color']["r"], map['color']["g"],
           map['color']["b"], map['color']["o"]),
-      contentIds: map['contentIds'],
+      contentIds: map['contentIds'].cast<int>().toList(),
     );
   }
 }
@@ -46,7 +46,7 @@ class D4PageType {
   String name;
 
   // final TextEditingController titleController = TextEditingController();
-  final TextEditingController nameController;
+  TextEditingController? nameController;
 
   // String date = DateTime.now().day.toString() +
   //     "." +
@@ -54,19 +54,16 @@ class D4PageType {
   //     "." +
   //     DateTime.now().year.toString().substring(2);
   String date;
-  final TextEditingController dateController;
-
-  bool visible;
+  TextEditingController? dateController;
 
   List<int> contentIds;
 
   D4PageType(
       {required this.id,
       required this.name,
-      required this.nameController,
+      this.nameController,
       required this.date,
-      required this.dateController,
-      required this.visible,
+      this.dateController,
       required this.contentIds});
 
   Map<String, dynamic> toMap() {
@@ -74,7 +71,6 @@ class D4PageType {
       'id': id,
       'name': name,
       'date': date,
-      'visible': visible,
       'contentIds': contentIds,
     };
   }
@@ -86,8 +82,7 @@ class D4PageType {
       nameController: TextEditingController(),
       date: map['date'],
       dateController: TextEditingController(),
-      visible: map['visible'],
-      contentIds: map['contentIds'],
+      contentIds: map['contentIds'].cast<int>().toList(),
     );
   }
 }

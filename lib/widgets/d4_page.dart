@@ -1,23 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:school_notebook/types/d4_page.dart';
 
 import 'd4_page_content_layout.dart';
 
 Color paperColor = Colors.grey.shade200;
 
 class D4PagePortrait extends StatefulWidget {
-  final String title;
-  final String date;
-  final Widget child;
+  final D4PageType page;
 
-  final double height;
-
-  D4PagePortrait(
-      {Key? key,
-      required this.child,
-      required this.title,
-      required this.date,
-      this.height = 260}) // Note min Value 40
-      : super(key: key);
+  const D4PagePortrait(this.page, {Key? key,}) : super(key: key);
 
   @override
   State<D4PagePortrait> createState() => _D4PagePortraitState();
@@ -25,8 +16,9 @@ class D4PagePortrait extends StatefulWidget {
 
 class _D4PagePortraitState extends State<D4PagePortrait> {
   final double width = 188;
+  final double height = 260; // NOTE min value 40
 
-  final double scale = 4;
+  final double scale = 4; // TODO make global
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +27,10 @@ class _D4PagePortraitState extends State<D4PagePortrait> {
       child: Center(
         child: Container(
           color: paperColor,
-          height: widget.height * scale,
+          height: height * scale,
           width: width * scale,
           child: CustomPaint(
-            painter: BackgroundPaint(widget.height, width, scale),
+            painter: BackgroundPaint(height, width, scale),
             child: Column(
               children: [
                 Padding(
@@ -56,7 +48,7 @@ class _D4PagePortraitState extends State<D4PagePortrait> {
                             width: 105 * scale,
                             child: Center(
                               child: Text(
-                                widget.title,
+                                widget.page.name,
                                 style: TextStyle(
                                     // TODO other font
                                     color: Colors.black,
@@ -75,7 +67,7 @@ class _D4PagePortraitState extends State<D4PagePortrait> {
                             width: 30 * scale,
                             child: Center(
                               child: Text(
-                                widget.date,
+                                widget.page.date,
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 4 * scale,

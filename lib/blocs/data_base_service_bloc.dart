@@ -26,4 +26,19 @@ class DataBaseServiceBloc extends ChangeNotifier {
     await _folderDao.update(folder);
     notifyListeners();
   }
+
+  void pageInsert(D4PageType page) async {
+    await _pagesDao.insert(page);
+    notifyListeners();
+  }
+
+  void pageDelete(D4PageType page) async {
+    await _pagesDao.delete(page);
+    notifyListeners();
+  }
+
+  void pageUpdate(D4PageType page) async {
+    await _pagesDao.update(page);
+    notifyListeners();
+  }
 }

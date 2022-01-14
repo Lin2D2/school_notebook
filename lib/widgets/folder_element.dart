@@ -42,7 +42,7 @@ class _FolderElementState extends State<FolderElement>
     return GestureDetector(
       onTap: () {
         Provider.of<NavigatorBloc>(context, listen: false).folder =
-            widget.folder.id;
+            widget.folder;
         NavigatorService.goTo(context, "/notes");
       },
       child: MouseRegion(

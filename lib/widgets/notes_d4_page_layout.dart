@@ -23,8 +23,6 @@ class _NotesD4PageLayoutState extends State<NotesD4PageLayout>
     with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    TabController tabController =
-        TabController(length: 4, initialIndex: 1, vsync: this);
     return MouseRegion(
       cursor: Provider.of<MouseCursorState>(context, listen: true).cursorState,
       // TODO not directly but on Hover of specific Elements
@@ -33,7 +31,8 @@ class _NotesD4PageLayoutState extends State<NotesD4PageLayout>
           FolderType? folder =
               Provider.of<NavigatorBloc>(context, listen: true).folder;
           Widget mainContent = Expanded(
-            child: FutureBuilder<List<D4PageType>>( // TODO optimize
+            child: FutureBuilder<List<D4PageType>>(
+              // TODO optimize
               future: Provider.of<DataBaseServiceBloc>(context, listen: true)
                   .pageDao
                   .getByIDs(folder!.contentIds),
@@ -129,9 +128,28 @@ class _NotesD4PageLayoutState extends State<NotesD4PageLayout>
           Widget navigation = SizedBox(
             child: RotatedBox(
               quarterTurns: 1,
-              child: TabPageSelector(
-                // TODO indexing based on page in the middle of the screen
-                controller: tabController,
+              child: FutureBuilder<List<D4PageType>>(
+                // TODO optimize
+                future: Provider.of<DataBaseServiceBloc>(context, listen: true)
+                    .pageDao
+                    .getByIDs(folder.contentIds),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    // NotesD4PageLayout.scrollController.addListener(() {
+                    //   print(NotesD4PageLayout.scrollController.position);
+                    // }); // for debug
+                    TabController tabController = TabController(
+                        length: ((snapshot.data?.length ?? 0) + 1),
+                        initialIndex: 0,
+                        vsync: this);
+                    return TabPageSelector(
+                      // TODO indexing based on page in the middle of the screen
+                      controller: tabController,
+                    );
+                  } else {
+                    return const CircularProgressIndicator();
+                  }
+                },
               ),
             ),
           );

@@ -20,9 +20,6 @@ class CustomPage extends StatefulWidget {
 }
 
 class _CustomPageState extends State<CustomPage> {
-  final double width = 188;
-  final double height = 260; // NOTE min value 40
-
   @override
   Widget build(BuildContext context) {
     double scale =
@@ -32,17 +29,18 @@ class _CustomPageState extends State<CustomPage> {
       child: Center(
         child: Container(
           color: paperColor,
-          height: height * scale,
-          width: width * scale,
+          height: widget.page.height * scale,
+          width: widget.page.width * scale,
           child: CustomPaint(
-            painter: BackgroundPaint(height, width, scale),
+            painter:
+                BackgroundPaint(widget.page.height, widget.page.width, scale),
             child: Column(
               children: [
                 Padding(
                   padding: EdgeInsets.only(top: 5 * scale),
                   child: SizedBox(
                     height: 15 * scale,
-                    width: width * scale,
+                    width: widget.page.width * scale,
                     child: Row(
                       children: [
                         Padding(

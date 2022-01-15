@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-// import 'package:uuid/uuid.dart';
 
 class FolderType {
   int id;
   String name;
   Color color;
 
-  List<int> contentIds; // TODO List<int> but error type 'ImmutableList<dynamic>' is not a subtype of type 'List<int>'
+  List<int> contentIds;
 
   FolderType(
       {required this.id,
@@ -40,21 +39,16 @@ class FolderType {
 }
 
 class D4PageType {
-  // final String id = const Uuid().v1();
   int id;
 
   String name;
-
-  // final TextEditingController titleController = TextEditingController();
   TextEditingController? nameController;
 
-  // String date = DateTime.now().day.toString() +
-  //     "." +
-  //     DateTime.now().month.toString() +
-  //     "." +
-  //     DateTime.now().year.toString().substring(2);
   String date;
   TextEditingController? dateController;
+
+  double height;
+  double width;
 
   List<int> contentIds;
 
@@ -64,6 +58,8 @@ class D4PageType {
       this.nameController,
       required this.date,
       this.dateController,
+      this.height = 260, // NOTE D4 Paper size // IMPORTANT min value 40
+      this.width = 188, // NOTE D4 Paper size
       required this.contentIds});
 
   Map<String, dynamic> toMap() {

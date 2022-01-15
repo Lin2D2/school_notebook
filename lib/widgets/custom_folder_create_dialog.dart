@@ -1,11 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:school_notebook/blocs/data_base_service_bloc.dart';
-import 'package:school_notebook/blocs/navigator_bloc.dart';
 
-import '../types/page_types.dart';
+import '../blocs/data_base_service_bloc.dart';
 
 class CustomFolderCreateDialog extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -20,7 +16,7 @@ class CustomFolderCreateDialog extends StatelessWidget {
     if (size.width < size.height) {
       baseValue = size.width;
     }
-    String folder_name = "Untitled";
+    String folderName = "Untitled";
     return Center(
       child: SizedBox(
         width: (baseValue * 0.75 * 0.75),
@@ -50,7 +46,7 @@ class CustomFolderCreateDialog extends StatelessWidget {
                     },
                     onSaved: (value) {
                       if (value != null) {
-                        folder_name = value;
+                        folderName = value;
                       }
                     },
                   ),
@@ -93,7 +89,7 @@ class CustomFolderCreateDialog extends StatelessWidget {
                       if (_formKey.currentState!.validate()) {
                         _formKey.currentState?.save();
                         Provider.of<DataBaseServiceBloc>(context, listen: false)
-                            .folderInsert(folder_name, Colors.red);
+                            .folderInsert(folderName, Colors.red);
                         Navigator.of(context).pop();
                       }
                     },

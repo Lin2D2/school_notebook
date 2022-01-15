@@ -70,9 +70,7 @@ class _CustomPageLayoutState extends State<CustomPageLayout>
                       minScale: 0.9,
                       maxScale: 9,
                       scaleEnabled: true,
-                      // TODO only infinite in x Axis but not y
                       child: ListView.builder(
-                        // TODO listView.builder from database
                         primary: false,
                         physics: const NeverScrollableScrollPhysics(),
                         controller: CustomPageLayout.scrollController,

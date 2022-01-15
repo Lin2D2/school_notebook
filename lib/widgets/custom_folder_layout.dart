@@ -28,7 +28,6 @@ class CustomFolderLayout extends StatelessWidget {
             }
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                // TODO better with dynamic cross Axis count and dynamic size of folder
                 crossAxisCount: size.width ~/ 400,
                 crossAxisSpacing: 0,
                 mainAxisSpacing: 0,

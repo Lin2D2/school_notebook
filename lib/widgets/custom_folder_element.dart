@@ -141,7 +141,7 @@ class _CustomFolderElementState extends State<CustomFolderElement>
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: TextButton(
                           onPressed: () {
-                            // TODO confirmation
+                            // TODO confirmation dialog
                             setState(() {
                               menuOpen = false;
                             });

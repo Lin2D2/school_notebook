@@ -91,7 +91,6 @@ class CustomFolderCreateDialog extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        // TODO add item to database
                         _formKey.currentState?.save();
                         Provider.of<DataBaseServiceBloc>(context, listen: false)
                             .folderInsert(folder_name, Colors.red);

@@ -13,21 +13,27 @@ class FolderDao {
     await _folderStore.add(await _db, folder.toMap());
   }
 
-  Future update(FolderType folder) async {
+  Future<int> update(FolderType folder) async {
     final finder = Finder(filter: Filter.equals("id", folder.id));
-    await _folderStore.update(
+    int value = await _folderStore.update(
       await _db,
       folder.toMap(),
       finder: finder,
     );
+    return value;
   }
 
-  Future delete(FolderType folder) async {
+  Future<int> delete(FolderType folder) async {
     final finder = Finder(filter: Filter.equals("name", folder.name));
-    await _folderStore.delete(
+    int value = await _folderStore.delete(
       await _db,
       finder: finder,
     );
+    int valueContent = 0;
+    if (folder.contentIds.isNotEmpty) {
+      valueContent = await D4PageDao().deleteByIDs(folder.contentIds);
+    }
+    return value + valueContent; // TODO maybe better solution
   }
 
   Future<List<FolderType>> getAllSortedByName() async {
@@ -58,24 +64,6 @@ class FolderDao {
       return folder;
     }).toList()[0];
   }
-
-  // Future<String> getNameByID(int id) async {
-  //   final finder = Finder(
-  //       filter: Filter.equals("id", id), sortOrders: [SortOrder('name')]);
-  //
-  //   final recordSnapshots = await _folderStore.find(
-  //     await _db,
-  //     finder: finder,
-  //   );
-  //
-  //   return recordSnapshots
-  //       .map((snapshot) {
-  //         final folder = FolderType.fromMap(snapshot.value);
-  //         return folder;
-  //       })
-  //       .toList()[0]
-  //       .name;
-  // }
 }
 
 class D4PageDao {
@@ -104,7 +92,30 @@ class D4PageDao {
       await _db,
       finder: finder,
     );
-    return value;
+    int valueContent = 0;
+    if(d4Page.contentIds.isNotEmpty) {
+      valueContent = await ContentElementDao().deleteByIDs(d4Page.contentIds);
+    }
+    return value + valueContent; // TODO maybe better solution
+  }
+
+  Future<int> deleteByIDs(List<int> ids) async {
+    List<D4PageType> pages = await getByIDs(ids);
+    List<int> pagesContentIDs = [];
+    for (D4PageType page in pages) {
+      pagesContentIDs.addAll(page.contentIds);
+    }
+    int valueContent = 0;
+    if (pagesContentIDs.isNotEmpty) {
+      valueContent = await ContentElementDao().deleteByIDs(pagesContentIDs);
+    }
+
+    final finder = Finder(filter: Filter.inList("id", ids));
+    int value = await _d4PageStore.delete(
+      await _db,
+      finder: finder,
+    );
+    return value + valueContent; // TODO maybe better solution
   }
 
   Future<List<D4PageType>> getAllSortedByName() async {
@@ -163,6 +174,17 @@ class ContentElementDao {
       await _db,
       finder: finder,
     );
+    // TODO delete children
+  }
+
+  Future<int> deleteByIDs(List<int> ids) async {
+    final finder = Finder(filter: Filter.inList("id", ids));
+    int value = await _contentElementStore.delete(
+      await _db,
+      finder: finder,
+    );
+    return value;
+    // TODO delete children
   }
 
   Future<List<ContentElement>> getAllSortedByName() async {

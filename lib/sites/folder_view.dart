@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:school_notebook/blocs/data_base_service_bloc.dart';
 
+import '../types/page_types.dart';
 import '../widgets/custom_folder_layout.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_drawer.dart';
@@ -17,10 +19,13 @@ class FolderView extends StatelessWidget {
           appBar: CustomAppBar(title: Future(() => "Folder")),
           drawer: const CustomDrawer(),
           persistentFooterButtons: [],
-          floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.refresh),
+          floatingActionButton: FloatingActionButton( // TODO only here for debugging
+            child: const Icon(Icons.delete),
             onPressed: () async {
-              print("refresh");
+              print("deleted: ");
+              print(
+                  await Provider.of<DataBaseServiceBloc>(context, listen: false)
+                      .purgeDatabase()); // TODO only here for debugging
             },
           ),
           body: const CustomFolderLayout(),

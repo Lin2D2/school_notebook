@@ -10,7 +10,8 @@ class CustomFolderElement extends StatefulWidget {
   final int index;
   final FolderType folder;
 
-  const CustomFolderElement({Key? key, required this.index, required this.folder})
+  const CustomFolderElement(
+      {Key? key, required this.index, required this.folder})
       : super(key: key);
 
   @override
@@ -144,9 +145,10 @@ class _CustomFolderElementState extends State<CustomFolderElement>
                             setState(() {
                               menuOpen = false;
                             });
-                            Provider.of<DataBaseServiceBloc>(context,
-                                    listen: false)
-                                .folderDelete(widget.folder);
+                            DataBaseServiceBloc database =
+                                Provider.of<DataBaseServiceBloc>(context,
+                                    listen: false);
+                            database.folderDelete(widget.folder);
                           },
                           child: const Text(
                             "remove",

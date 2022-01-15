@@ -9,8 +9,22 @@ class DataBaseServiceBloc extends ChangeNotifier {
   static final ContentElementDao _elementsDao = ContentElementDao();
 
   FolderDao get folderDao => _folderDao;
+
   D4PageDao get pageDao => _pagesDao;
+
   ContentElementDao get elementsDao => _elementsDao;
+
+  Future<int> purgeDatabase() async {
+    int value = 0;
+    for (var folder in await _folderDao.getAllSortedByName()) {
+      value = value + await _folderDao.delete(folder);
+    }
+    List<FolderType> folders = await _folderDao.getAllSortedByName();
+    List<D4PageType> pages = await _pagesDao.getAllSortedByName();
+    List<ContentElement> elements = await _elementsDao.getAllSortedByName();
+    notifyListeners();
+    return value;
+  }
 
   void folderInsert(FolderType folder) async {
     await _folderDao.insert(folder);

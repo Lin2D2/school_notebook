@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
-import '../types/d4_page.dart';
+import '../types/page_types.dart';
 import 'custom_draggable.dart';
 
-class D4PageContentLayout extends StatefulWidget {
+class CustomPageContentLayout extends StatefulWidget {
   final double scale;
-  const D4PageContentLayout({Key? key, required this.scale}) : super(key: key);
+  const CustomPageContentLayout({Key? key, required this.scale}) : super(key: key);
 
   @override
-  State<D4PageContentLayout> createState() => _D4PageContentLayoutState();
+  State<CustomPageContentLayout> createState() => _CustomPageContentLayoutState();
 }
 
-class _D4PageContentLayoutState extends State<D4PageContentLayout> {
+class _CustomPageContentLayoutState extends State<CustomPageContentLayout> {
   List<ContentElement> content = [
     ContentElement(id: 1, left: 0, top: 0, width: 5, height: 10, contentId: 11),
     ContentElement(id: 2, left: 5, top: 0, width: 5, height: 10, contentId: 21),

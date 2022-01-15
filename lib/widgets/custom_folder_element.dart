@@ -4,20 +4,20 @@ import 'package:school_notebook/blocs/navigator_bloc.dart';
 import 'package:school_notebook/services/navigator_service.dart';
 
 import '../blocs/data_base_service_bloc.dart';
-import '../types/d4_page.dart';
+import '../types/page_types.dart';
 
-class FolderElement extends StatefulWidget {
+class CustomFolderElement extends StatefulWidget {
   final int index;
   final FolderType folder;
 
-  const FolderElement({Key? key, required this.index, required this.folder})
+  const CustomFolderElement({Key? key, required this.index, required this.folder})
       : super(key: key);
 
   @override
-  _FolderElementState createState() => _FolderElementState();
+  _CustomFolderElementState createState() => _CustomFolderElementState();
 }
 
-class _FolderElementState extends State<FolderElement>
+class _CustomFolderElementState extends State<CustomFolderElement>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   bool menuOpen = false;

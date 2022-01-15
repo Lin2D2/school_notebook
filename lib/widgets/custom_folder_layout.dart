@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../blocs/data_base_service_bloc.dart';
-import '../types/d4_page.dart';
-import 'folder_create_dialog.dart';
-import 'folder_element.dart';
+import '../types/page_types.dart';
+import 'custom_folder_create_dialog.dart';
+import 'custom_folder_element.dart';
 
-class FolderPageLayout extends StatelessWidget {
-  const FolderPageLayout({Key? key}) : super(key: key);
+class CustomFolderLayout extends StatelessWidget {
+  const CustomFolderLayout({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class FolderPageLayout extends StatelessWidget {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return FolderCreateDialog();
+                              return CustomFolderCreateDialog();
                             },
                           );
                         },
@@ -69,7 +69,7 @@ class FolderPageLayout extends StatelessWidget {
                   return Padding(
                     padding: EdgeInsets.fromLTRB(15, 15,
                         (index + 1) % (size.width ~/ 400) == 0 ? 15 : 0, 0),
-                    child: FolderElement(
+                    child: CustomFolderElement(
                       index: index,
                       folder: data![index],
                     ),

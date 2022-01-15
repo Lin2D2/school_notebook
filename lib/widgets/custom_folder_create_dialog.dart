@@ -5,12 +5,12 @@ import 'package:provider/provider.dart';
 import 'package:school_notebook/blocs/data_base_service_bloc.dart';
 import 'package:school_notebook/blocs/navigator_bloc.dart';
 
-import '../types/d4_page.dart';
+import '../types/page_types.dart';
 
-class FolderCreateDialog extends StatelessWidget {
+class CustomFolderCreateDialog extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  FolderCreateDialog({Key? key}) : super(key: key);
+  CustomFolderCreateDialog({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

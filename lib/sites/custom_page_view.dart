@@ -4,15 +4,15 @@ import 'package:provider/provider.dart';
 import '../blocs/data_base_service_bloc.dart';
 import '../blocs/navigator_bloc.dart';
 import '../blocs/notes_edit_state_bloc.dart';
-import '../types/d4_page.dart';
+import '../types/page_types.dart';
 import '../widgets/custom_action_button_column.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_drawer.dart';
-import '../widgets/drawer_side_rail.dart';
-import '../widgets/notes_d4_page_layout.dart';
+import '../widgets/custom_drawer_side_rail.dart';
+import '../widgets/custom_page_layout.dart';
 
-class Notes extends StatelessWidget {
-  const Notes({Key? key}) : super(key: key);
+class CustomPageView extends StatelessWidget {
+  const CustomPageView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +23,13 @@ class Notes extends StatelessWidget {
         ChangeNotifierProvider<NotesEditState>(create: (_) => NotesEditState()),
       ],
       child: SafeArea(
-        child: DrawerSideRail(
+        child: CustomDrawerSideRail(
           child: Scaffold(
             appBar: CustomAppBar(title: Future(() => folder!.name)),
             drawer: const CustomDrawer(),
             persistentFooterButtons: [],
             floatingActionButton: const CustomActionButtonColumn(),
-            body: const NotesD4PageLayout(),
+            body: const CustomPageLayout(),
           ),
         ),
       ),

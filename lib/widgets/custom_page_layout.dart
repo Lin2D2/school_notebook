@@ -5,21 +5,21 @@ import 'package:provider/provider.dart';
 
 import '../blocs/data_base_service_bloc.dart';
 import '../blocs/navigator_bloc.dart';
-import '../types/d4_page.dart';
+import '../types/page_types.dart';
 import '../blocs/mouse_cursor_state_bloc.dart';
-import '../widgets/d4_page.dart';
+import '../widgets/custom_page.dart';
 
-class NotesD4PageLayout extends StatefulWidget {
-  const NotesD4PageLayout({Key? key}) : super(key: key);
+class CustomPageLayout extends StatefulWidget {
+  const CustomPageLayout({Key? key}) : super(key: key);
   static const TextStyle textStyle =
       TextStyle(color: Colors.black, fontSize: 50, fontWeight: FontWeight.bold);
   static final ScrollController scrollController = ScrollController();
 
   @override
-  State<NotesD4PageLayout> createState() => _NotesD4PageLayoutState();
+  State<CustomPageLayout> createState() => _CustomPageLayoutState();
 }
 
-class _NotesD4PageLayoutState extends State<NotesD4PageLayout>
+class _CustomPageLayoutState extends State<CustomPageLayout>
     with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class _NotesD4PageLayoutState extends State<NotesD4PageLayout>
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Scrollbar(
-                    controller: NotesD4PageLayout.scrollController,
+                    controller: CustomPageLayout.scrollController,
                     isAlwaysShown: false,
                     interactive: false,
                     // TODO combine scrolling for Viewer and ListView
@@ -52,7 +52,7 @@ class _NotesD4PageLayoutState extends State<NotesD4PageLayout>
                         // TODO listView.builder from database
                         primary: false,
                         physics: const NeverScrollableScrollPhysics(),
-                        controller: NotesD4PageLayout.scrollController,
+                        controller: CustomPageLayout.scrollController,
                         itemCount: ((snapshot.data?.length ?? 0) + 1),
                         itemBuilder: (BuildContext context, int index) {
                           if (index + 1 == ((snapshot.data?.length ?? 0) + 1)) {
@@ -111,7 +111,7 @@ class _NotesD4PageLayoutState extends State<NotesD4PageLayout>
                               ),
                             );
                           } else {
-                            return D4PagePortrait(snapshot.data![index]);
+                            return CustomPage(snapshot.data![index]);
                           }
                         },
                       ),

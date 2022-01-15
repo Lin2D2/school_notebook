@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:school_notebook/types/d4_page.dart';
+import 'package:school_notebook/types/page_types.dart';
 
-import '../types/d4_page_dao.dart';
+import '../types/page_types_dao.dart';
 
 class DataBaseServiceBloc extends ChangeNotifier {
   static final FolderDao _folderDao = FolderDao();

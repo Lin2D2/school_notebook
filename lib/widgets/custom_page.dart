@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:school_notebook/types/d4_page.dart';
+import 'package:school_notebook/types/page_types.dart';
 
-import 'd4_page_content_layout.dart';
+import 'custom_page_content_layout.dart';
 
 Color paperColor = Colors.grey.shade200;
 
-class D4PagePortrait extends StatefulWidget {
+class CustomPage extends StatefulWidget {
   final D4PageType page;
 
-  const D4PagePortrait(this.page, {Key? key,}) : super(key: key);
+  const CustomPage(this.page, {Key? key,}) : super(key: key);
 
   @override
-  State<D4PagePortrait> createState() => _D4PagePortraitState();
+  State<CustomPage> createState() => _CustomPageState();
 }
 
-class _D4PagePortraitState extends State<D4PagePortrait> {
+class _CustomPageState extends State<CustomPage> {
   final double width = 188;
   final double height = 260; // NOTE min value 40
 
@@ -84,7 +84,7 @@ class _D4PagePortraitState extends State<D4PagePortrait> {
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(
                         5 * scale, 0 * scale, 1.5 * scale, 2 * scale),
-                    child: D4PageContentLayout(
+                    child: CustomPageContentLayout(
                       scale: scale,
                     ),
                   ),

@@ -6,19 +6,10 @@ import 'blocs/data_base_service_bloc.dart';
 import 'blocs/mouse_cursor_state_bloc.dart';
 import 'blocs/navigator_bloc.dart';
 import 'sites/dashboard.dart';
-import 'sites/notes.dart';
-import 'sites/folder.dart';
+import 'sites/custom_page_view.dart';
+import 'sites/folder_view.dart';
 
-void main() {
-  // if (Platform.isWindows || Platform.isLinux) {
-  //   // Initialize FFI
-  //   sqfliteFfiInit();
-  //   // Change the default factory
-  //   databaseFactory = databaseFactoryFfi;
-  // }
-
-  runApp(const App());
-}
+void main() => runApp(const App());
 
 class App extends StatelessWidget {
   static const String _title = "School Notebook";
@@ -45,7 +36,8 @@ class App extends StatelessWidget {
         ),
         theme: ThemeData(
           colorScheme: const ColorScheme.light(),
-          textTheme: TextTheme().apply(bodyColor: Colors.black, displayColor: Colors.black),
+          textTheme: const TextTheme()
+              .apply(bodyColor: Colors.black, displayColor: Colors.black),
         ),
         initialRoute: "/dashboard",
         onGenerateRoute: (route) {
@@ -58,13 +50,13 @@ class App extends StatelessWidget {
               );
             case '/notes':
               return PageTransition(
-                child: const Notes(),
+                child: const CustomPageView(),
                 type: PageTransitionType.fade,
                 settings: route,
               );
             case '/folder':
               return PageTransition(
-                child: const Folder(),
+                child: const FolderView(),
                 type: PageTransitionType.fade,
                 settings: route,
               );

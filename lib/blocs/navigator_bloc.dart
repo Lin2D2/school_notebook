@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../types/d4_page.dart';
+import '../types/page_types.dart';
 
 
 class NavigatorBloc extends ChangeNotifier {

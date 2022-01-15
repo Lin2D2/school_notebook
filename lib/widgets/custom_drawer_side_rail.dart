@@ -4,10 +4,10 @@ import 'package:provider/provider.dart';
 import '../blocs/navigator_bloc.dart';
 import 'custom_drawer.dart';
 
-class DrawerSideRail extends StatelessWidget {
+class CustomDrawerSideRail extends StatelessWidget {
   final Widget child;
 
-  const DrawerSideRail({Key? key, required this.child}) : super(key: key);
+  const CustomDrawerSideRail({Key? key, required this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

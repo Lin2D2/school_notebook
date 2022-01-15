@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:school_notebook/types/page_types.dart';
+import 'package:provider/provider.dart';
 
+import '../types/page_types.dart';
+import '../blocs/notes_edit_state_bloc.dart';
 import 'custom_page_content_layout.dart';
 
 Color paperColor = Colors.grey.shade200;
@@ -8,7 +10,10 @@ Color paperColor = Colors.grey.shade200;
 class CustomPage extends StatefulWidget {
   final D4PageType page;
 
-  const CustomPage(this.page, {Key? key,}) : super(key: key);
+  const CustomPage(
+    this.page, {
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<CustomPage> createState() => _CustomPageState();
@@ -18,10 +23,10 @@ class _CustomPageState extends State<CustomPage> {
   final double width = 188;
   final double height = 260; // NOTE min value 40
 
-  final double scale = 4; // TODO make global
-
   @override
   Widget build(BuildContext context) {
+    double scale =
+        Provider.of<NotesEditState>(context, listen: true).viewPortScale;
     return Padding(
       padding: EdgeInsets.all(5 * scale),
       child: Center(
@@ -84,9 +89,7 @@ class _CustomPageState extends State<CustomPage> {
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(
                         5 * scale, 0 * scale, 1.5 * scale, 2 * scale),
-                    child: CustomPageContentLayout(
-                      scale: scale,
-                    ),
+                    child: const CustomPageContentLayout(),
                   ),
                 ),
               ],

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../blocs/data_base_service_bloc.dart';
 import '../blocs/navigator_bloc.dart';
 import '../blocs/notes_edit_state_bloc.dart';
 import '../types/page_types.dart';

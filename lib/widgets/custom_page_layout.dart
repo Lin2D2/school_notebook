@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../blocs/notes_edit_state_bloc.dart';
 import '../blocs/data_base_service_bloc.dart';
 import '../blocs/navigator_bloc.dart';
 import '../types/page_types.dart';
@@ -27,13 +28,11 @@ class _CustomPageLayoutState extends State<CustomPageLayout>
   @override
   void initState() {
     super.initState();
-    tabController = TabController(
-        length: 1,
-        initialIndex: pageIndex,
-        vsync: this);
+    tabController =
+        TabController(length: 1, initialIndex: pageIndex, vsync: this);
     CustomPageLayout.scrollController.addListener(() {
       double pixels = CustomPageLayout.scrollController.position.pixels;
-      int newPageIndex = (pixels/4 != 0 ? pixels/4 : 1) ~/ (260 + 10);
+      int newPageIndex = (pixels / 4 != 0 ? pixels / 4 : 1) ~/ (260 + 10);
       if (newPageIndex != tabController?.index && mounted) {
         setState(() {
           pageIndex = newPageIndex;
@@ -80,7 +79,9 @@ class _CustomPageLayoutState extends State<CustomPageLayout>
                         itemCount: ((snapshot.data?.length ?? 0) + 1),
                         itemBuilder: (BuildContext context, int index) {
                           if (index + 1 == ((snapshot.data?.length ?? 0) + 1)) {
-                            double scale = 4; // TODO make global
+                            double scale = Provider.of<NotesEditState>(context,
+                                    listen: true)
+                                .viewPortScale;
                             return Padding(
                               padding: EdgeInsets.all(5 * scale),
                               child: Center(
@@ -164,7 +165,6 @@ class _CustomPageLayoutState extends State<CustomPageLayout>
                         initialIndex: pageIndex,
                         vsync: this);
                     return TabPageSelector(
-                      // TODO indexing based on page in the middle of the screen
                       controller: tabController,
                     );
                   } else {

@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:provider/provider.dart';
 
+import '../blocs/notes_edit_state_bloc.dart';
 import '../types/page_types.dart';
 import 'custom_draggable.dart';
 
 class CustomPageContentLayout extends StatefulWidget {
-  final double scale;
-  const CustomPageContentLayout({Key? key, required this.scale}) : super(key: key);
+  const CustomPageContentLayout({Key? key}) : super(key: key);
 
   @override
-  State<CustomPageContentLayout> createState() => _CustomPageContentLayoutState();
+  State<CustomPageContentLayout> createState() =>
+      _CustomPageContentLayoutState();
 }
 
 class _CustomPageContentLayoutState extends State<CustomPageContentLayout> {
@@ -19,14 +21,17 @@ class _CustomPageContentLayoutState extends State<CustomPageContentLayout> {
   ];
 
   Widget getChild(BuildContext context) {
+    double scale =
+        Provider.of<NotesEditState>(context, listen: true).viewPortScale;
     return Container(
       color: Colors.red,
       child: MarkdownBody(
         styleSheet: MarkdownStyleSheet.fromTheme(
           ThemeData(
-            textTheme: Theme.of(context)
-                .textTheme
-                .apply(bodyColor: Colors.black, displayColor: Colors.black, fontSizeFactor: 0.2*widget.scale),
+            textTheme: Theme.of(context).textTheme.apply(
+                bodyColor: Colors.black,
+                displayColor: Colors.black,
+                fontSizeFactor: 0.2 * scale),
           ),
         ),
         data: "# Test Data \n # H1 \n ## H2 \n ### H3 \n test, test",
@@ -37,17 +42,19 @@ class _CustomPageContentLayoutState extends State<CustomPageContentLayout> {
 
   @override
   Widget build(BuildContext context) {
+    double scale =
+        Provider.of<NotesEditState>(context, listen: true).viewPortScale;
     return Stack(
       children: List.generate(
         content.length,
         (index) => CustomDraggable(
           child: getChild(context),
           // TODO Determint by content
-          left: content[index].left * (5*widget.scale) + 0.25*widget.scale,
-          top: content[index].top * (5*widget.scale) + 0.25*widget.scale,
-          width: content[index].width * (5*widget.scale) - 0.5*widget.scale,
-          height: content[index].height * (5*widget.scale) - 0.5*widget.scale,
-          scale: widget.scale,
+          left: content[index].left * (5 * scale) + 0.25 * scale,
+          top: content[index].top * (5 * scale) + 0.25 * scale,
+          width: content[index].width * (5 * scale) - 0.5 * scale,
+          height: content[index].height * (5 * scale) - 0.5 * scale,
+          scale: scale,
         ),
       ),
     );

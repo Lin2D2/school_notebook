@@ -10,8 +10,10 @@ enum CustomDraggableEditState {
 
 class NotesEditState extends ChangeNotifier {
   CustomDraggableEditState _editState = CustomDraggableEditState.none;
+  double _viewPortScale = 4;
 
   CustomDraggableEditState get editState => _editState;
+  double get viewPortScale => _viewPortScale;
 
   void none() {
     _editState = CustomDraggableEditState.none;
@@ -38,5 +40,10 @@ class NotesEditState extends ChangeNotifier {
 
   bool isResize() {
     return _editState == CustomDraggableEditState.resize;
+  }
+
+  set viewPortScale(double value) {
+    _viewPortScale = value;
+    notifyListeners();
   }
 }

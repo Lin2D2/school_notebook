@@ -26,6 +26,7 @@ class _CustomPageLayoutState extends State<CustomPageLayout>
 
   @override
   void initState() {
+    super.initState();
     tabController = TabController(
         length: 1,
         initialIndex: pageIndex,

@@ -98,33 +98,23 @@ class _CustomPageLayoutState extends State<CustomPageLayout>
                                         color: Colors.black,
                                         size: 50,
                                       ),
-                                      onPressed: () {
-                                        DateTime now = DateTime.now();
-                                        String date = now.day.toString() +
-                                            "." +
-                                            now.month.toString() +
-                                            "." +
-                                            now.year.toString().substring(2);
-                                        int id = Random()
-                                            .nextInt(10000); // TODO better id
-                                        D4PageType page = D4PageType(
-                                          id: id,
-                                          name: "Untitled",
-                                          date: date,
-                                          contentIds: [],
-                                        );
+                                      onPressed: () async {
+                                        DataBaseServiceBloc database =
+                                        Provider.of<DataBaseServiceBloc>(
+                                            context,
+                                            listen: false);
+
+                                        int id = await database.pageInsert();
+
                                         List<int> contentIds = [id];
                                         contentIds.addAll(folder.contentIds);
+                                        // TODO find better solution
                                         FolderType newFolder = FolderType(
                                             id: folder.id,
                                             name: folder.name,
                                             color: folder.color,
                                             contentIds: contentIds);
-                                        DataBaseServiceBloc database =
-                                            Provider.of<DataBaseServiceBloc>(
-                                                context,
-                                                listen: false);
-                                        database.pageInsert(page);
+
                                         database.folderUpdate(newFolder);
                                         Provider.of<NavigatorBloc>(context,
                                                 listen: false)

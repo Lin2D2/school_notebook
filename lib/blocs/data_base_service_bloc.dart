@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:school_notebook/types/page_types.dart';
 
@@ -14,21 +16,28 @@ class DataBaseServiceBloc extends ChangeNotifier {
 
   ContentElementDao get elementsDao => _elementsDao;
 
+  int generateID() {
+    return int.parse(DateTime.now().millisecondsSinceEpoch.toString() +
+        Random().nextInt(99).toString());
+  }
+
   Future<int> purgeDatabase() async {
     int value = 0;
     for (var folder in await _folderDao.getAllSortedByName()) {
       value = value + await _folderDao.delete(folder);
     }
-    List<FolderType> folders = await _folderDao.getAllSortedByName();
-    List<D4PageType> pages = await _pagesDao.getAllSortedByName();
-    List<ContentElement> elements = await _elementsDao.getAllSortedByName();
     notifyListeners();
     return value;
   }
 
-  void folderInsert(FolderType folder) async {
+  Future<int> folderInsert(String name, Color color) async {
+    int pageID = await pageInsert();
+    int folderID = generateID();
+    FolderType folder = FolderType(
+        id: folderID, name: name, color: color, contentIds: [pageID]);
     await _folderDao.insert(folder);
     notifyListeners();
+    return folderID;
   }
 
   void folderDelete(FolderType folder) async {
@@ -41,9 +50,19 @@ class DataBaseServiceBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  void pageInsert(D4PageType page) async {
+  Future<int> pageInsert() async {
+    int pageID = generateID();
+    DateTime now = DateTime.now();
+    String date = now.day.toString() +
+        "." +
+        now.month.toString() +
+        "." +
+        now.year.toString().substring(2);
+    D4PageType page =
+        D4PageType(id: pageID, name: "Untitled", date: date, contentIds: []);
     await _pagesDao.insert(page);
     notifyListeners();
+    return pageID;
   }
 
   void pageDelete(D4PageType page) async {

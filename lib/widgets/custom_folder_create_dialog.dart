@@ -94,16 +94,7 @@ class CustomFolderCreateDialog extends StatelessWidget {
                         // TODO add item to database
                         _formKey.currentState?.save();
                         Provider.of<DataBaseServiceBloc>(context, listen: false)
-                            .folderInsert(
-                          FolderType(
-                            id: Random().nextInt(100000),
-                            // TODO do real indexing
-                            name: folder_name,
-                            color: Colors.red,
-                            // TODO get from Form
-                            contentIds: [],
-                          ),
-                        );
+                            .folderInsert(folder_name, Colors.red);
                         Navigator.of(context).pop();
                       }
                     },

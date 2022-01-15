@@ -141,14 +141,38 @@ class _CustomFolderElementState extends State<CustomFolderElement>
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: TextButton(
                           onPressed: () {
-                            // TODO confirmation dialog
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text("Confirmation"),
+                                  content: const Text(
+                                      "Do You really want to delete this folder?"),
+                                  actions: [
+                                    TextButton(
+                                      child: const Text("No"),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                    TextButton(
+                                      child: const Text("Yes"),
+                                      onPressed: () {
+                                        DataBaseServiceBloc database =
+                                            Provider.of<DataBaseServiceBloc>(
+                                                context,
+                                                listen: false);
+                                        database.folderDelete(widget.folder);
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
                             setState(() {
                               menuOpen = false;
                             });
-                            DataBaseServiceBloc database =
-                                Provider.of<DataBaseServiceBloc>(context,
-                                    listen: false);
-                            database.folderDelete(widget.folder);
                           },
                           child: const Text(
                             "remove",

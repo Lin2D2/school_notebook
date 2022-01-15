@@ -21,6 +21,29 @@ class CustomPageLayout extends StatefulWidget {
 
 class _CustomPageLayoutState extends State<CustomPageLayout>
     with TickerProviderStateMixin {
+  int pageIndex = 0;
+  TabController? tabController;
+
+  @override
+  void initState() {
+    tabController = TabController(
+        length: 1,
+        initialIndex: pageIndex,
+        vsync: this);
+    CustomPageLayout.scrollController.addListener(() {
+      double pixels = CustomPageLayout.scrollController.position.pixels;
+      int newPageIndex = (pixels/4 != 0 ? pixels/4 : 1) ~/ (260 + 10);
+      if (newPageIndex != tabController?.index && mounted) {
+        setState(() {
+          pageIndex = newPageIndex;
+          tabController?.animateTo(newPageIndex);
+        });
+      }
+      // page spacing with standard height of 260 ca 270 * scale
+      // page (height + 10) * scale * index => pixels
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
@@ -135,12 +158,9 @@ class _CustomPageLayoutState extends State<CustomPageLayout>
                     .getByIDs(folder.contentIds),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    // NotesD4PageLayout.scrollController.addListener(() {
-                    //   print(NotesD4PageLayout.scrollController.position);
-                    // }); // for debug
-                    TabController tabController = TabController(
+                    tabController = TabController(
                         length: ((snapshot.data?.length ?? 0) + 1),
-                        initialIndex: 0,
+                        initialIndex: pageIndex,
                         vsync: this);
                     return TabPageSelector(
                       // TODO indexing based on page in the middle of the screen

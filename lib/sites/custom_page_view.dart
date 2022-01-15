@@ -26,11 +26,76 @@ class CustomPageView extends StatelessWidget {
           child: Scaffold(
             appBar: CustomAppBar(title: Future(() => folder!.name)),
             drawer: const CustomDrawer(),
-            persistentFooterButtons: [],
+            persistentFooterButtons: [
+              Expanded(
+                child: Row(
+                  children: const [
+                    ZoomWidget(),
+                  ],
+                ),
+              )
+            ],
             floatingActionButton: const CustomActionButtonColumn(),
             body: const CustomPageLayout(),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class ZoomWidget extends StatelessWidget {
+  const ZoomWidget({Key? key}) : super(key: key);
+  static const double _size = 15;
+  static const EdgeInsetsGeometry _padding = EdgeInsets.all(0);
+  static const double stepSize = 0.125;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 85,
+      child: Row(
+        children: [
+          IconButton(
+            iconSize: _size,
+            splashRadius: _size,
+            padding: _padding,
+            constraints: BoxConstraints.tight(const Size(_size, _size)),
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              NotesEditState editState = Provider.of<NotesEditState>(context, listen: false);
+              editState.viewPortZoom = editState.viewPortZoom + stepSize;
+            },
+          ),
+          const Spacer(),
+          IconButton(
+            iconSize: _size,
+            splashRadius: _size,
+            padding: _padding,
+            constraints: BoxConstraints.tight(const Size(_size, _size)),
+            icon: const Icon(Icons.remove),
+            onPressed: () {
+              NotesEditState editState = Provider.of<NotesEditState>(context, listen: false);
+              editState.viewPortZoom = editState.viewPortZoom - stepSize;
+            },
+          ),
+          const Spacer(),
+          SizedBox(
+            height: _size,
+            width: _size * 2.5,
+            child: Center(
+              child: Text(
+                (Provider.of<NotesEditState>(context, listen: true)
+                                .viewPortZoom *
+                            100)
+                        .toInt()
+                        .toString() +
+                    "%",
+                style: const TextStyle(fontSize: 12.5),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

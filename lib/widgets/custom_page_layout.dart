@@ -69,10 +69,8 @@ class _CustomPageLayoutState extends State<CustomPageLayout>
                     child: InteractiveViewer(
                       minScale: 0.9,
                       maxScale: 9,
-                      scaleEnabled: true,
+                      scaleEnabled: false, // TODO combine with buttons in the bottom left
                       child: ListView.builder(
-                        primary: false,
-                        physics: const NeverScrollableScrollPhysics(),
                         controller: CustomPageLayout.scrollController,
                         itemCount: ((snapshot.data?.length ?? 0) + 1),
                         itemBuilder: (BuildContext context, int index) {
@@ -98,9 +96,9 @@ class _CustomPageLayoutState extends State<CustomPageLayout>
                                       ),
                                       onPressed: () async {
                                         DataBaseServiceBloc database =
-                                        Provider.of<DataBaseServiceBloc>(
-                                            context,
-                                            listen: false);
+                                            Provider.of<DataBaseServiceBloc>(
+                                                context,
+                                                listen: false);
 
                                         int id = await database.pageInsert();
 

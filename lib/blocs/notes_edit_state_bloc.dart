@@ -12,10 +12,13 @@ class NotesEditState extends ChangeNotifier {
   CustomDraggableEditState _editState = CustomDraggableEditState.none;
   double _viewPortScale = 4;
   double _viewPortZoom = 1;
+  final TransformationController _interactiveViewerController = TransformationController();
+  Matrix4? _interactiveViewerMatrix;
 
   CustomDraggableEditState get editState => _editState;
   double get viewPortScale => _viewPortScale;
   double get viewPortZoom => _viewPortZoom;
+  TransformationController get interactiveViewerController => _interactiveViewerController;
 
   void none() {
     _editState = CustomDraggableEditState.none;
@@ -50,6 +53,8 @@ class NotesEditState extends ChangeNotifier {
   }
 
   set viewPortZoom(double value) {
+    _interactiveViewerMatrix ??= _interactiveViewerController.value;
+    _interactiveViewerController.value = (_interactiveViewerMatrix?.clone()?..scale(value))!;
     _viewPortZoom = value;
     notifyListeners();
   }

@@ -67,9 +67,8 @@ class _CustomPageLayoutState extends State<CustomPageLayout>
                     interactive: false,
                     // TODO combine scrolling for Viewer and ListView
                     child: InteractiveViewer(
-                      minScale: 0.9,
-                      maxScale: 9,
-                      scaleEnabled: false, // TODO combine with buttons in the bottom left
+                      scaleEnabled: false,
+                      transformationController: Provider.of<NotesEditState>(context, listen: true).interactiveViewerController,
                       child: ListView.builder(
                         controller: CustomPageLayout.scrollController,
                         itemCount: ((snapshot.data?.length ?? 0) + 1),

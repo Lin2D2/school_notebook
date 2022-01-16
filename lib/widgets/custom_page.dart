@@ -86,8 +86,8 @@ class _CustomPageState extends State<CustomPage> {
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(
-                        5 * scale, 0 * scale, 1.5 * scale, 2 * scale),
-                    child: const CustomPageContentLayout(),
+                        5 * scale, 0 * scale, 3 * scale, 5 * scale),
+                    child: CustomPageContentLayout(page: widget.page),
                   ),
                 ),
               ],

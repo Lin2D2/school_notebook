@@ -82,6 +82,7 @@ class _CustomDraggableState extends State<CustomDraggable> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      behavior: HitTestBehavior.translucent,
       onPanStart: (details) => dragStart(details, context),
       onPanUpdate: (details) => dragUpdate(details),
       onPanEnd: (details) => dragEnd(details),

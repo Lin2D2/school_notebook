@@ -70,8 +70,26 @@ class DataBaseServiceBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  void pageUpdate(D4PageType page) async {
+  Future pageInsertElement(int pageID, int elementID) async {
+    D4PageType page = (await _pagesDao.getByIDs([pageID]))[0];
+    List<int> contentIds = [elementID];
+    contentIds.addAll(page.contentIds);
+    page.contentIds = contentIds;
     await _pagesDao.update(page);
     notifyListeners();
+  }
+
+  Future elementInsert(int pageID, int top, int left) async {
+    int elementID = generateID();
+    ContentElement contentElement = ContentElement(
+      id: elementID,
+      left: left,
+      top: top,
+      width: 10,
+      height: 10,
+      contentId: 0,
+    );
+    await _elementsDao.insert(contentElement);
+    await pageInsertElement(pageID, elementID); // NOTE notifyListeners called here
   }
 }

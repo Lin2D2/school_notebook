@@ -53,121 +53,133 @@ class _CustomPageLayoutState extends State<CustomPageLayout>
         builder: (BuildContext context, BoxConstraints constraints) {
           FolderType? folder =
               Provider.of<NavigatorBloc>(context, listen: true).folder;
-          Widget mainContent = Expanded(
-            child: FutureBuilder<List<D4PageType>>(
-              // TODO optimize
-              future: Provider.of<DataBaseServiceBloc>(context, listen: true)
-                  .pageDao
-                  .getByIDs(folder!.contentIds),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Scrollbar(
-                    controller: CustomPageLayout.scrollController,
-                    isAlwaysShown: false,
-                    interactive: false,
-                    // TODO combine scrolling for Viewer and ListView
-                    child: InteractiveViewer(
-                      scaleEnabled: false,
-                      transformationController: Provider.of<NotesEditState>(context, listen: true).interactiveViewerController,
-                      child: ListView.builder(
-                        controller: CustomPageLayout.scrollController,
-                        itemCount: ((snapshot.data?.length ?? 0) + 1),
-                        itemBuilder: (BuildContext context, int index) {
-                          if (index + 1 == ((snapshot.data?.length ?? 0) + 1)) {
-                            double scale = Provider.of<NotesEditState>(context,
-                                    listen: true)
-                                .viewPortScale;
-                            return Padding(
-                              padding: EdgeInsets.all(5 * scale),
-                              child: Center(
-                                child: Container(
-                                  width: 188 * scale,
-                                  height: 40 * scale,
-                                  color: Colors.white,
-                                  child: Center(
-                                    child: IconButton(
-                                      constraints:
-                                          const BoxConstraints.expand(),
-                                      icon: const Icon(
-                                        Icons.add_circle_outlined,
-                                        color: Colors.black,
-                                        size: 50,
-                                      ),
-                                      onPressed: () async {
-                                        DataBaseServiceBloc database =
-                                            Provider.of<DataBaseServiceBloc>(
-                                                context,
-                                                listen: false);
-
-                                        int id = await database.pageInsert();
-
-                                        List<int> contentIds = [id];
-                                        contentIds.addAll(folder.contentIds);
-                                        // TODO find better solution
-                                        FolderType newFolder = FolderType(
-                                            id: folder.id,
-                                            name: folder.name,
-                                            color: folder.color,
-                                            contentIds: contentIds);
-
-                                        database.folderUpdate(newFolder);
-                                        Provider.of<NavigatorBloc>(context,
-                                                listen: false)
-                                            .folder = newFolder;
-                                      },
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          } else {
-                            return CustomPage(snapshot.data![index]);
-                          }
-                        },
-                      ),
-                    ),
-                  );
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
-            ),
-          );
-          Widget navigation = SizedBox(
-            child: RotatedBox(
-              quarterTurns: 1,
-              child: FutureBuilder<List<D4PageType>>(
-                // TODO optimize
-                future: Provider.of<DataBaseServiceBloc>(context, listen: true)
-                    .pageDao
-                    .getByIDs(folder.contentIds),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    tabController = TabController(
-                        length: ((snapshot.data?.length ?? 0) + 1),
-                        initialIndex: pageIndex,
-                        vsync: this);
-                    return TabPageSelector(
-                      controller: tabController,
-                    );
-                  } else {
-                    return const CircularProgressIndicator();
-                  }
-                },
-              ),
-            ),
-          );
-          Widget toolArea = const SizedBox(
-            width: 300,
-          );
           return Scaffold(
             body: Row(
               children: [
-                mainContent,
-                navigation,
-                false ? toolArea : const SizedBox(),
+                Expanded(
+                  child: FutureBuilder<List<D4PageType>>(
+                      // TODO optimize
+                      future: Provider.of<DataBaseServiceBloc>(context,
+                              listen: true)
+                          .pageDao
+                          .getByIDs(folder!.contentIds),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Scrollbar(
+                            controller: CustomPageLayout.scrollController,
+                            isAlwaysShown: false,
+                            interactive: false,
+                            // TODO combine scrolling for Viewer and ListView
+                            child: InteractiveViewer(
+                              scaleEnabled: false,
+                              transformationController:
+                                  Provider.of<NotesEditState>(context,
+                                          listen: true)
+                                      .interactiveViewerController,
+                              child: ListView.builder(
+                                controller: CustomPageLayout.scrollController,
+                                itemCount: ((snapshot.data?.length ?? 0) + 1),
+                                itemBuilder: (BuildContext context, int index) {
+                                  if (index + 1 ==
+                                      ((snapshot.data?.length ?? 0) + 1)) {
+                                    double scale = Provider.of<NotesEditState>(
+                                            context,
+                                            listen: true)
+                                        .viewPortScale;
+                                    return Padding(
+                                      padding: EdgeInsets.all(5 * scale),
+                                      child: Center(
+                                        child: Container(
+                                          width: 188 * scale,
+                                          height: 40 * scale,
+                                          color: Colors.white,
+                                          child: Center(
+                                            child: IconButton(
+                                              constraints:
+                                                  const BoxConstraints.expand(),
+                                              icon: const Icon(
+                                                Icons.add_circle_outlined,
+                                                color: Colors.black,
+                                                size: 50,
+                                              ),
+                                              onPressed: () async {
+                                                DataBaseServiceBloc database =
+                                                    Provider.of<
+                                                            DataBaseServiceBloc>(
+                                                        context,
+                                                        listen: false);
+
+                                                int id =
+                                                    await database.pageInsert();
+
+                                                List<int> contentIds = [id];
+                                                contentIds
+                                                    .addAll(folder.contentIds);
+                                                // TODO find better solution
+                                                FolderType newFolder =
+                                                    FolderType(
+                                                        id: folder.id,
+                                                        name: folder.name,
+                                                        color: folder.color,
+                                                        contentIds: contentIds);
+
+                                                database
+                                                    .folderUpdate(newFolder);
+                                                Provider.of<NavigatorBloc>(
+                                                        context,
+                                                        listen: false)
+                                                    .folder = newFolder;
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    return CustomPage(snapshot.data![index]);
+                                  }
+                                },
+                              ),
+                            ),
+                          );
+                        } else {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      },
+                    ),
+                ),
+                SizedBox(
+                  child: RotatedBox(
+                    quarterTurns: 1,
+                    child: FutureBuilder<List<D4PageType>>(
+                      // TODO optimize
+                      future: Provider.of<DataBaseServiceBloc>(context,
+                              listen: true)
+                          .pageDao
+                          .getByIDs(folder.contentIds),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          tabController = TabController(
+                              length: ((snapshot.data?.length ?? 0) + 1),
+                              initialIndex: pageIndex,
+                              vsync: this);
+                          return TabPageSelector(
+                            controller: tabController,
+                          );
+                        } else {
+                          return const CircularProgressIndicator();
+                        }
+                      },
+                    ),
+                  ),
+                ),
+                false
+                    ? const SizedBox(
+                        width: 300,
+                      )
+                    : const SizedBox(),
                 // TODO only show on wide screen
               ],
             ),

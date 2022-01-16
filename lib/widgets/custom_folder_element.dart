@@ -41,6 +41,7 @@ class _CustomFolderElementState extends State<CustomFolderElement>
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return GestureDetector(
+      behavior: HitTestBehavior.translucent,
       onTap: () {
         Provider.of<NavigatorBloc>(context, listen: false).folder =
             widget.folder;

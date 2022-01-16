@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
+import 'package:school_notebook/blocs/data_base_service_bloc.dart';
 
 import '../blocs/notes_edit_state_bloc.dart';
 import '../types/page_types.dart';
 import 'custom_draggable.dart';
 
 class CustomPageContentLayout extends StatefulWidget {
-  const CustomPageContentLayout({Key? key}) : super(key: key);
+  final D4PageType page;
+
+  const CustomPageContentLayout({Key? key, required this.page})
+      : super(key: key);
 
   @override
   State<CustomPageContentLayout> createState() =>
@@ -15,11 +19,6 @@ class CustomPageContentLayout extends StatefulWidget {
 }
 
 class _CustomPageContentLayoutState extends State<CustomPageContentLayout> {
-  List<ContentElement> content = [
-    ContentElement(id: 1, left: 0, top: 0, width: 5, height: 10, contentId: 11),
-    ContentElement(id: 2, left: 5, top: 0, width: 5, height: 10, contentId: 21),
-  ];
-
   Widget getChild(BuildContext context) {
     double scale =
         Provider.of<NotesEditState>(context, listen: true).viewPortScale;
@@ -44,19 +43,47 @@ class _CustomPageContentLayoutState extends State<CustomPageContentLayout> {
   Widget build(BuildContext context) {
     double scale =
         Provider.of<NotesEditState>(context, listen: true).viewPortScale;
-    return Stack(
-      children: List.generate(
-        content.length,
-        (index) => CustomDraggable(
-          child: getChild(context),
-          // TODO Determint by content
-          left: content[index].left * (5 * scale) + 0.25 * scale,
-          top: content[index].top * (5 * scale) + 0.25 * scale,
-          width: content[index].width * (5 * scale) - 0.5 * scale,
-          height: content[index].height * (5 * scale) - 0.5 * scale,
-          scale: scale,
-        ),
-      ),
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTapDown: (details) async {
+        NotesEditState editState =
+            Provider.of<NotesEditState>(context, listen: false);
+        if (editState.isAdd()) {
+          double scale = editState.viewPortScale;
+          int top = details.localPosition.dy ~/ (5 * scale);
+          int left = details.localPosition.dx ~/ (5 * scale);
+          await Provider.of<DataBaseServiceBloc>(context, listen: false)
+              .elementInsert(widget.page.id, top, left);
+        }
+      },
+      child: FutureBuilder<List<ContentElement>>(
+          future: Provider.of<DataBaseServiceBloc>(context, listen: true)
+              .elementsDao
+              .getByIDs(widget.page.contentIds),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Stack(
+                children: List.generate(
+                  snapshot.data!.length,
+                  (index) => CustomDraggable(
+                    child: getChild(context),
+                    left:
+                        snapshot.data![index].left * (5 * scale) + 0.25 * scale,
+                    top: snapshot.data![index].top * (5 * scale) + 0.25 * scale,
+                    width:
+                        snapshot.data![index].width * (5 * scale) - 0.5 * scale,
+                    height: snapshot.data![index].height * (5 * scale) -
+                        0.5 * scale,
+                    scale: scale,
+                  ),
+                ),
+              );
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          }),
     );
   }
 }

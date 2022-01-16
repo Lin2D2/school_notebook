@@ -113,19 +113,27 @@ class ContentElement {
       'top': top,
       'width': width,
       'height': height,
-      'contentType': contentType,
+      'contentType': contentType.toString(),
       'contentId': contentId,
     };
   }
 
   static ContentElement fromMap(Map<String, dynamic> map) {
+    String contentTypeString = map['contentType'];
+    ContentTypes? contentType;
+    for (var element in ContentTypes.values) {
+      if (element.toString() == contentTypeString) {
+        contentType = element;
+      }
+    }
+    contentType ??= ContentTypes.text;
     return ContentElement(
       id: map['id'],
       left: map['left'],
       top: map['top'],
       width: map['width'],
       height: map['height'],
-      contentType: map['contentType'],
+      contentType: contentType,
       contentId: map['contentId'],
     );
   }

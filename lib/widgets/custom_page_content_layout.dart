@@ -67,14 +67,7 @@ class _CustomPageContentLayoutState extends State<CustomPageContentLayout> {
                   snapshot.data!.length,
                   (index) => CustomDraggable(
                     child: getChild(context),
-                    left:
-                        snapshot.data![index].left * (5 * scale) + 0.25 * scale,
-                    top: snapshot.data![index].top * (5 * scale) + 0.25 * scale,
-                    width:
-                        snapshot.data![index].width * (5 * scale) - 0.5 * scale,
-                    height: snapshot.data![index].height * (5 * scale) -
-                        0.5 * scale,
-                    scale: scale,
+                    contentElement: snapshot.data![index],
                   ),
                 ),
               );

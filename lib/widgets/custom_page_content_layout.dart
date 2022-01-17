@@ -46,7 +46,7 @@ class _CustomPageContentLayoutState extends State<CustomPageContentLayout> {
       onTapDown: (details) async {
         NotesEditState editState =
             Provider.of<NotesEditState>(context, listen: false);
-        if (editState.isAdd()) {
+        if (editState.isAdd()) { // TODO drag instead an then create ContentElement of Dragged box
           double scale = editState.viewPortScale;
           int top = details.localPosition.dy ~/ (5 * scale);
           int left = details.localPosition.dx ~/ (5 * scale);

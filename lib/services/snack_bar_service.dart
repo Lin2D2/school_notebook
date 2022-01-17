@@ -6,6 +6,7 @@ class SnackBarService {
     required String content,
     Color color=Colors.white
   }) {
+    ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(content),

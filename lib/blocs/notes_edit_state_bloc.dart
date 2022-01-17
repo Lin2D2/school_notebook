@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 enum CustomDraggableEditState {
   none,
   move,
@@ -8,18 +7,22 @@ enum CustomDraggableEditState {
   add,
 }
 
-
 class NotesEditState extends ChangeNotifier {
   CustomDraggableEditState _editState = CustomDraggableEditState.none;
   double _viewPortScale = 4;
   double _viewPortZoom = 1;
-  final TransformationController _interactiveViewerController = TransformationController();
+  final TransformationController _interactiveViewerController =
+      TransformationController();
   Matrix4? _interactiveViewerMatrix;
 
   CustomDraggableEditState get editState => _editState;
+
   double get viewPortScale => _viewPortScale;
+
   double get viewPortZoom => _viewPortZoom;
-  TransformationController get interactiveViewerController => _interactiveViewerController;
+
+  TransformationController get interactiveViewerController =>
+      _interactiveViewerController;
 
   void none() {
     _editState = CustomDraggableEditState.none;
@@ -64,7 +67,12 @@ class NotesEditState extends ChangeNotifier {
 
   set viewPortZoom(double value) {
     _interactiveViewerMatrix ??= _interactiveViewerController.value;
-    _interactiveViewerController.value = (_interactiveViewerMatrix?.clone()?..scale(value))!;
+    Matrix4 currentMatrix = _interactiveViewerController.value;
+    var translation = currentMatrix.getTranslation();
+    _interactiveViewerController
+        .value = (_interactiveViewerMatrix?.clone()?..scale(value))!
+      ..setTranslation(
+          translation); // TODO zoom center not top left
     _viewPortZoom = value;
     notifyListeners();
   }

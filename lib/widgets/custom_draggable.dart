@@ -36,6 +36,8 @@ class _CustomDraggableState extends State<CustomDraggable> {
         move = true;
       });
     } else if (notesEditState.isResize()) {
+      xTmp = widget.contentElement.width * (5 * scale);
+      yTmp = widget.contentElement.height * (5 * scale);
       double margin = 0.5; // NOTE 1 is one box
       double dx =
           details.localPosition.dx - widget.contentElement.left * (5 * scale);
@@ -87,7 +89,7 @@ class _CustomDraggableState extends State<CustomDraggable> {
       int? top;
       int? left;
       if (true) {
-        // TODO check bounds of other children
+        // TODO check bounds of other children and bound of parent
         if (move) {
           top = (yTmp / (5 * scale)).round();
           left = (xTmp / (5 * scale)).round();
@@ -106,7 +108,7 @@ class _CustomDraggableState extends State<CustomDraggable> {
       int? height;
       int? width;
       if (true) {
-        // TODO check bounds of other children
+        // TODO check bounds of other children and bound of parent
         if (xResize || yResize) {
           height = (yTmp / (5 * scale)).round();
           width = (xTmp / (5 * scale)).round();

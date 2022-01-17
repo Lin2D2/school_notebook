@@ -36,34 +36,7 @@ class CustomFolderLayout extends StatelessWidget {
               itemCount: length,
               itemBuilder: (context, index) {
                 if (index == length - 1) {
-                  return Padding(
-                    padding: EdgeInsets.fromLTRB(15, 15,
-                        (index + 1) % (size.width ~/ 400) == 0 ? 15 : 0, 0),
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(35),
-                        ),
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return CustomFolderCreateDialog();
-                            },
-                          );
-                        },
-                        constraints: const BoxConstraints.expand(),
-                        icon: const Icon(
-                          Icons.add_circle_outline,
-                          color: Colors.black,
-                          size: 60,
-                        ),
-                      ),
-                    ),
-                  );
+                  return AddFolderFolder(size: size, index: index);
                 } else {
                   return Padding(
                     padding: EdgeInsets.fromLTRB(15, 15,
@@ -88,5 +61,45 @@ class CustomFolderLayout extends StatelessWidget {
             }
           }
         });
+  }
+}
+
+class AddFolderFolder extends StatelessWidget {
+  final int index;
+  final Size size;
+
+  const AddFolderFolder({Key? key, required this.index, required this.size})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(
+          15, 15, (index + 1) % (size.width ~/ 400) == 0 ? 15 : 0, 0),
+      child: Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(
+            Radius.circular(35),
+          ),
+        ),
+        child: IconButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return CustomFolderCreateDialog();
+              },
+            );
+          },
+          constraints: const BoxConstraints.expand(),
+          icon: const Icon(
+            Icons.add_circle_outline,
+            color: Colors.black,
+            size: 60,
+          ),
+        ),
+      ),
+    );
   }
 }

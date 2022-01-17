@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
-import 'package:school_notebook/blocs/data_base_service_bloc.dart';
 
+import '../blocs/data_base_service_bloc.dart';
 import '../blocs/notes_edit_state_bloc.dart';
 import '../types/page_types.dart';
 import 'custom_draggable.dart';
@@ -41,8 +41,6 @@ class _CustomPageContentLayoutState extends State<CustomPageContentLayout> {
 
   @override
   Widget build(BuildContext context) {
-    double scale =
-        Provider.of<NotesEditState>(context, listen: true).viewPortScale;
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTapDown: (details) async {

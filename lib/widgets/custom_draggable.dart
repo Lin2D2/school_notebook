@@ -21,18 +21,17 @@ class CustomDraggable extends StatefulWidget {
 }
 
 class _CustomDraggableState extends State<CustomDraggable> {
-  // TODO make resizable
   void dragStart(DragStartDetails details, BuildContext context) {
     NotesEditState notesEditState =
         Provider.of<NotesEditState>(context, listen: false);
     double scale = notesEditState.viewPortScale;
-    leftOffset =
+    xOffset =
         details.localPosition.dx - (widget.contentElement.left * (5 * scale));
-    topOffset =
+    yOffset =
         details.localPosition.dy - (widget.contentElement.top * (5 * scale));
     if (notesEditState.isMove()) {
-      leftTmp = widget.contentElement.left * (5 * scale);
-      topTmp = widget.contentElement.top * (5 * scale);
+      xTmp = widget.contentElement.left * (5 * scale);
+      yTmp = widget.contentElement.top * (5 * scale);
       setState(() {
         move = true;
       });
@@ -46,13 +45,13 @@ class _CustomDraggableState extends State<CustomDraggable> {
       double height = widget.contentElement.height * (5 * scale);
       if (dx + (5 * scale) * margin > width) {
         if (dy + (5 * scale) * margin > height) {
-          heightResize = true;
-          widthResize = true;
+          yResize = true;
+          xResize = true;
         } else {
-          widthResize = true;
+          xResize = true;
         }
       } else if (dy + (5 * scale) * margin > height) {
-        heightResize = true;
+        yResize = true;
       }
     }
   }
@@ -63,15 +62,19 @@ class _CustomDraggableState extends State<CustomDraggable> {
     double scale = notesEditState.viewPortScale;
     if (notesEditState.isMove()) {
       setState(() {
-        leftTmp = details.localPosition.dx - leftOffset;
-        topTmp = details.localPosition.dy - topOffset;
+        xTmp = details.localPosition.dx - xOffset;
+        yTmp = details.localPosition.dy - yOffset;
       });
     } else if (notesEditState.isResize()) {
       setState(() {
-        widthTmp =
-            details.localPosition.dx - widget.contentElement.left * (5 * scale);
-        heightTmp =
-            details.localPosition.dy - widget.contentElement.top * (5 * scale);
+        if (xResize) {
+          xTmp = details.localPosition.dx -
+              widget.contentElement.left * (5 * scale);
+        }
+        if (yResize) {
+          yTmp = details.localPosition.dy -
+              widget.contentElement.top * (5 * scale);
+        }
       });
     }
   }
@@ -86,8 +89,8 @@ class _CustomDraggableState extends State<CustomDraggable> {
       if (true) {
         // TODO check bounds of other children
         if (move) {
-          top = (topTmp / (5 * scale)).round();
-          left = (leftTmp / (5 * scale)).round();
+          top = (yTmp / (5 * scale)).round();
+          left = (xTmp / (5 * scale)).round();
           await Provider.of<DataBaseServiceBloc>(context, listen: false)
               .elementUpdatePosition(widget.contentElement, top, left);
         }
@@ -104,38 +107,35 @@ class _CustomDraggableState extends State<CustomDraggable> {
       int? width;
       if (true) {
         // TODO check bounds of other children
-        if (widthResize || heightResize) {
-          height = (heightTmp / (5 * scale)).round();
-          width = (widthTmp / (5 * scale)).round();
+        if (xResize || yResize) {
+          height = (yTmp / (5 * scale)).round();
+          width = (xTmp / (5 * scale)).round();
           await Provider.of<DataBaseServiceBloc>(context, listen: false)
               .elementUpdateSize(widget.contentElement, height, width);
         }
       }
       setState(() {
-        if (widthResize || heightResize) {
+        if (xResize || yResize) {
           widthCache = width!;
           heightCache = height!;
-          widthResize = false;
-          heightResize = false;
+          xResize = false;
+          yResize = false;
         }
       });
     }
   }
 
-  // TODO reduce variables
   bool move = false;
-  double leftOffset = 0;
-  double topOffset = 0;
-  double leftTmp = 0;
-  double topTmp = 0;
-  int leftCache = 0;
-  int topCache = 0;
-  bool widthResize = false;
-  bool heightResize = false;
-  double widthTmp = 0;
-  double heightTmp = 0;
-  int widthCache = 0;
-  int heightCache = 0;
+  bool xResize = false;
+  bool yResize = false;
+  late double xOffset;
+  late double yOffset;
+  late double xTmp;
+  late double yTmp;
+  late int leftCache;
+  late int topCache;
+  late int widthCache;
+  late int heightCache;
 
   @override
   void initState() {
@@ -170,23 +170,23 @@ class _CustomDraggableState extends State<CustomDraggable> {
           Positioned(
             // TODO still bug here
             left: move
-                ? leftTmp
+                ? xTmp
                 : leftCache != widget.contentElement.left
                     ? leftCache * (5 * scale) + (0.25 * scale)
                     : widget.contentElement.left * (5 * scale) + (0.25 * scale),
             top: move
-                ? topTmp
+                ? yTmp
                 : topCache != widget.contentElement.top
                     ? topCache * (5 * scale) + (0.25 * scale)
                     : widget.contentElement.top * (5 * scale) + (0.25 * scale),
-            height: heightResize
-                ? heightTmp
+            height: yResize
+                ? yTmp
                 : heightCache != widget.contentElement.height
                     ? heightCache * (5 * scale) - (0.5 * scale)
                     : widget.contentElement.height * (5 * scale) -
                         (0.5 * scale),
-            width: widthResize
-                ? widthTmp
+            width: xResize
+                ? xTmp
                 : widthCache != widget.contentElement.width
                     ? widthCache * (5 * scale) - (0.5 * scale)
                     : widget.contentElement.width * (5 * scale) - (0.5 * scale),

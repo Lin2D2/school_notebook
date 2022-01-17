@@ -97,8 +97,8 @@ class _CustomDraggableState extends State<CustomDraggable> {
             top: moveResize
                 ? topTmp
                 : widget.contentElement.top * (5 * scale) + (0.25 * scale),
-            height: widget.contentElement.height * (5 * scale) - (0.25 * scale),
-            width: widget.contentElement.width * (5 * scale) - (0.25 * scale),
+            height: widget.contentElement.height * (5 * scale) - (0.5 * scale),
+            width: widget.contentElement.width * (5 * scale) - (0.5 * scale),
             child: widget.child,
           ),
         ],

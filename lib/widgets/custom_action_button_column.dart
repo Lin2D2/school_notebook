@@ -55,7 +55,7 @@ class _CustomActionButtonColumnState extends State<CustomActionButtonColumn> {
       Provider.of<NotesEditState>(context, listen: false).none();
       SnackBarService.createSimpleSnackBar(
           context: context,
-          content: "Edit Mode Off",
+          content: "Move Mode Off",
           color: Colors.orange.shade400
       );
     } else {
@@ -64,7 +64,7 @@ class _CustomActionButtonColumnState extends State<CustomActionButtonColumn> {
       Provider.of<NotesEditState>(context, listen: false).move();
       SnackBarService.createSimpleSnackBar(
           context: context,
-          content: "Edit Mode On",
+          content: "Move Mode On",
           color: Colors.orange.shade400
       );
     }
@@ -77,10 +77,20 @@ class _CustomActionButtonColumnState extends State<CustomActionButtonColumn> {
       Provider.of<MouseCursorState>(context, listen: false).cursorState =
           SystemMouseCursors.basic;
       Provider.of<NotesEditState>(context, listen: false).none();
+      SnackBarService.createSimpleSnackBar(
+          context: context,
+          content: "Resize Mode Off",
+          color: Colors.orange.shade400
+      );
     } else {
       Provider.of<MouseCursorState>(context, listen: false).cursorState =
           SystemMouseCursors.resizeDownRight;
       Provider.of<NotesEditState>(context, listen: false).resize();
+      SnackBarService.createSimpleSnackBar(
+          context: context,
+          content: "Resize Mode On",
+          color: Colors.orange.shade400
+      );
     }
   }
 

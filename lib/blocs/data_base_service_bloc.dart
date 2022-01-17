@@ -57,15 +57,13 @@ class DataBaseServiceBloc extends ChangeNotifier {
         now.year.toString().substring(2);
     D4PageType page =
         D4PageType(id: pageID, name: "Untitled", date: date, contentIds: []);
-      List<int> contentIds = [pageID];
-      contentIds
-          .addAll(folder.contentIds);
-    FolderType newFolder =
-      FolderType(
-          id: folder.id,
-          name: folder.name,
-          color: folder.color,
-          contentIds: contentIds);
+    List<int> contentIds = [pageID];
+    contentIds.addAll(folder.contentIds);
+    FolderType newFolder = FolderType(
+        id: folder.id,
+        name: folder.name,
+        color: folder.color,
+        contentIds: contentIds);
     await _pagesDao.insert(page);
     if (updateFolder) {
       await _folderDao.update(newFolder);
@@ -110,6 +108,19 @@ class DataBaseServiceBloc extends ChangeNotifier {
         top: top,
         width: element.width,
         height: element.height,
+        contentId: element.contentId);
+    _elementsDao.update(newElement);
+    notifyListeners();
+  }
+
+  Future elementUpdateSize(
+      ContentElement element, int height, int width) async {
+    ContentElement newElement = ContentElement(
+        id: element.id,
+        left: element.left,
+        top: element.top,
+        width: width,
+        height: height,
         contentId: element.contentId);
     _elementsDao.update(newElement);
     notifyListeners();

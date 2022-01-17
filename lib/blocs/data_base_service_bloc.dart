@@ -31,10 +31,11 @@ class DataBaseServiceBloc extends ChangeNotifier {
   }
 
   Future<int> folderInsert(String name, Color color) async {
-    int pageID = await pageInsert();
+    int pageID = generateID();
     int folderID = generateID();
     FolderType folder = FolderType(
         id: folderID, name: name, color: color, contentIds: [pageID]);
+    await pageInsert(folder, pageID: pageID);
     await _folderDao.insert(folder);
     notifyListeners();
     return folderID;
@@ -45,13 +46,9 @@ class DataBaseServiceBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  void folderUpdate(FolderType folder) async {
-    await _folderDao.update(folder);
-    notifyListeners();
-  }
-
-  Future<int> pageInsert() async {
-    int pageID = generateID();
+  Future pageInsert(FolderType folder, {int? pageID}) async {
+    bool updateFolder = pageID == null;
+    pageID ??= generateID();
     DateTime now = DateTime.now();
     String date = now.day.toString() +
         "." +
@@ -60,9 +57,20 @@ class DataBaseServiceBloc extends ChangeNotifier {
         now.year.toString().substring(2);
     D4PageType page =
         D4PageType(id: pageID, name: "Untitled", date: date, contentIds: []);
+      List<int> contentIds = [pageID];
+      contentIds
+          .addAll(folder.contentIds);
+    FolderType newFolder =
+      FolderType(
+          id: folder.id,
+          name: folder.name,
+          color: folder.color,
+          contentIds: contentIds);
     await _pagesDao.insert(page);
+    if (updateFolder) {
+      await _folderDao.update(newFolder);
+    }
     notifyListeners();
-    return pageID;
   }
 
   void pageDelete(D4PageType page) async {
@@ -90,6 +98,20 @@ class DataBaseServiceBloc extends ChangeNotifier {
       contentId: 0,
     );
     await _elementsDao.insert(contentElement);
-    await pageInsertElement(pageID, elementID); // NOTE notifyListeners called here
+    await pageInsertElement(
+        pageID, elementID); // NOTE notifyListeners called here
+  }
+
+  Future elementUpdatePosition(
+      ContentElement element, int top, int left) async {
+    ContentElement newElement = ContentElement(
+        id: element.id,
+        left: left,
+        top: top,
+        width: element.width,
+        height: element.height,
+        contentId: element.contentId);
+    _elementsDao.update(newElement);
+    notifyListeners();
   }
 }

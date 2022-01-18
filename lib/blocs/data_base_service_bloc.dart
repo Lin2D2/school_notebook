@@ -51,11 +51,16 @@ class DataBaseServiceBloc extends ChangeNotifier {
     bool updateFolder = pageID == null;
     pageID ??= _generateID();
     DateTime now = DateTime.now();
-    String date = now.day.toString() +
-        "." +
-        now.month.toString() +
-        "." +
-        now.year.toString().substring(2);
+    String day = now.day.toString();
+    if (day.length == 1) {
+      day = " "+day;  // NOTE this is to make it always 2 long
+    }
+    String month = now.month.toString();
+    if (month.length == 1) {
+      month = " "+month;  // NOTE this is to make it always 2 long
+    }
+    String year = now.year.toString();
+    String date = day + "." + month + "." + year.substring(2);
     D4PageType page =
         D4PageType(id: pageID, name: "Untitled", date: date, contentIds: []);
     List<int> contentIds = [pageID];

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:school_notebook/blocs/navigator_bloc.dart';
-import 'package:school_notebook/services/navigator_service.dart';
 
+import '../blocs/navigator_bloc.dart';
+import '../services/navigator_service.dart';
 import '../blocs/data_base_service_bloc.dart';
 import '../types/page_types.dart';
 
@@ -21,7 +21,7 @@ class CustomFolderElement extends StatefulWidget {
 class _CustomFolderElementState extends State<CustomFolderElement>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  bool menuOpen = false;
+  bool _menuOpen = false;
 
   @override
   void initState() {
@@ -118,12 +118,12 @@ class _CustomFolderElementState extends State<CustomFolderElement>
                         splashRadius: 25,
                         onPressed: () {
                           setState(() {
-                            menuOpen = !menuOpen;
+                            _menuOpen = !_menuOpen;
                           });
                         },
                       ),
                     ),
-                    if (menuOpen)
+                    if (_menuOpen)
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: TextButton(
@@ -137,7 +137,7 @@ class _CustomFolderElementState extends State<CustomFolderElement>
                           ),
                         ),
                       ),
-                    if (menuOpen)
+                    if (_menuOpen)
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: TextButton(
@@ -172,7 +172,7 @@ class _CustomFolderElementState extends State<CustomFolderElement>
                               },
                             );
                             setState(() {
-                              menuOpen = false;
+                              _menuOpen = false;
                             });
                           },
                           child: const Text(

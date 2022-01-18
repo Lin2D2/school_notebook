@@ -19,7 +19,7 @@ class CustomPageContentLayout extends StatefulWidget {
 }
 
 class _CustomPageContentLayoutState extends State<CustomPageContentLayout> {
-  Widget getChild(BuildContext context) {
+  Widget _getChild(BuildContext context) {
     double scale =
         Provider.of<NotesEditState>(context, listen: true).viewPortScale;
     return Container(
@@ -46,7 +46,8 @@ class _CustomPageContentLayoutState extends State<CustomPageContentLayout> {
       onTapDown: (details) async {
         NotesEditState editState =
             Provider.of<NotesEditState>(context, listen: false);
-        if (editState.isAdd()) { // TODO drag instead an then create ContentElement of Dragged box
+        if (editState.isAdd()) {
+          // TODO drag instead an then create ContentElement of Dragged box
           double scale = editState.viewPortScale;
           int top = details.localPosition.dy ~/ (5 * scale);
           int left = details.localPosition.dx ~/ (5 * scale);
@@ -64,7 +65,7 @@ class _CustomPageContentLayoutState extends State<CustomPageContentLayout> {
                 children: List.generate(
                   snapshot.data!.length,
                   (index) => CustomDraggable(
-                    child: getChild(context),
+                    child: _getChild(context),
                     contentElement: snapshot.data![index],
                   ),
                 ),

@@ -93,7 +93,7 @@ class D4PageDao {
       finder: finder,
     );
     int valueContent = 0;
-    if(d4Page.contentIds.isNotEmpty) {
+    if (d4Page.contentIds.isNotEmpty) {
       valueContent = await ContentElementDao().deleteByIDs(d4Page.contentIds);
     }
     return value + valueContent; // TODO maybe better solution

@@ -18,21 +18,21 @@ class CustomPageIndicator extends StatefulWidget {
 
 class _CustomPageIndicatorState extends State<CustomPageIndicator>
     with TickerProviderStateMixin {
-  int pageIndex = 0;
-  TabController? tabController;
+  int _pageIndex = 0;
+  TabController? _tabController;
 
   @override
   void initState() {
     super.initState();
-    tabController =
-        TabController(length: 1, initialIndex: pageIndex, vsync: this);
+    _tabController =
+        TabController(length: 1, initialIndex: _pageIndex, vsync: this);
     widget.scrollController.addListener(() {
       double pixels = widget.scrollController.position.pixels;
       int newPageIndex = (pixels / 4 != 0 ? pixels / 4 : 1) ~/ (260 + 10);
-      if (newPageIndex != tabController?.index && mounted) {
+      if (newPageIndex != _tabController?.index && mounted) {
         setState(() {
-          pageIndex = newPageIndex;
-          tabController?.animateTo(newPageIndex);
+          _pageIndex = newPageIndex;
+          _tabController?.animateTo(newPageIndex);
         });
       }
       // page spacing with standard height of 260 ca 270 * scale
@@ -54,12 +54,12 @@ class _CustomPageIndicatorState extends State<CustomPageIndicator>
               ),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              tabController = TabController(
+              _tabController = TabController(
                   length: ((snapshot.data?.length ?? 0) + 1),
-                  initialIndex: pageIndex,
+                  initialIndex: _pageIndex,
                   vsync: this);
               return TabPageSelector(
-                controller: tabController,
+                controller: _tabController,
               );
             } else {
               return const CircularProgressIndicator();

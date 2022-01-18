@@ -12,21 +12,21 @@ class CustomDrawer extends StatefulWidget {
 }
 
 class _CustomDrawerState extends State<CustomDrawer> {
-  static final Color backgroundColor = Colors.grey.shade800;
-  static const double width = 80;
-  static const double widthExpand = 200;
-  static const double heightSpacer = 10;
+  static final Color _backgroundColor = Colors.grey.shade800;
+  static const double _width = 80;
+  static const double _widthExpand = 200;
+  static const double _heightSpacer = 10;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: widthExpand,
-      color: backgroundColor,
+      width: _widthExpand,
+      color: _backgroundColor,
       child: Column(
         children: [
           Container(
-            height: width,
-            width: widthExpand,
+            height: _width,
+            width: _widthExpand,
             color: Colors.blue,
             child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -46,14 +46,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 )),
           ),
           const SizedBox(
-            height: heightSpacer,
+            height: _heightSpacer,
           ),
           Material(
-            color: backgroundColor,
+            color: _backgroundColor,
             elevation: 20,
             child: SizedBox(
-              height: MediaQuery.of(context).size.height -
-                  (width + heightSpacer),
+              height:
+                  MediaQuery.of(context).size.height - (_width + _heightSpacer),
               child: ListView.builder(
                 itemCount: NavigatorService.routes.length +
                     NavigatorService.routes.length -
@@ -64,12 +64,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       height: 60,
                       child: ElevatedButton(
                         onPressed: () {
-                          NavigatorService.goTo(
-                              context,
-                              NavigatorService
-                                  .routes[index ~/ 2]
-                                  .route
-                          );
+                          NavigatorService.goTo(context,
+                              NavigatorService.routes[index ~/ 2].route);
                         },
                         child: Padding(
                             padding:

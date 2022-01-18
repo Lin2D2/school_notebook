@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
 class SnackBarService {
-  static void createSimpleSnackBar({
-    required BuildContext context,
-    required String content,
-    Color color=Colors.white
-  }) {
+  static void createSimpleSnackBar(
+      {required BuildContext context,
+      required String content,
+      Color color = Colors.white}) {
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

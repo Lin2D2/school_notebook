@@ -14,15 +14,15 @@ class CustomActionButtonColumn extends StatefulWidget {
 }
 
 class _CustomActionButtonColumnState extends State<CustomActionButtonColumn> {
-  bool expanded = false;
+  bool _expanded = false;
 
-  void menuButtonPressed() {
+  void _menuButtonPressed() {
     setState(() {
-      expanded = !expanded;
+      _expanded = !_expanded;
     });
   }
 
-  void addButtonPressed() {
+  void _addButtonPressed() {
     MouseCursor cursorState =
         Provider.of<MouseCursorState>(context, listen: false).cursorState;
     if (cursorState == SystemMouseCursors.cell) {
@@ -32,8 +32,7 @@ class _CustomActionButtonColumnState extends State<CustomActionButtonColumn> {
       SnackBarService.createSimpleSnackBar(
           context: context,
           content: "Add Mode off",
-          color: Colors.orange.shade400
-      );
+          color: Colors.orange.shade400);
     } else {
       Provider.of<MouseCursorState>(context, listen: false).cursorState =
           SystemMouseCursors.cell;
@@ -41,12 +40,11 @@ class _CustomActionButtonColumnState extends State<CustomActionButtonColumn> {
       SnackBarService.createSimpleSnackBar(
           context: context,
           content: "Add Mode On",
-          color: Colors.orange.shade400
-      );
+          color: Colors.orange.shade400);
     }
   }
 
-  void moveButtonPressed() {
+  void _moveButtonPressed() {
     MouseCursor cursorState =
         Provider.of<MouseCursorState>(context, listen: false).cursorState;
     if (cursorState == SystemMouseCursors.grab) {
@@ -56,8 +54,7 @@ class _CustomActionButtonColumnState extends State<CustomActionButtonColumn> {
       SnackBarService.createSimpleSnackBar(
           context: context,
           content: "Move Mode Off",
-          color: Colors.orange.shade400
-      );
+          color: Colors.orange.shade400);
     } else {
       Provider.of<MouseCursorState>(context, listen: false).cursorState =
           SystemMouseCursors.grab;
@@ -65,12 +62,11 @@ class _CustomActionButtonColumnState extends State<CustomActionButtonColumn> {
       SnackBarService.createSimpleSnackBar(
           context: context,
           content: "Move Mode On",
-          color: Colors.orange.shade400
-      );
+          color: Colors.orange.shade400);
     }
   }
 
-  void resizeButtonPressed() {
+  void _resizeButtonPressed() {
     MouseCursor cursorState =
         Provider.of<MouseCursorState>(context, listen: false).cursorState;
     if (cursorState == SystemMouseCursors.resizeDownRight) {
@@ -80,8 +76,7 @@ class _CustomActionButtonColumnState extends State<CustomActionButtonColumn> {
       SnackBarService.createSimpleSnackBar(
           context: context,
           content: "Resize Mode Off",
-          color: Colors.orange.shade400
-      );
+          color: Colors.orange.shade400);
     } else {
       Provider.of<MouseCursorState>(context, listen: false).cursorState =
           SystemMouseCursors.resizeDownRight;
@@ -89,16 +84,15 @@ class _CustomActionButtonColumnState extends State<CustomActionButtonColumn> {
       SnackBarService.createSimpleSnackBar(
           context: context,
           content: "Resize Mode On",
-          color: Colors.orange.shade400
-      );
+          color: Colors.orange.shade400);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!expanded) {
+    if (!_expanded) {
       return FloatingActionButton(
-        onPressed: () => menuButtonPressed(),
+        onPressed: () => _menuButtonPressed(),
         child: const Icon(Icons.menu),
       );
     } else {
@@ -107,12 +101,12 @@ class _CustomActionButtonColumnState extends State<CustomActionButtonColumn> {
         verticalDirection: VerticalDirection.up,
         children: [
           FloatingActionButton(
-            onPressed: () => menuButtonPressed(),
+            onPressed: () => _menuButtonPressed(),
             child: const Icon(Icons.menu),
           ),
           const SizedBox(height: 10),
           FloatingActionButton(
-            onPressed: () => addButtonPressed(),
+            onPressed: () => _addButtonPressed(),
             child: const Icon(Icons.add),
           ),
           const SizedBox(height: 10),
@@ -122,12 +116,12 @@ class _CustomActionButtonColumnState extends State<CustomActionButtonColumn> {
           ),
           const SizedBox(height: 10),
           FloatingActionButton(
-            onPressed: () => moveButtonPressed(),
+            onPressed: () => _moveButtonPressed(),
             child: const Icon(Icons.auto_awesome_mosaic),
           ),
           const SizedBox(height: 10),
           FloatingActionButton(
-            onPressed: () => resizeButtonPressed(),
+            onPressed: () => _resizeButtonPressed(),
             child: const Icon(Icons.aspect_ratio),
           ),
           // const SizedBox(height: 10),

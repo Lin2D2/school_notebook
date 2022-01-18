@@ -5,9 +5,6 @@ class NavigatorItemType {
   final String name;
   final String route;
 
-  const NavigatorItemType({
-    required this.icon,
-    required this.name,
-    required this.route
-  });
+  const NavigatorItemType(
+      {required this.icon, required this.name, required this.route});
 }

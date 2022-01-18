@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:school_notebook/blocs/data_base_service_bloc.dart';
 
+import '../blocs/data_base_service_bloc.dart';
 import '../blocs/navigator_bloc.dart';
 import '../blocs/notes_edit_state_bloc.dart';
-import '../types/page_types.dart';
 import '../widgets/custom_action_button_column.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_drawer.dart';
@@ -51,7 +50,7 @@ class ZoomWidget extends StatelessWidget {
   const ZoomWidget({Key? key}) : super(key: key);
   static const double _size = 15;
   static const EdgeInsetsGeometry _padding = EdgeInsets.all(0);
-  static const double stepSize = 0.125;
+  static const double _stepSize = 0.125;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +67,7 @@ class ZoomWidget extends StatelessWidget {
             onPressed: () {
               NotesEditState editState =
                   Provider.of<NotesEditState>(context, listen: false);
-              editState.viewPortZoom = editState.viewPortZoom + stepSize;
+              editState.viewPortZoom = editState.viewPortZoom + _stepSize;
             },
           ),
           const Spacer(),
@@ -81,7 +80,7 @@ class ZoomWidget extends StatelessWidget {
             onPressed: () {
               NotesEditState editState =
                   Provider.of<NotesEditState>(context, listen: false);
-              editState.viewPortZoom = editState.viewPortZoom - stepSize;
+              editState.viewPortZoom = editState.viewPortZoom - _stepSize;
             },
           ),
           const Spacer(),

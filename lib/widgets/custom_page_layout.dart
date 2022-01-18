@@ -11,9 +11,7 @@ import 'custom_page_indicator.dart';
 
 class CustomPageLayout extends StatelessWidget {
   const CustomPageLayout({Key? key}) : super(key: key);
-  static const TextStyle textStyle =
-      TextStyle(color: Colors.black, fontSize: 50, fontWeight: FontWeight.bold);
-  static final ScrollController scrollController = ScrollController();
+  static final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +40,7 @@ class CustomPageLayout extends StatelessWidget {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return Scrollbar(
-                          controller: CustomPageLayout.scrollController,
+                          controller: CustomPageLayout._scrollController,
                           isAlwaysShown: false,
                           interactive: false,
                           // TODO combine scrolling for Viewer and ListView
@@ -53,7 +51,7 @@ class CustomPageLayout extends StatelessWidget {
                                         listen: true)
                                     .interactiveViewerController,
                             child: ListView.builder(
-                              controller: CustomPageLayout.scrollController,
+                              controller: CustomPageLayout._scrollController,
                               itemCount: ((snapshot.data?.length ?? 0) + 1),
                               itemBuilder: (BuildContext context, int index) {
                                 if (index + 1 ==
@@ -75,7 +73,7 @@ class CustomPageLayout extends StatelessWidget {
                   ),
                 ),
                 CustomPageIndicator(
-                    scrollController: CustomPageLayout.scrollController,
+                    scrollController: CustomPageLayout._scrollController,
                     folder: folder),
                 false
                     ? const SizedBox(

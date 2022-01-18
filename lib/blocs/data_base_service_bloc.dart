@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:school_notebook/types/page_types.dart';
 
+import '../types/page_types.dart';
 import '../types/page_types_dao.dart';
 
 class DataBaseServiceBloc extends ChangeNotifier {
@@ -16,7 +16,7 @@ class DataBaseServiceBloc extends ChangeNotifier {
 
   ContentElementDao get elementsDao => _elementsDao;
 
-  int generateID() {
+  int _generateID() {
     return int.parse(DateTime.now().millisecondsSinceEpoch.toString() +
         Random().nextInt(99).toString());
   }
@@ -31,8 +31,8 @@ class DataBaseServiceBloc extends ChangeNotifier {
   }
 
   Future<int> folderInsert(String name, Color color) async {
-    int pageID = generateID();
-    int folderID = generateID();
+    int pageID = _generateID();
+    int folderID = _generateID();
     FolderType folder = FolderType(
         id: folderID, name: name, color: color, contentIds: [pageID]);
     await pageInsert(Future(() => folder), pageID: pageID);
@@ -41,7 +41,7 @@ class DataBaseServiceBloc extends ChangeNotifier {
     return folderID;
   }
 
-  void folderDelete(FolderType folder) async {
+  Future folderDelete(FolderType folder) async {
     await _folderDao.delete(folder);
     notifyListeners();
   }
@@ -49,7 +49,7 @@ class DataBaseServiceBloc extends ChangeNotifier {
   Future pageInsert(Future<FolderType> futureFolder, {int? pageID}) async {
     FolderType folder = await futureFolder;
     bool updateFolder = pageID == null;
-    pageID ??= generateID();
+    pageID ??= _generateID();
     DateTime now = DateTime.now();
     String date = now.day.toString() +
         "." +
@@ -72,12 +72,12 @@ class DataBaseServiceBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  void pageDelete(D4PageType page) async {
+  Future pageDelete(D4PageType page) async {
     await _pagesDao.delete(page);
     notifyListeners();
   }
 
-  Future pageInsertElement(int pageID, int elementID) async {
+  Future _pageInsertElement(int pageID, int elementID) async {
     D4PageType page = (await _pagesDao.getByIDs([pageID]))[0];
     List<int> contentIds = [elementID];
     contentIds.addAll(page.contentIds);
@@ -87,7 +87,7 @@ class DataBaseServiceBloc extends ChangeNotifier {
   }
 
   Future elementInsert(int pageID, int top, int left) async {
-    int elementID = generateID();
+    int elementID = _generateID();
     ContentElement contentElement = ContentElement(
       id: elementID,
       left: left,
@@ -97,7 +97,7 @@ class DataBaseServiceBloc extends ChangeNotifier {
       contentId: 0,
     );
     await _elementsDao.insert(contentElement);
-    await pageInsertElement(
+    await _pageInsertElement(
         pageID, elementID); // NOTE notifyListeners called here
   }
 

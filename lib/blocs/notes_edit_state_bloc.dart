@@ -69,10 +69,9 @@ class NotesEditState extends ChangeNotifier {
     _interactiveViewerMatrix ??= _interactiveViewerController.value;
     Matrix4 currentMatrix = _interactiveViewerController.value;
     var translation = currentMatrix.getTranslation();
-    _interactiveViewerController
-        .value = (_interactiveViewerMatrix?.clone()?..scale(value))!
-      ..setTranslation(
-          translation); // TODO zoom center not top left
+    _interactiveViewerController.value =
+        (_interactiveViewerMatrix?.clone()?..scale(value))!
+          ..setTranslation(translation); // TODO zoom center not top left
     _viewPortZoom = value;
     notifyListeners();
   }

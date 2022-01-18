@@ -37,47 +37,54 @@ class _CustomPageState extends State<CustomPage> {
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 3 * scale),
+                  padding: EdgeInsets.only(top: 5 * scale),
                   child: SizedBox(
-                    height: 17 * scale,
+                    height: 15 * scale,
                     width: widget.page.width * scale,
                     child: Row(
                       children: [
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(
-                              40 * scale, 2 * scale, 0 * scale, 0 * scale),
-                          child: Container(
-                            height: 15 * scale,
-                            width: 105 * scale,
-                            color: paperColor,
-                            child: Center(
-                              child: Text(
-                                widget.page.name,
-                                style: TextStyle(
-                                  // TODO other font
-                                  color: Colors.black,
-                                  fontSize: 12 * scale,
-                                  fontWeight: FontWeight.bold,
-                                  decoration: TextDecoration.underline,
+                        SizedBox(
+                          width: 35 * scale,
+                          height: 15 * scale,
+                        ),
+                        Expanded(
+                          child: Center(
+                            child: Container(
+                              height: 15 * scale,
+                              width: widget.page.name.length * 6.85 * scale, // NOTE max length 20 or 18?
+                              color: paperColor,
+                              child: Center(
+                                child: Text(
+                                  widget.page.name,
+                                  style: TextStyle(
+                                    // TODO other font
+                                    color: Colors.black,
+                                    fontSize: 12 * scale,
+                                    fontWeight: FontWeight.bold,
+                                    decoration: TextDecoration.underline,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(
-                              10 * scale, 2 * scale, 0 * scale, 10 * scale),
-                          child: Container(
-                            height: 5 * scale,
-                            width: 30 * scale,
-                            color: paperColor,
-                            child: Center(
-                              child: Text(
-                                widget.page.date,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 4 * scale,
-                                    letterSpacing: 1.5 * scale),
+                        SizedBox(
+                          width: 38 * scale,
+                          height: 15 * scale,
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(5 * scale, 0, 8 * scale, 10 * scale),
+                            child: Container(
+                              height: 5 * scale,
+                              width: 30 * scale,
+                              color: paperColor,
+                              child: Center(
+                                child: Text(
+                                  widget.page.date,
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 4 * scale,
+                                      letterSpacing: 1.5 * scale),
+                                ),
                               ),
                             ),
                           ),

@@ -9,11 +9,14 @@ class CustomDraggable extends StatefulWidget {
   // TODO optimize, big performance hit
   final Widget child;
   final ContentElement contentElement;
+  final bool Function(ContentElement currentContent,
+      {int? top, int? left, int? height, int? width}) contentHitDetection;
 
   const CustomDraggable({
     Key? key,
     required this.child,
     required this.contentElement,
+    required this.contentHitDetection,
   }) : super(key: key);
 
   @override
@@ -25,14 +28,17 @@ class _CustomDraggableState extends State<CustomDraggable> {
     NotesEditState notesEditState =
         Provider.of<NotesEditState>(context, listen: false);
     double scale = notesEditState.viewPortScale;
-    _xOffset =
-        details.localPosition.dx - (widget.contentElement.left * (5 * scale));
-    _yOffset =
-        details.localPosition.dy - (widget.contentElement.top * (5 * scale));
+    setState(() {
+      // TODO still some offset glitches
+      _xOffset =
+          details.localPosition.dx - (widget.contentElement.left * (5 * scale));
+      _yOffset =
+          details.localPosition.dy - (widget.contentElement.top * (5 * scale));
+    });
     if (notesEditState.isMove()) {
-      _xTmp = widget.contentElement.left * (5 * scale);
-      _yTmp = widget.contentElement.top * (5 * scale);
       setState(() {
+        _xTmp = widget.contentElement.left * (5 * scale);
+        _yTmp = widget.contentElement.top * (5 * scale);
         _move = true;
       });
     } else if (notesEditState.isResize()) {
@@ -45,16 +51,24 @@ class _CustomDraggableState extends State<CustomDraggable> {
           details.localPosition.dy - widget.contentElement.top * (5 * scale);
       double width = widget.contentElement.width * (5 * scale);
       double height = widget.contentElement.height * (5 * scale);
-      if (dx + (5 * scale) * margin > width) {
-        if (dy + (5 * scale) * margin > height) {
+      setState(() {
+        if (dx + (5 * scale) * margin > width) {
+          if (dy + (5 * scale) * margin > height) {
+            _xTmp = widget.contentElement.left * (5 * scale);
+            _yTmp = widget.contentElement.top * (5 * scale);
+            _yResize = true;
+            _xResize = true;
+          } else {
+            _xTmp = widget.contentElement.left * (5 * scale);
+            _yTmp = widget.contentElement.top * (5 * scale);
+            _xResize = true;
+          }
+        } else if (dy + (5 * scale) * margin > height) {
+          _xTmp = widget.contentElement.left * (5 * scale);
+          _yTmp = widget.contentElement.top * (5 * scale);
           _yResize = true;
-          _xResize = true;
-        } else {
-          _xResize = true;
         }
-      } else if (dy + (5 * scale) * margin > height) {
-        _yResize = true;
-      }
+      });
     }
   }
 
@@ -62,13 +76,11 @@ class _CustomDraggableState extends State<CustomDraggable> {
     NotesEditState notesEditState =
         Provider.of<NotesEditState>(context, listen: false);
     double scale = notesEditState.viewPortScale;
-    if (notesEditState.isMove()) {
-      setState(() {
+    setState(() {
+      if (notesEditState.isMove()) {
         _xTmp = details.localPosition.dx - _xOffset;
         _yTmp = details.localPosition.dy - _yOffset;
-      });
-    } else if (notesEditState.isResize()) {
-      setState(() {
+      } else if (notesEditState.isResize()) {
         if (_xResize) {
           _xTmp = details.localPosition.dx -
               widget.contentElement.left * (5 * scale);
@@ -77,8 +89,8 @@ class _CustomDraggableState extends State<CustomDraggable> {
           _yTmp = details.localPosition.dy -
               widget.contentElement.top * (5 * scale);
         }
-      });
-    }
+      }
+    });
   }
 
   void _dragEnd(DragEndDetails details) async {
@@ -86,44 +98,57 @@ class _CustomDraggableState extends State<CustomDraggable> {
         Provider.of<NotesEditState>(context, listen: false);
     double scale = notesEditState.viewPortScale;
     if (notesEditState.isMove()) {
-      int? top;
-      int? left;
-      if (true) {
-        // TODO check bounds of other children and bound of parent
+      int top = (_yTmp / (5 * scale)).round();
+      int left = (_xTmp / (5 * scale)).round();
+      await Provider.of<DataBaseServiceBloc>(context, listen: false)
+          .elementUpdatePosition(widget.contentElement, top, left);
+      if (widget.contentHitDetection(
+        // TODO not working here
+        widget.contentElement,
+        top: top,
+        left: left,
+      )) {
         if (_move) {
-          top = (_yTmp / (5 * scale)).round();
-          left = (_xTmp / (5 * scale)).round();
-          await Provider.of<DataBaseServiceBloc>(context, listen: false)
-              .elementUpdatePosition(widget.contentElement, top, left);
+          setState(() {
+            _leftCache = left;
+            _topCache = top;
+            _move = false;
+          });
         }
-      }
-      setState(() {
-        if (_move) {
-          _leftCache = left!;
-          _topCache = top!;
+      } else {
+        setState(() {
+          _leftCache = widget.contentElement.left;
+          _topCache = widget.contentElement.top;
           _move = false;
-        }
-      });
+        });
+      }
     } else if (notesEditState.isResize()) {
-      int? height;
-      int? width;
-      if (true) {
-        // TODO check bounds of other children and bound of parent
+      int height = (_yTmp / (5 * scale)).round();
+      int width = (_xTmp / (5 * scale)).round();
+      if (widget.contentHitDetection(
+        // TODO not working here
+        widget.contentElement,
+        height: height,
+        width: width,
+      )) {
         if (_xResize || _yResize) {
-          height = (_yTmp / (5 * scale)).round();
-          width = (_xTmp / (5 * scale)).round();
           await Provider.of<DataBaseServiceBloc>(context, listen: false)
               .elementUpdateSize(widget.contentElement, height, width);
+          setState(() {
+            _widthCache = width;
+            _heightCache = height;
+            _xResize = false;
+            _yResize = false;
+          });
         }
-      }
-      setState(() {
-        if (_xResize || _yResize) {
-          _widthCache = width!;
-          _heightCache = height!;
+      } else {
+        setState(() {
+          _widthCache = widget.contentElement.width;
+          _heightCache = widget.contentElement.height;
           _xResize = false;
           _yResize = false;
-        }
-      });
+        });
+      }
     }
   }
 

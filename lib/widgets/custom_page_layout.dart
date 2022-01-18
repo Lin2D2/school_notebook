@@ -22,8 +22,11 @@ class CustomPageLayout extends StatelessWidget {
       // TODO not directly but on Hover of specific Elements
       child: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          FolderType? folder =
-              Provider.of<NavigatorBloc>(context, listen: true).folder;
+          Future<FolderType> folder = Provider.of<DataBaseServiceBloc>(context,
+                  listen: true)
+              .folderDao
+              .getByID(
+                  Provider.of<NavigatorBloc>(context, listen: true).folderID!);
           return Scaffold(
             body: Row(
               children: [
@@ -33,7 +36,9 @@ class CustomPageLayout extends StatelessWidget {
                     future:
                         Provider.of<DataBaseServiceBloc>(context, listen: true)
                             .pageDao
-                            .getByIDs(folder!.contentIds),
+                            .getByFutureIDs(
+                              folder.then((value) => value.contentIds),
+                            ),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return Scrollbar(
@@ -88,7 +93,7 @@ class CustomPageLayout extends StatelessWidget {
 }
 
 class AddPagePage extends StatelessWidget {
-  final FolderType folder;
+  final Future<FolderType> folder;
 
   const AddPagePage({Key? key, required this.folder}) : super(key: key);
 

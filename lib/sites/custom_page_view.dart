@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:school_notebook/blocs/data_base_service_bloc.dart';
 
 import '../blocs/navigator_bloc.dart';
 import '../blocs/notes_edit_state_bloc.dart';
@@ -15,8 +16,6 @@ class CustomPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FolderType? folder =
-        Provider.of<NavigatorBloc>(context, listen: true).folder;
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<NotesEditState>(create: (_) => NotesEditState()),
@@ -24,7 +23,13 @@ class CustomPageView extends StatelessWidget {
       child: SafeArea(
         child: CustomDrawerSideRail(
           child: Scaffold(
-            appBar: CustomAppBar(title: Future(() => folder!.name)),
+            appBar: CustomAppBar(
+              title: Provider.of<DataBaseServiceBloc>(context, listen: true)
+                  .folderDao
+                  .getByID(Provider.of<NavigatorBloc>(context, listen: true)
+                      .folderID!)
+                  .then((value) => value.name),
+            ),
             drawer: const CustomDrawer(),
             persistentFooterButtons: [
               Expanded(
@@ -63,7 +68,8 @@ class ZoomWidget extends StatelessWidget {
             constraints: BoxConstraints.tight(const Size(_size, _size)),
             icon: const Icon(Icons.add),
             onPressed: () {
-              NotesEditState editState = Provider.of<NotesEditState>(context, listen: false);
+              NotesEditState editState =
+                  Provider.of<NotesEditState>(context, listen: false);
               editState.viewPortZoom = editState.viewPortZoom + stepSize;
             },
           ),
@@ -75,7 +81,8 @@ class ZoomWidget extends StatelessWidget {
             constraints: BoxConstraints.tight(const Size(_size, _size)),
             icon: const Icon(Icons.remove),
             onPressed: () {
-              NotesEditState editState = Provider.of<NotesEditState>(context, listen: false);
+              NotesEditState editState =
+                  Provider.of<NotesEditState>(context, listen: false);
               editState.viewPortZoom = editState.viewPortZoom - stepSize;
             },
           ),

@@ -132,6 +132,11 @@ class D4PageDao {
     }).toList();
   }
 
+  Future<List<D4PageType>> getByFutureIDs(Future<List<int>> futureIDs) async {
+    List<int> ids = await futureIDs;
+    return getByIDs(ids);
+  }
+
   Future<List<D4PageType>> getByIDs(List<int> ids) async {
     final finder = Finder(
         filter: Filter.inList("id", ids), sortOrders: [SortOrder('date')]);

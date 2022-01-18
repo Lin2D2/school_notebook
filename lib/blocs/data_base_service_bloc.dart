@@ -35,7 +35,7 @@ class DataBaseServiceBloc extends ChangeNotifier {
     int folderID = generateID();
     FolderType folder = FolderType(
         id: folderID, name: name, color: color, contentIds: [pageID]);
-    await pageInsert(folder, pageID: pageID);
+    await pageInsert(Future(() => folder), pageID: pageID);
     await _folderDao.insert(folder);
     notifyListeners();
     return folderID;
@@ -46,7 +46,8 @@ class DataBaseServiceBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future pageInsert(FolderType folder, {int? pageID}) async {
+  Future pageInsert(Future<FolderType> futureFolder, {int? pageID}) async {
+    FolderType folder = await futureFolder;
     bool updateFolder = pageID == null;
     pageID ??= generateID();
     DateTime now = DateTime.now();

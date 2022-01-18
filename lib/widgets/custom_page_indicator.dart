@@ -6,7 +6,7 @@ import '../types/page_types.dart';
 
 class CustomPageIndicator extends StatefulWidget {
   final ScrollController scrollController;
-  final FolderType folder;
+  final Future<FolderType> folder;
 
   const CustomPageIndicator(
       {Key? key, required this.scrollController, required this.folder})
@@ -49,7 +49,9 @@ class _CustomPageIndicatorState extends State<CustomPageIndicator>
           // TODO optimize
           future: Provider.of<DataBaseServiceBloc>(context, listen: true)
               .pageDao
-              .getByIDs(widget.folder.contentIds),
+              .getByFutureIDs(
+                widget.folder.then((value) => value.contentIds),
+              ),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               tabController = TabController(

@@ -43,8 +43,8 @@ class _CustomFolderElementState extends State<CustomFolderElement>
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        Provider.of<NavigatorBloc>(context, listen: false).folder =
-            widget.folder;
+        Provider.of<NavigatorBloc>(context, listen: false).folderID =
+            widget.folder.id;
         NavigatorService.goTo(context, "/notes");
       },
       child: MouseRegion(

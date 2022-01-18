@@ -6,12 +6,12 @@ class NavigatorBloc extends ChangeNotifier {
   int _id = 1;  // because default open side is home
   int _index = 0;
   bool _sideNavigationRailState = true;
-  FolderType? _folder;
+  int? _folderID;
 
   int get id => _id;
   int get index => _index;
   bool get sideNavigationRailState => _sideNavigationRailState;
-  FolderType? get folder => _folder;
+  int? get folderID => _folderID;
 
   set id(int val) {
     _id = val;
@@ -28,8 +28,8 @@ class NavigatorBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  set folder(FolderType? val) {
-    _folder = val;
+  set folderID(int? val) {
+    _folderID = val;
     notifyListeners();
   }
 }

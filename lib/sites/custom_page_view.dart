@@ -32,12 +32,10 @@ class CustomPageView extends StatelessWidget {
             ),
             drawer: const CustomDrawer(),
             persistentFooterButtons: [
-              Expanded(
-                child: Row(
-                  children: const [
-                    ZoomWidget(),
-                  ],
-                ),
+              Row(
+                children: const [
+                  ZoomWidget(),
+                ],
               )
             ],
             floatingActionButton: const CustomActionButtonColumn(),

@@ -75,7 +75,7 @@ class CustomPageLayout extends StatelessWidget {
                 CustomPageIndicator(
                     scrollController: CustomPageLayout._scrollController,
                     folder: folder),
-                false
+                constraints.maxWidth > 1300
                     ? const SizedBox(
                         width: 300,
                       )

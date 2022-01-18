@@ -14,7 +14,7 @@ class DatabaseService {
 
   DatabaseService._();
 
-  late Database _database;
+  // late Database _database;
 
   Future<Database> get database async {
     if (_dbOpenCompleter == null) {

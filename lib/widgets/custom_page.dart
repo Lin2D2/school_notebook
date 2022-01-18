@@ -5,8 +5,6 @@ import '../types/page_types.dart';
 import '../blocs/notes_edit_state_bloc.dart';
 import 'custom_page_content_layout.dart';
 
-Color paperColor = Colors.grey.shade200;
-
 class CustomPage extends StatefulWidget {
   final D4PageType page;
 
@@ -20,6 +18,8 @@ class CustomPage extends StatefulWidget {
 }
 
 class _CustomPageState extends State<CustomPage> {
+  final Color paperColor = Colors.grey.shade200;
+
   @override
   Widget build(BuildContext context) {
     double scale =
@@ -37,37 +37,40 @@ class _CustomPageState extends State<CustomPage> {
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 5 * scale),
+                  padding: EdgeInsets.only(top: 3 * scale),
                   child: SizedBox(
-                    height: 15 * scale,
+                    height: 17 * scale,
                     width: widget.page.width * scale,
                     child: Row(
                       children: [
                         Padding(
                           padding: EdgeInsets.fromLTRB(
                               40 * scale, 2 * scale, 0 * scale, 0 * scale),
-                          child: SizedBox(
+                          child: Container(
                             height: 15 * scale,
                             width: 105 * scale,
+                            color: paperColor,
                             child: Center(
                               child: Text(
                                 widget.page.name,
                                 style: TextStyle(
-                                    // TODO other font
-                                    color: Colors.black,
-                                    fontSize: 10 * scale,
-                                    fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.underline),
+                                  // TODO other font
+                                  color: Colors.black,
+                                  fontSize: 12 * scale,
+                                  fontWeight: FontWeight.bold,
+                                  decoration: TextDecoration.underline,
+                                ),
                               ),
                             ),
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.fromLTRB(
-                              10 * scale, 0 * scale, 0 * scale, 10 * scale),
-                          child: SizedBox(
+                              10 * scale, 2 * scale, 0 * scale, 10 * scale),
+                          child: Container(
                             height: 5 * scale,
                             width: 30 * scale,
+                            color: paperColor,
                             child: Center(
                               child: Text(
                                 widget.page.date,
@@ -127,20 +130,6 @@ class BackgroundPaint extends CustomPainter {
         canvas.drawPath(linePath, paint);
       }
     }
-
-    paint.color = paperColor;
-
-    // Heading space
-    Path linePath = Path();
-    linePath
-        .addRect(Rect.fromLTRB(40 * scale, 5 * scale, 145 * scale, 20 * scale));
-    canvas.drawPath(linePath, paint);
-
-    // Date space
-    linePath = Path();
-    linePath.addRect(
-        Rect.fromLTRB(155 * scale, 5 * scale, 185 * scale, 10 * scale));
-    canvas.drawPath(linePath, paint);
   }
 
   @override

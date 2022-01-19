@@ -56,13 +56,7 @@ class _CustomPageState extends State<CustomPage> {
                               child: Center(
                                 child: Text(
                                   widget.page.name,
-                                  style: TextStyle(
-                                    // TODO other font
-                                    color: Colors.black,
-                                    fontSize: 12 * scale,
-                                    fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.underline,
-                                  ),
+                                  style: Theme.of(context).textTheme.headline1,
                                 ),
                               ),
                             ),
@@ -80,10 +74,7 @@ class _CustomPageState extends State<CustomPage> {
                               child: Center(
                                 child: Text(
                                   widget.page.date,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 4 * scale,
-                                      letterSpacing: 1.5 * scale),
+                                  style: Theme.of(context).textTheme.headline6,
                                 ),
                               ),
                             ),
@@ -119,7 +110,7 @@ class BackgroundPaint extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint();
-    paint.color = Colors.grey.shade400;
+    paint.color = Colors.grey.shade300;
 
     for (int i = 1; i < height * scale; i++) {
       if (i % (5 * scale) == 0) {

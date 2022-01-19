@@ -31,8 +31,44 @@ class App extends StatelessWidget {
         themeMode: ThemeMode.dark,
         darkTheme: ThemeData(
           colorScheme: ColorScheme.dark(background: Colors.grey.shade800),
-          textTheme: const TextTheme()
-              .apply(bodyColor: Colors.black, displayColor: Colors.black),
+          textTheme: const TextTheme( // TODO only works with scale 5, combine zoom and scale to zoom only
+            bodyText1:
+                TextStyle(color: Colors.black, fontSize: 16, height: 1.23),
+            headline1: TextStyle(
+              color: Colors.black,
+              fontSize: 48,
+              fontWeight: FontWeight.bold,
+              decoration: TextDecoration.underline,
+              decorationThickness: 2
+            ),
+            headline2: TextStyle(
+              color: Colors.black,
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+              decoration: TextDecoration.underline,
+            ),
+            headline3: TextStyle(
+              color: Colors.black,
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+            ),
+            headline4: TextStyle(
+              color: Colors.black,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              decoration: TextDecoration.underline,
+            ),
+            headline5: TextStyle(
+              color: Colors.black,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+            headline6: TextStyle(
+              color: Colors.black,
+              fontSize: 16,
+              letterSpacing: 6,
+            ),
+          ),
         ),
         theme: ThemeData(
           colorScheme: const ColorScheme.light(),

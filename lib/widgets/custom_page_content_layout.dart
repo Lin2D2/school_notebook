@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 
 import '../blocs/data_base_service_bloc.dart';
@@ -21,23 +20,19 @@ class _CustomPageContentLayoutState extends State<CustomPageContentLayout> {
   late List<ContentElement> _contentElements;
 
   Widget _getChild(BuildContext context) {
-    // TODO remove
-    double scale =
-        Provider.of<NotesEditState>(context, listen: true).viewPortScale;
-    return Container(
-      color: Colors.red,
-      child: MarkdownBody(
-        styleSheet: MarkdownStyleSheet.fromTheme(
-          ThemeData(
-            textTheme: Theme.of(context).textTheme.apply(
-                bodyColor: Colors.black,
-                displayColor: Colors.black,
-                fontSizeFactor: 0.2 * scale),
-          ),
-        ),
-        data: "# Test Data \n # H1 \n ## H2 \n ### H3 \n test, test",
-        selectable: true,
-      ),
+    TextTheme theme = Theme.of(context).textTheme;
+    TextSpan spacer = const TextSpan(text: "  ");
+    return SelectableText.rich(
+      TextSpan(style: theme.bodyText1, children: [
+        TextSpan(text: "Heading 1\n", style: theme.headline2),
+        spacer, spacer, TextSpan(text: "blablabla\n"),
+        TextSpan(text: "Heading 2\n", style: theme.headline3),
+        spacer, spacer, TextSpan(text: "blablabla\n"),
+        spacer, TextSpan(text: "Heading 3\n", style: theme.headline4),
+        spacer, spacer, TextSpan(text: "blablabla\n"),
+        spacer, TextSpan(text: "Heading 4\n", style: theme.headline5),
+        spacer, spacer, TextSpan(text: "blablabla\n"),
+      ]),
     );
   }
 
@@ -330,7 +325,13 @@ class Element extends StatelessWidget {
       child: Container(
         height: height,
         width: width,
-        color: Colors.red,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.grey.shade700,
+            width: child == null ? 2.5 : 0,
+            style: child == null ? BorderStyle.solid : BorderStyle.none,
+          ),
+        ),
         child: child ?? Container(),
       ),
     );

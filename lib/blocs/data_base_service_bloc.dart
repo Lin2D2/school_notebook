@@ -17,7 +17,10 @@ class DataBaseServiceBloc extends ChangeNotifier {
   ContentElementDao get elementsDao => _elementsDao;
 
   int _generateID() {
-    return int.parse(DateTime.now().millisecondsSinceEpoch.toString() +
+    return int.parse(DateTime
+        .now()
+        .millisecondsSinceEpoch
+        .toString() +
         Random().nextInt(99).toString());
   }
 
@@ -53,16 +56,16 @@ class DataBaseServiceBloc extends ChangeNotifier {
     DateTime now = DateTime.now();
     String day = now.day.toString();
     if (day.length == 1) {
-      day = " "+day;  // NOTE this is to make it always 2 long
+      day = " " + day; // NOTE this is to make it always 2 long
     }
     String month = now.month.toString();
     if (month.length == 1) {
-      month = " "+month;  // NOTE this is to make it always 2 long
+      month = " " + month; // NOTE this is to make it always 2 long
     }
     String year = now.year.toString();
     String date = day + "." + month + "." + year.substring(2);
     D4PageType page =
-        D4PageType(id: pageID, name: "Untitled", date: date, contentIds: []);
+    D4PageType(id: pageID, name: "Untitled", date: date, contentIds: []);
     List<int> contentIds = [pageID];
     contentIds.addAll(folder.contentIds);
     FolderType newFolder = FolderType(

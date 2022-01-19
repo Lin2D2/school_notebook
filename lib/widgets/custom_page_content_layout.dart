@@ -19,23 +19,6 @@ class CustomPageContentLayout extends StatefulWidget {
 class _CustomPageContentLayoutState extends State<CustomPageContentLayout> {
   late List<ContentElement> _contentElements;
 
-  Widget _getChild(BuildContext context) {
-    TextTheme theme = Theme.of(context).textTheme;
-    TextSpan spacer = const TextSpan(text: "  ");
-    return SelectableText.rich(
-      TextSpan(style: theme.bodyText1, children: [
-        TextSpan(text: "Heading 1\n", style: theme.headline2),
-        spacer, spacer, TextSpan(text: "blablabla\n"),
-        TextSpan(text: "Heading 2\n", style: theme.headline3),
-        spacer, spacer, TextSpan(text: "blablabla\n"),
-        spacer, TextSpan(text: "Heading 3\n", style: theme.headline4),
-        spacer, spacer, TextSpan(text: "blablabla\n"),
-        spacer, TextSpan(text: "Heading 4\n", style: theme.headline5),
-        spacer, spacer, TextSpan(text: "blablabla\n"),
-      ]),
-    );
-  }
-
   ContentElement? _contentHitDetection(
       {ContentElement? currentContent,
       double? top,
@@ -276,7 +259,7 @@ class _CustomPageContentLayoutState extends State<CustomPageContentLayout> {
                             (0.5 * scale),
                         width: snapshot.data![index].width * (5 * scale) -
                             (0.5 * scale),
-                        child: _getChild(context),
+                        contentID: snapshot.data![index].contentId,
                       ),
                     ),
                   ),
@@ -301,12 +284,12 @@ class _CustomPageContentLayoutState extends State<CustomPageContentLayout> {
   }
 }
 
-class Element extends StatelessWidget {
+class Element extends StatefulWidget {
   final double top;
   final double left;
   final double height;
   final double width;
-  final Widget? child;
+  final int? contentID;
 
   const Element(
       {Key? key,
@@ -314,25 +297,78 @@ class Element extends StatelessWidget {
       required this.left,
       required this.height,
       required this.width,
-      this.child})
+      this.contentID})
       : super(key: key);
+
+  @override
+  State<Element> createState() => _ElementState();
+}
+
+class _ElementState extends State<Element> {
+  bool editable = false;
 
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: top,
-      left: left,
+      top: widget.top,
+      left: widget.left,
       child: Container(
-        height: height,
-        width: width,
+        height: widget.height,
+        width: widget.width,
         decoration: BoxDecoration(
           border: Border.all(
             color: Colors.grey.shade700,
-            width: child == null ? 2.5 : 0,
-            style: child == null ? BorderStyle.solid : BorderStyle.none,
+            width: widget.contentID == null ? 2.5 : 0,
+            style: widget.contentID == null ? BorderStyle.solid : BorderStyle.none,
           ),
         ),
-        child: child ?? Container(),
+        child: GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          // TODO EditableText text consumes input
+          // NOTE maybe solve with only one Text editable at time
+          onLongPress: () => setState(() => editable = !editable),
+          child: widget.contentID != null ?
+          FutureBuilder(
+            future: Future(() => "Test"),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    // TODO change between editable and Selectable text when clicked and parse Text from editable
+                    if (editable) {
+                      return EditableText(
+                      controller: TextEditingController(),
+                      backgroundCursorColor: Colors.grey,
+                      cursorColor: Colors.black,
+                      focusNode: FocusNode(),
+                      // NOTE max 32-bit int
+                      maxLines: 0x7fffffff,
+                      style: Theme.of(context).textTheme.bodyText1!,
+                    );
+                    } else {
+                      TextTheme theme = Theme.of(context).textTheme;
+                      TextSpan spacer = const TextSpan(text: "  ");
+                      return SelectableText.rich(
+                          TextSpan(style: theme.bodyText1, children: [
+                            TextSpan(text: "Heading 1\n", style: theme.headline2),
+                            spacer, spacer, TextSpan(text: "blablabla\n"),
+                            TextSpan(text: "Heading 2\n", style: theme.headline3),
+                            spacer, spacer, TextSpan(text: "blablabla\n"),
+                            spacer, TextSpan(text: "Heading 3\n", style: theme.headline4),
+                            spacer, spacer, TextSpan(text: "blablabla\n"),
+                            spacer, TextSpan(text: "Heading 4\n", style: theme.headline5),
+                            spacer, spacer, TextSpan(text: "blablabla\n"),
+                          ],
+                        ),
+                      );
+                    }
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              ) :
+              Container(),
+        ),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:school_notebook/widgets/custom_focus_node.dart';
 
 import '../blocs/data_base_service_bloc.dart';
 import '../blocs/notes_edit_state_bloc.dart';
@@ -284,7 +285,7 @@ class _CustomPageContentLayoutState extends State<CustomPageContentLayout> {
   }
 }
 
-class Element extends StatefulWidget {
+class Element extends StatelessWidget {
   final double top;
   final double left;
   final double height;
@@ -300,75 +301,78 @@ class Element extends StatefulWidget {
       this.contentID})
       : super(key: key);
 
-  @override
-  State<Element> createState() => _ElementState();
-}
-
-class _ElementState extends State<Element> {
-  bool editable = false;
+  // TODO show other borders on move
 
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: widget.top,
-      left: widget.left,
+      top: top,
+      left: left,
       child: Container(
-        height: widget.height,
-        width: widget.width,
+        height: height,
+        width: width,
         decoration: BoxDecoration(
           border: Border.all(
             color: Colors.grey.shade700,
-            width: widget.contentID == null ? 2.5 : 0,
-            style: widget.contentID == null ? BorderStyle.solid : BorderStyle.none,
+            width: contentID == null ? 2.5 : 0,
+            style: contentID == null ? BorderStyle.solid : BorderStyle.none,
           ),
         ),
-        child: GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          // TODO EditableText text consumes input
-          // NOTE maybe solve with only one Text editable at time
-          onLongPress: () => setState(() => editable = !editable),
-          child: widget.contentID != null ?
-          FutureBuilder(
-            future: Future(() => "Test"),
+        child: contentID != null
+            ? FutureBuilder(
+                future: Future(() => "Test"),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    // TODO change between editable and Selectable text when clicked and parse Text from editable
-                    if (editable) {
-                      return EditableText(
-                      controller: TextEditingController(),
-                      backgroundCursorColor: Colors.grey,
-                      cursorColor: Colors.black,
-                      focusNode: FocusNode(),
-                      // NOTE max 32-bit int
-                      maxLines: 0x7fffffff,
-                      style: Theme.of(context).textTheme.bodyText1!,
+                    TextTheme theme = Theme.of(context).textTheme;
+                    TextSpan spacer = const TextSpan(text: "  ");
+                    TextSpan content = TextSpan(
+                      // TODO generate content
+                      style: theme.bodyText1,
+                      children: [
+                        TextSpan(text: "Heading 1\n", style: theme.headline2),
+                        spacer,
+                        spacer,
+                        TextSpan(text: "blablabla\n"),
+                        TextSpan(text: "Heading 2\n", style: theme.headline3),
+                        spacer,
+                        spacer,
+                        TextSpan(text: "blablabla\n"),
+                        spacer,
+                        TextSpan(text: "Heading 3\n", style: theme.headline4),
+                        spacer,
+                        spacer,
+                        TextSpan(text: "blablabla\n"),
+                        spacer,
+                        TextSpan(text: "Heading 4\n", style: theme.headline5),
+                        spacer,
+                        spacer,
+                        TextSpan(text: "blablabla\n"),
+                      ],
                     );
-                    } else {
-                      TextTheme theme = Theme.of(context).textTheme;
-                      TextSpan spacer = const TextSpan(text: "  ");
-                      return SelectableText.rich(
-                          TextSpan(style: theme.bodyText1, children: [
-                            TextSpan(text: "Heading 1\n", style: theme.headline2),
-                            spacer, spacer, TextSpan(text: "blablabla\n"),
-                            TextSpan(text: "Heading 2\n", style: theme.headline3),
-                            spacer, spacer, TextSpan(text: "blablabla\n"),
-                            spacer, TextSpan(text: "Heading 3\n", style: theme.headline4),
-                            spacer, spacer, TextSpan(text: "blablabla\n"),
-                            spacer, TextSpan(text: "Heading 4\n", style: theme.headline5),
-                            spacer, spacer, TextSpan(text: "blablabla\n"),
-                          ],
-                        ),
-                      );
-                    }
+                    return CustomFocusNode(
+                      id: contentID!,
+                      focusChild: EditableText(
+                        controller: TextEditingController(),
+                        backgroundCursorColor: Colors.grey,
+                        cursorColor: Colors.black,
+                        focusNode: FocusNode(),
+                        // NOTE max 32-bit int
+                        maxLines: 0x7fffffff,
+                        style: Theme.of(context).textTheme.bodyText1!,
+                      ),
+                      child: Provider.of<NotesEditState>(context, listen: true)
+                              .isNone()
+                          ? SelectableText.rich(content)
+                          : RichText(text: content),
+                    );
                   } else {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
                   }
                 },
-              ) :
-              Container(),
-        ),
+              )
+            : null,
       ),
     );
   }

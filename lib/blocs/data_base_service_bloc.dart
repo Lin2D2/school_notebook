@@ -102,7 +102,7 @@ class DataBaseServiceBloc extends ChangeNotifier {
       top: top,
       width: 10,
       height: 10,
-      contentId: 0,
+      contentId: _generateID(), // TODO create contentData
     );
     await _elementsDao.insert(contentElement);
     await _pageInsertElement(

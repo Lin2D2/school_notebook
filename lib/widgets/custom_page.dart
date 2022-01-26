@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../types/page_types.dart';
 import '../blocs/notes_edit_state_bloc.dart';
+import 'custom_focus_node.dart';
 import 'custom_page_content_layout.dart';
 
 class CustomPage extends StatefulWidget {
@@ -51,12 +52,25 @@ class _CustomPageState extends State<CustomPage> {
                           child: Center(
                             child: Container(
                               height: 15 * scale,
-                              width: widget.page.name.length * 6.85 * scale, // NOTE max length 20 or 18?
+                              width: widget.page.name.length * 6.85 * scale,
+                              // NOTE max length 20 or 18?
                               color: paperColor,
                               child: Center(
-                                child: Text(
-                                  widget.page.name,
-                                  style: Theme.of(context).textTheme.headline1,
+                                child: CustomFocusNode(
+                                  id: widget.page.id,
+                                  focusChild: EditableText(
+                                    textAlign: TextAlign.center,
+                                    controller: TextEditingController(), // TODO save
+                                    backgroundCursorColor: Colors.grey,
+                                    cursorColor: Colors.black,
+                                    focusNode: FocusNode(),
+                                    style: Theme.of(context).textTheme.headline1!,
+                                  ),
+                                  child: Text(
+                                    widget.page.name,
+                                    style:
+                                        Theme.of(context).textTheme.headline1,
+                                  ),
                                 ),
                               ),
                             ),
@@ -66,15 +80,27 @@ class _CustomPageState extends State<CustomPage> {
                           width: 38 * scale,
                           height: 15 * scale,
                           child: Padding(
-                            padding: EdgeInsets.fromLTRB(5 * scale, 0, 8 * scale, 10 * scale),
+                            padding: EdgeInsets.fromLTRB(
+                                5 * scale, 0, 8 * scale, 10 * scale),
                             child: Container(
                               height: 5 * scale,
                               width: 30 * scale,
                               color: paperColor,
                               child: Center(
-                                child: Text(
-                                  widget.page.date,
-                                  style: Theme.of(context).textTheme.headline6,
+                                child: CustomFocusNode(
+                                  id:  widget.page.id+1,
+                                  focusChild: EditableText(
+                                    controller: TextEditingController(), // TODO save
+                                    backgroundCursorColor: Colors.grey,
+                                    cursorColor: Colors.black,
+                                    focusNode: FocusNode(),
+                                    style: Theme.of(context).textTheme.headline6!,
+                                  ),
+                                  child: Text(
+                                    widget.page.date,
+                                    style:
+                                        Theme.of(context).textTheme.headline6,
+                                  ),
                                 ),
                               ),
                             ),

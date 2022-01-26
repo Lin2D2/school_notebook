@@ -9,6 +9,7 @@ enum CustomDraggableEditState {
 
 class NotesEditState extends ChangeNotifier {
   CustomDraggableEditState _editState = CustomDraggableEditState.none;
+  int? _activeFocusNode;
   double _viewPortScale = 4;
   double _viewPortZoom = 1;
   final TransformationController _interactiveViewerController =
@@ -16,6 +17,8 @@ class NotesEditState extends ChangeNotifier {
   Matrix4? _interactiveViewerMatrix;
 
   CustomDraggableEditState get editState => _editState;
+
+  int? get activeFocusNode => _activeFocusNode;
 
   double get viewPortScale => _viewPortScale;
 
@@ -62,6 +65,11 @@ class NotesEditState extends ChangeNotifier {
 
   set viewPortScale(double value) {
     _viewPortScale = value;
+    notifyListeners();
+  }
+
+  set activeFocusNode(int? value) {
+    _activeFocusNode = value;
     notifyListeners();
   }
 

@@ -66,7 +66,7 @@ class App extends StatelessWidget {
             headline6: TextStyle(
               color: Colors.black,
               fontSize: 16,
-              letterSpacing: 6,
+              letterSpacing: 5,
             ),
           ),
         ),

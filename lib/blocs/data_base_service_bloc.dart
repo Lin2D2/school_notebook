@@ -56,11 +56,11 @@ class DataBaseServiceBloc extends ChangeNotifier {
     DateTime now = DateTime.now();
     String day = now.day.toString();
     if (day.length == 1) {
-      day = " " + day; // NOTE this is to make it always 2 long
+      day = "0" + day; // NOTE this is to make it always 2 long
     }
     String month = now.month.toString();
     if (month.length == 1) {
-      month = " " + month; // NOTE this is to make it always 2 long
+      month = "0" + month; // NOTE this is to make it always 2 long
     }
     String year = now.year.toString();
     String date = day + "." + month + "." + year.substring(2);

@@ -60,11 +60,13 @@ class _CustomPageState extends State<CustomPage> {
                                   id: widget.page.id,
                                   focusChild: EditableText(
                                     textAlign: TextAlign.center,
-                                    controller: TextEditingController(), // TODO save
+                                    controller: TextEditingController(),
+                                    // TODO save
                                     backgroundCursorColor: Colors.grey,
                                     cursorColor: Colors.black,
                                     focusNode: FocusNode(),
-                                    style: Theme.of(context).textTheme.headline1!,
+                                    style:
+                                        Theme.of(context).textTheme.headline1!,
                                   ),
                                   child: Text(
                                     widget.page.name,
@@ -88,13 +90,15 @@ class _CustomPageState extends State<CustomPage> {
                               color: paperColor,
                               child: Center(
                                 child: CustomFocusNode(
-                                  id:  widget.page.id+1,
+                                  id: widget.page.id + 1,
                                   focusChild: EditableText(
-                                    controller: TextEditingController(), // TODO save
+                                    controller: TextEditingController(),
+                                    // TODO save
                                     backgroundCursorColor: Colors.grey,
                                     cursorColor: Colors.black,
                                     focusNode: FocusNode(),
-                                    style: Theme.of(context).textTheme.headline6!,
+                                    style:
+                                        Theme.of(context).textTheme.headline6!,
                                   ),
                                   child: Text(
                                     widget.page.date,
@@ -110,13 +114,31 @@ class _CustomPageState extends State<CustomPage> {
                     ),
                   ),
                 ),
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(
-                        5 * scale, 0 * scale, 3 * scale, 5 * scale),
-                    child: CustomPageContentLayout(page: widget.page),
-                  ),
-                ),
+                Builder(builder: (context) {
+                  return Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(
+                          5 * scale, 0 * scale, 3 * scale, 5 * scale),
+                      child: Stack(
+                        children: [
+                          if (!Provider.of<NotesEditState>(context,
+                                  listen: true)
+                              .isNone())
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey.shade700,
+                                  width: 2.5,
+                                  style: BorderStyle.solid,
+                                ),
+                              ),
+                            ),
+                          CustomPageContentLayout(page: widget.page),
+                        ],
+                      ),
+                    ),
+                  );
+                }),
               ],
             ),
           ),

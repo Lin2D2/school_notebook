@@ -80,7 +80,6 @@ class CustomPageLayout extends StatelessWidget {
                         width: 300,
                       )
                     : const SizedBox(),
-                // TODO only show on wide screen
               ],
             ),
           );

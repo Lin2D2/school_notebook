@@ -304,7 +304,6 @@ class Element extends StatelessWidget {
       this.contentIDs})
       : super(key: key);
 
-  // TODO show other borders on move
   // TODO handle contentElements of contentElements
 
   @override
@@ -312,18 +311,26 @@ class Element extends StatelessWidget {
     return Positioned(
       top: top,
       left: left,
-      child: Container(
-        height: height,
-        width: width,
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.grey.shade700,
-            width: id == null ? 2.5 : 0,
-            style: id == null ? BorderStyle.solid : BorderStyle.none,
-          ),
-        ),
-        child: id != null
-            ? FutureBuilder(
+      child: Stack(
+        children: [
+          if (id == null ||
+              !Provider.of<NotesEditState>(context, listen: true).isNone())
+            Container(
+              height: height,
+              width: width,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.grey.shade700,
+                  width: 2.5,
+                  style: BorderStyle.solid,
+                ),
+              ),
+            ),
+          if (id != null)
+            SizedBox(
+              height: height,
+              width: width,
+              child: FutureBuilder(
                 future: Future(() => "Test"),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
@@ -375,8 +382,9 @@ class Element extends StatelessWidget {
                     );
                   }
                 },
-              )
-            : null,
+              ),
+            ),
+        ],
       ),
     );
   }

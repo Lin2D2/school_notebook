@@ -83,4 +83,13 @@ class NotesEditState extends ChangeNotifier {
     _viewPortZoom = value;
     notifyListeners();
   }
+
+  void translateView(Offset focalPointDelta) { // TODO limit to viewport
+    _interactiveViewerController.value =
+    _interactiveViewerController.value.clone()..translate(
+      focalPointDelta.dx,
+      0,
+    );
+    notifyListeners();
+  }
 }

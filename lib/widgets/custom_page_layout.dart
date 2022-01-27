@@ -46,10 +46,15 @@ class CustomPageLayout extends StatelessWidget {
                           // TODO combine scrolling for Viewer and ListView
                           child: InteractiveViewer(
                             scaleEnabled: false,
+                            panEnabled: false,
                             transformationController:
                                 Provider.of<NotesEditState>(context,
                                         listen: true)
                                     .interactiveViewerController,
+                            onInteractionUpdate: (details) {
+                              Provider.of<NotesEditState>(context, listen: false)
+                                  .translateView(details.focalPointDelta);
+                            },
                             child: ListView.builder(
                               controller: CustomPageLayout._scrollController,
                               itemCount: ((snapshot.data?.length ?? 0) + 1),

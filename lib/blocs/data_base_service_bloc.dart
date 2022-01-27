@@ -65,7 +65,7 @@ class DataBaseServiceBloc extends ChangeNotifier {
     String year = now.year.toString();
     String date = day + "." + month + "." + year.substring(2);
     D4PageType page =
-    D4PageType(id: pageID, name: "Untitled", date: date, contentIds: []);
+    D4PageType(id: pageID, name: "Untitled", date: date, contentIDs: []);
     List<int> contentIds = [pageID];
     contentIds.addAll(folder.contentIds);
     FolderType newFolder = FolderType(
@@ -86,10 +86,11 @@ class DataBaseServiceBloc extends ChangeNotifier {
   }
 
   Future _pageInsertElement(int pageID, int elementID) async {
+    // TODO insert also into content Element if required
     D4PageType page = (await _pagesDao.getByIDs([pageID]))[0];
     List<int> contentIds = [elementID];
-    contentIds.addAll(page.contentIds);
-    page.contentIds = contentIds;
+    contentIds.addAll(page.contentIDs);
+    page.contentIDs = contentIds;
     await _pagesDao.update(page);
     notifyListeners();
   }
@@ -102,7 +103,6 @@ class DataBaseServiceBloc extends ChangeNotifier {
       top: top,
       width: 10,
       height: 10,
-      contentId: _generateID(), // TODO create contentData
     );
     await _elementsDao.insert(contentElement);
     await _pageInsertElement(
@@ -117,7 +117,7 @@ class DataBaseServiceBloc extends ChangeNotifier {
         top: top,
         width: element.width,
         height: element.height,
-        contentId: element.contentId);
+        contentIDs: element.contentIDs);
     _elementsDao.update(newElement);
     notifyListeners();
   }
@@ -130,7 +130,7 @@ class DataBaseServiceBloc extends ChangeNotifier {
         top: element.top,
         width: width,
         height: height,
-        contentId: element.contentId);
+        contentIDs: element.contentIDs);
     _elementsDao.update(newElement);
     notifyListeners();
   }

@@ -110,7 +110,7 @@ class D4PageDao {
     List<D4PageType> pages = await getByIDs(ids);
     List<int> pagesContentIDs = [];
     for (D4PageType page in pages) {
-      pagesContentIDs.addAll(page.contentIds);
+      pagesContentIDs.addAll(page.contentIDs);
     }
     int valueContent = 0;
     if (pagesContentIDs.isNotEmpty) {
@@ -157,8 +157,8 @@ class ContentElementDao {
     );
 
     return recordSnapshots.map((snapshot) {
-      final d4Page = ContentElement.fromMap(snapshot.value);
-      return d4Page;
+      final element = ContentElement.fromMap(snapshot.value);
+      return element;
     }).toList();
   }
 
@@ -171,7 +171,9 @@ class ContentElementDao {
     List<ContentElement> elements = await getByIDs(ids);
     List<int> contentIDs = [];
     for (ContentElement element in elements) {
-      contentIDs.add(element.contentId);
+      if (element.contentIDs != null) {
+        contentIDs.addAll(element.contentIDs!);
+      }
     }
     int valueContent = await deleteByIDs(contentIDs);
     return value + valueContent; // TODO maybe better solution

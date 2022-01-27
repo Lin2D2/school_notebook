@@ -50,7 +50,7 @@ class D4PageType {
   double height;
   double width;
 
-  List<int> contentIds;
+  List<int> contentIDs;
 
   D4PageType(
       {required this.id,
@@ -60,14 +60,14 @@ class D4PageType {
       this.dateController,
       this.height = 260, // NOTE D4 Paper size // IMPORTANT min value 40
       this.width = 188, // NOTE D4 Paper size
-      required this.contentIds});
+      required this.contentIDs});
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'name': name,
       'date': date,
-      'contentIds': contentIds,
+      'contentIDs': contentIDs,
     };
   }
 
@@ -78,7 +78,7 @@ class D4PageType {
       nameController: TextEditingController(),
       date: map['date'],
       dateController: TextEditingController(),
-      contentIds: map['contentIds'].cast<int>().toList(),
+      contentIDs: map['contentIDs'].cast<int>().toList(),
     );
   }
 }
@@ -110,8 +110,8 @@ class ContentElement {
   int top;
   int height;
 
-  ContentTypes contentType;
-  int contentId;
+  ContentTypes? contentType;
+  List<int>? contentIDs;
 
   ContentElement(
       {required this.id,
@@ -119,8 +119,8 @@ class ContentElement {
       required this.top,
       required this.width,
       required this.height,
-      this.contentType = ContentTypes.text,
-      required this.contentId});
+      this.contentType,
+      this.contentIDs});
 
   Map<String, dynamic> toMap() {
     return {
@@ -130,7 +130,7 @@ class ContentElement {
       'width': width,
       'height': height,
       'contentType': contentType.toString(),
-      'contentId': contentId,
+      'contentIDs': contentIDs,
     };
   }
 
@@ -140,9 +140,9 @@ class ContentElement {
     for (var element in ContentTypes.values) {
       if (element.toString() == contentTypeString) {
         contentType = element;
+        break;
       }
     }
-    contentType ??= ContentTypes.text;
     return ContentElement(
       id: map['id'],
       left: map['left'],
@@ -150,7 +150,7 @@ class ContentElement {
       width: map['width'],
       height: map['height'],
       contentType: contentType,
-      contentId: map['contentId'],
+      contentIDs: map['contentIDs'],
     );
   }
 }
@@ -159,6 +159,7 @@ enum ContentTypes {
   text,
   image,
   canvas,
+  contentElement,
 }
 
 class ContentTextType {

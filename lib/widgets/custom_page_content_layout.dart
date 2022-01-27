@@ -240,7 +240,7 @@ class _CustomPageContentLayoutState extends State<CustomPageContentLayout> {
       child: FutureBuilder<List<ContentElement>>(
           future: Provider.of<DataBaseServiceBloc>(context, listen: true)
               .elementsDao
-              .getByIDs(widget.page.contentIds),
+              .getByIDs(widget.page.contentIDs),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               _contentElements = snapshot.data!; // TODO maybe change this
@@ -252,6 +252,7 @@ class _CustomPageContentLayoutState extends State<CustomPageContentLayout> {
                     children: List.generate(
                       snapshot.data!.length,
                       (index) => Element(
+                        id: snapshot.data![index].id,
                         left: snapshot.data![index].left * (5 * scale) +
                             (0.25 * scale),
                         top: snapshot.data![index].top * (5 * scale) +
@@ -260,7 +261,7 @@ class _CustomPageContentLayoutState extends State<CustomPageContentLayout> {
                             (0.5 * scale),
                         width: snapshot.data![index].width * (5 * scale) -
                             (0.5 * scale),
-                        contentID: snapshot.data![index].contentId,
+                        contentIDs: snapshot.data![index].contentIDs,
                       ),
                     ),
                   ),
@@ -286,11 +287,12 @@ class _CustomPageContentLayoutState extends State<CustomPageContentLayout> {
 }
 
 class Element extends StatelessWidget {
+  final int? id;
   final double top;
   final double left;
   final double height;
   final double width;
-  final int? contentID;
+  final List<int>? contentIDs;
 
   const Element(
       {Key? key,
@@ -298,10 +300,12 @@ class Element extends StatelessWidget {
       required this.left,
       required this.height,
       required this.width,
-      this.contentID})
+      this.id,
+      this.contentIDs})
       : super(key: key);
 
   // TODO show other borders on move
+  // TODO handle contentElements of contentElements
 
   @override
   Widget build(BuildContext context) {
@@ -314,11 +318,11 @@ class Element extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(
             color: Colors.grey.shade700,
-            width: contentID == null ? 2.5 : 0,
-            style: contentID == null ? BorderStyle.solid : BorderStyle.none,
+            width: id == null ? 2.5 : 0,
+            style: id == null ? BorderStyle.solid : BorderStyle.none,
           ),
         ),
-        child: contentID != null
+        child: id != null
             ? FutureBuilder(
                 future: Future(() => "Test"),
                 builder: (context, snapshot) {
@@ -350,7 +354,7 @@ class Element extends StatelessWidget {
                       ],
                     );
                     return CustomFocusNode(
-                      id: contentID!,
+                      id: id!,
                       focusChild: EditableText(
                         controller: TextEditingController(),
                         backgroundCursorColor: Colors.grey,

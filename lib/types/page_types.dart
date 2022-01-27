@@ -84,6 +84,22 @@ class D4PageType {
 }
 
 class ContentElement {
+  // TODO maybe allow this to be complexer shape
+  /* Exmple:
+  ---------------
+  |             |
+  |             |
+  |      --------
+  |      |
+  |      |
+  |      |
+  |      --------
+  |             |
+  |             |
+  ---------------
+  */
+  // NOTE maybe do this with self instancing, ContentElement made out of 3
+  // more ContentElements, or with a list of left, width and top and height
   int id;
 
   // NOTE x range: 1 - 34

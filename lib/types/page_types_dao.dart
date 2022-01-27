@@ -168,11 +168,13 @@ class ContentElementDao {
       await _db,
       finder: finder,
     );
-
-
-
-    return value;
-    // TODO delete children
+    List<ContentElement> elements = await getByIDs(ids);
+    List<int> contentIDs = [];
+    for (ContentElement element in elements) {
+      contentIDs.add(element.contentId);
+    }
+    int valueContent = await deleteByIDs(contentIDs);
+    return value + valueContent; // TODO maybe better solution
   }
 }
 

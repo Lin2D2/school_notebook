@@ -80,8 +80,8 @@ class DataBaseServiceBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future pageDelete(D4PageType page) async {
-    await _pagesDao.delete(page);
+  Future pageDelete(int id) async {
+    await _pagesDao.deleteByIDs([id]);
     notifyListeners();
   }
 

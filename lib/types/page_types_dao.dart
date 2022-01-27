@@ -23,19 +23,6 @@ class FolderDao {
     return value;
   }
 
-  Future<int> delete(FolderType folder) async {
-    final finder = Finder(filter: Filter.equals("name", folder.name));
-    int value = await _folderStore.delete(
-      await _db,
-      finder: finder,
-    );
-    int valueContent = 0;
-    if (folder.contentIds.isNotEmpty) {
-      valueContent = await D4PageDao().deleteByIDs(folder.contentIds);
-    }
-    return value + valueContent; // TODO maybe better solution
-  }
-
   Future<List<FolderType>> getAllSortedByName() async {
     final finder = Finder(sortOrders: [SortOrder('name')]);
 
@@ -64,6 +51,19 @@ class FolderDao {
       return folder;
     }).toList()[0];
   }
+
+  Future<int> delete(FolderType folder) async {
+    final finder = Finder(filter: Filter.equals("name", folder.name));
+    int value = await _folderStore.delete(
+      await _db,
+      finder: finder,
+    );
+    int valueContent = 0;
+    if (folder.contentIds.isNotEmpty) {
+      valueContent = await D4PageDao().deleteByIDs(folder.contentIds);
+    }
+    return value + valueContent; // TODO maybe better solution
+  }
 }
 
 class D4PageDao {
@@ -86,17 +86,24 @@ class D4PageDao {
     return value;
   }
 
-  Future<int> delete(D4PageType d4Page) async {
-    final finder = Finder(filter: Filter.equals("id", d4Page.id));
-    int value = await _d4PageStore.delete(
+  Future<List<D4PageType>> getByIDs(List<int> ids) async {
+    final finder = Finder(
+        filter: Filter.inList("id", ids), sortOrders: [SortOrder('date')]);
+
+    final recordSnapshots = await _d4PageStore.find(
       await _db,
       finder: finder,
     );
-    int valueContent = 0;
-    if (d4Page.contentIds.isNotEmpty) {
-      valueContent = await ContentElementDao().deleteByIDs(d4Page.contentIds);
-    }
-    return value + valueContent; // TODO maybe better solution
+
+    return recordSnapshots.map((snapshot) {
+      final d4Page = D4PageType.fromMap(snapshot.value);
+      return d4Page;
+    }).toList();
+  }
+
+  Future<List<D4PageType>> getByFutureIDs(Future<List<int>> futureIDs) async {
+    List<int> ids = await futureIDs;
+    return getByIDs(ids);
   }
 
   Future<int> deleteByIDs(List<int> ids) async {
@@ -116,40 +123,6 @@ class D4PageDao {
       finder: finder,
     );
     return value + valueContent; // TODO maybe better solution
-  }
-
-  Future<List<D4PageType>> getAllSortedByName() async {
-    final finder = Finder(sortOrders: [SortOrder('date')]);
-
-    final recordSnapshots = await _d4PageStore.find(
-      await _db,
-      finder: finder,
-    );
-
-    return recordSnapshots.map((snapshot) {
-      final d4Page = D4PageType.fromMap(snapshot.value);
-      return d4Page;
-    }).toList();
-  }
-
-  Future<List<D4PageType>> getByFutureIDs(Future<List<int>> futureIDs) async {
-    List<int> ids = await futureIDs;
-    return getByIDs(ids);
-  }
-
-  Future<List<D4PageType>> getByIDs(List<int> ids) async {
-    final finder = Finder(
-        filter: Filter.inList("id", ids), sortOrders: [SortOrder('date')]);
-
-    final recordSnapshots = await _d4PageStore.find(
-      await _db,
-      finder: finder,
-    );
-
-    return recordSnapshots.map((snapshot) {
-      final d4Page = D4PageType.fromMap(snapshot.value);
-      return d4Page;
-    }).toList();
   }
 }
 
@@ -173,39 +146,6 @@ class ContentElementDao {
     );
   }
 
-  Future delete(ContentElement contentElement) async {
-    final finder = Finder(filter: Filter.equals("id", contentElement.id));
-    await _contentElementStore.delete(
-      await _db,
-      finder: finder,
-    );
-    // TODO delete children
-  }
-
-  Future<int> deleteByIDs(List<int> ids) async {
-    final finder = Finder(filter: Filter.inList("id", ids));
-    int value = await _contentElementStore.delete(
-      await _db,
-      finder: finder,
-    );
-    return value;
-    // TODO delete children
-  }
-
-  Future<List<ContentElement>> getAllSortedByName() async {
-    final finder = Finder(sortOrders: [SortOrder('left')]);
-
-    final recordSnapshots = await _contentElementStore.find(
-      await _db,
-      finder: finder,
-    );
-
-    return recordSnapshots.map((snapshot) {
-      final contentElement = ContentElement.fromMap(snapshot.value);
-      return contentElement;
-    }).toList();
-  }
-
   Future<List<ContentElement>> getByIDs(List<int> ids) async {
     final finder = Finder(
         filter: Filter.inList("id", ids),
@@ -219,6 +159,63 @@ class ContentElementDao {
     return recordSnapshots.map((snapshot) {
       final d4Page = ContentElement.fromMap(snapshot.value);
       return d4Page;
+    }).toList();
+  }
+
+  Future<int> deleteByIDs(List<int> ids) async {
+    final finder = Finder(filter: Filter.inList("id", ids));
+    int value = await _contentElementStore.delete(
+      await _db,
+      finder: finder,
+    );
+
+
+
+    return value;
+    // TODO delete children
+  }
+}
+
+class ContentTextDao {
+  static const String contentTextStoreName = 'contentText';
+  final _contentTextStore = intMapStoreFactory.store(contentTextStoreName);
+
+  Future<Database> get _db async => await DatabaseService.instance.database;
+
+  Future insert(ContentTextType contentElement) async {
+    await _contentTextStore.add(await _db, contentElement.toMap());
+  }
+
+  Future<int> update(ContentTextType contentElement) async {
+    final finder = Finder(filter: Filter.equals("id", contentElement.id));
+    int value = await _contentTextStore.update(
+      await _db,
+      contentElement.toMap(),
+      finder: finder,
+    );
+    return value;
+  }
+
+  Future<int> deleteByIDs(List<int> ids) async {
+    final finder = Finder(filter: Filter.inList("id", ids));
+    int value = await _contentTextStore.delete(
+      await _db,
+      finder: finder,
+    );
+    return value;
+  }
+
+  Future<List<ContentTextType>> getByIDs(List<int> ids) async {
+    final finder = Finder(filter: Filter.inList("id", ids));
+
+    final recordSnapshots = await _contentTextStore.find(
+      await _db,
+      finder: finder,
+    );
+
+    return recordSnapshots.map((snapshot) {
+      final textElement = ContentTextType.fromMap(snapshot.value);
+      return textElement;
     }).toList();
   }
 }

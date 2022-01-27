@@ -151,4 +151,18 @@ class ContentTextType {
   String content;
 
   ContentTextType({required this.id, this.content = ""});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'content': content,
+    };
+  }
+
+  static ContentTextType fromMap(Map<String, dynamic> map) {
+    return ContentTextType(
+      id: map['id'],
+      content: map['content'],
+    );
+  }
 }

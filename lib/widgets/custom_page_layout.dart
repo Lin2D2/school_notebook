@@ -52,20 +52,29 @@ class CustomPageLayout extends StatelessWidget {
                                         listen: true)
                                     .interactiveViewerController,
                             onInteractionUpdate: (details) {
-                              Provider.of<NotesEditState>(context, listen: false)
+                              Provider.of<NotesEditState>(context,
+                                      listen: false)
                                   .translateView(details.focalPointDelta);
                             },
-                            child: ListView.builder(
-                              controller: CustomPageLayout._scrollController,
-                              itemCount: ((snapshot.data?.length ?? 0) + 1),
-                              itemBuilder: (BuildContext context, int index) {
-                                if (index + 1 ==
-                                    ((snapshot.data?.length ?? 0) + 1)) {
-                                  return AddPagePage(folder: folder);
-                                } else {
-                                  return CustomPage(snapshot.data![index]);
-                                }
+                            child: GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () {
+                                Provider.of<NotesEditState>(context,
+                                        listen: false)
+                                    .activeFocusNode = null;
                               },
+                              child: ListView.builder(
+                                controller: CustomPageLayout._scrollController,
+                                itemCount: ((snapshot.data?.length ?? 0) + 1),
+                                itemBuilder: (BuildContext context, int index) {
+                                  if (index + 1 ==
+                                      ((snapshot.data?.length ?? 0) + 1)) {
+                                    return AddPagePage(folder: folder);
+                                  } else {
+                                    return CustomPage(snapshot.data![index]);
+                                  }
+                                },
+                              ),
                             ),
                           ),
                         );

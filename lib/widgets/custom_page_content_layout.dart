@@ -261,6 +261,7 @@ class _CustomPageContentLayoutState extends State<CustomPageContentLayout> {
                             (0.5 * scale),
                         width: snapshot.data![index].width * (5 * scale) -
                             (0.5 * scale),
+                        contentType: snapshot.data![index].contentType,
                         contentIDs: snapshot.data![index].contentIDs,
                       ),
                     ),
@@ -286,12 +287,13 @@ class _CustomPageContentLayoutState extends State<CustomPageContentLayout> {
   }
 }
 
-class Element extends StatelessWidget {
+class Element extends StatefulWidget {
   final int? id;
   final double top;
   final double left;
   final double height;
   final double width;
+  final ContentTypes? contentType;
   final List<int>? contentIDs;
 
   const Element(
@@ -301,23 +303,33 @@ class Element extends StatelessWidget {
       required this.height,
       required this.width,
       this.id,
+      this.contentType,
       this.contentIDs})
       : super(key: key);
 
   // TODO handle contentElements of contentElements
+  @override
+  State<Element> createState() => _ElementState();
+}
+
+class _ElementState extends State<Element> {
+  final TextEditingController _textEditingController = TextEditingController();
+  String _contentText = "# Test\n blablabla\n";
 
   @override
   Widget build(BuildContext context) {
+    _contentText = _textEditingController.text;
+    print(_contentText);
     return Positioned(
-      top: top,
-      left: left,
+      top: widget.top,
+      left: widget.left,
       child: Stack(
         children: [
-          if (id == null ||
+          if (widget.id == null ||
               !Provider.of<NotesEditState>(context, listen: true).isNone())
             Container(
-              height: height,
-              width: width,
+              height: widget.height,
+              width: widget.width,
               decoration: BoxDecoration(
                 border: Border.all(
                   color: Colors.grey.shade700,
@@ -326,10 +338,10 @@ class Element extends StatelessWidget {
                 ),
               ),
             ),
-          if (id != null)
+          if (widget.id != null)
             SizedBox(
-              height: height,
-              width: width,
+              height: widget.height,
+              width: widget.width,
               child: FutureBuilder(
                 future: Future(() => "Test"),
                 builder: (context, snapshot) {
@@ -339,31 +351,13 @@ class Element extends StatelessWidget {
                     TextSpan content = TextSpan(
                       // TODO generate content
                       style: theme.bodyText1,
-                      children: [
-                        TextSpan(text: "Heading 1\n", style: theme.headline2),
-                        spacer,
-                        spacer,
-                        TextSpan(text: "blablabla\n"),
-                        TextSpan(text: "Heading 2\n", style: theme.headline3),
-                        spacer,
-                        spacer,
-                        TextSpan(text: "blablabla\n"),
-                        spacer,
-                        TextSpan(text: "Heading 3\n", style: theme.headline4),
-                        spacer,
-                        spacer,
-                        TextSpan(text: "blablabla\n"),
-                        spacer,
-                        TextSpan(text: "Heading 4\n", style: theme.headline5),
-                        spacer,
-                        spacer,
-                        TextSpan(text: "blablabla\n"),
-                      ],
+                      children:
+                          generateContentTextLayout(_contentText, context),
                     );
                     return CustomFocusNode(
-                      id: id!,
+                      id: widget.id!,
                       focusChild: EditableText(
-                        controller: TextEditingController(),
+                        controller: _textEditingController,
                         backgroundCursorColor: Colors.grey,
                         cursorColor: Colors.black,
                         focusNode: FocusNode(),
@@ -388,4 +382,41 @@ class Element extends StatelessWidget {
       ),
     );
   }
+}
+
+List<InlineSpan> generateContentTextLayout(String input, BuildContext context) {
+  TextTheme theme = Theme.of(context).textTheme;
+  int indentionLevel = 0;
+  List<InlineSpan> output = [];
+  List<String> lines = input.split("\n");
+  for (String line in lines) {
+    if (line.startsWith("### ")) {
+      indentionLevel = 2;
+      output.addAll([
+        TextSpan(text: (indentionLevel == 0 ? "" : "  " * indentionLevel)),
+        TextSpan(
+            text: line.replaceFirst("### ", "") + "\n", style: theme.headline4)
+      ]);
+    } else if (line.startsWith("## ")) {
+      indentionLevel = 1;
+      output.addAll([
+        TextSpan(text: (indentionLevel == 0 ? "" : "  " * indentionLevel)),
+        TextSpan(
+            text: line.replaceFirst("## ", "") + "\n", style: theme.headline3)
+      ]);
+    } else if (line.startsWith("# ")) {
+      indentionLevel = 0;
+      output.addAll([
+        TextSpan(text: (indentionLevel == 0 ? "" : "  " * indentionLevel)),
+        TextSpan(
+            text: line.replaceFirst("# ", "") + "\n", style: theme.headline2)
+      ]);
+    } else {
+      output.addAll([
+        TextSpan(text: ("  " * (indentionLevel + 1))),
+        TextSpan(text: line + "\n")
+      ]);
+    }
+  }
+  return output;
 }
